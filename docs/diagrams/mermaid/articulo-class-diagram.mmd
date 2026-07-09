@@ -1,0 +1,103 @@
+classDiagram
+    direction LR
+
+    class ArticuloController {
+        +findAll(): ResponseEntity~List~ArticuloResponse~~
+        +findByArticuloId(String): ResponseEntity~ArticuloResponse~
+        +findByAutoNumerico(Long): ResponseEntity~ArticuloResponse~
+        +findByMascaraBalanza(String, String): ResponseEntity~ArticuloResponse~
+        +search(String, String, String): ResponseEntity~List~ArticuloResponse~~
+        +findByVoucher(Long): ResponseEntity~List~ArticuloResponse~~
+        +calculateTotales(String): ResponseEntity~TotalArticuloResponse~
+        +create(ArticuloRequest): ResponseEntity~ArticuloResponse~
+        +update(String, ArticuloRequest): ResponseEntity~ArticuloResponse~
+    }
+
+    class ArticuloService {
+        <<application>>
+        +findAll(): List~Articulo~
+        +findByArticuloId(String): Articulo
+        +findByAutoNumerico(Long): Articulo
+        +findByMascaraBalanza(String, String): Articulo
+        +findBySearch(String, String, String): List~Articulo~
+        +findByVoucher(Long): List~Articulo~
+        +calculateTotales(String): TotalArticulo
+        +create(Articulo): Articulo
+        +update(Articulo): Articulo
+    }
+
+    class Articulo {
+        <<domain model>>
+        +articuloId: String
+        +descripcion: String
+        +precioVentaConIva: BigDecimal
+        +stockMinimo: BigDecimal
+        +controlaStock: Byte
+    }
+
+    class ArticuloRepository {
+        <<port out>>
+        +findAll(): List~Articulo~
+        +findByArticuloId(String): Optional~Articulo~
+        +findByAutoNumerico(Long): Optional~Articulo~
+        +findAllByDescripcionContains(String): List~Articulo~
+    }
+
+    class ArticuloRepositoryAdapter {
+        <<infrastructure>>
+        +findAll(): List~Articulo~
+        +findByArticuloId(String): Optional~Articulo~
+    }
+
+    class ArticuloEntity {
+        <<JPA entity>>
+        +articuloId: String
+        +descripcion: String
+        +precioVentaConIva: BigDecimal
+        +stockMinimo: BigDecimal
+        +controlaStock: Byte
+    }
+
+    class JpaArticuloRepository {
+        <<Spring Data JPA>>
+    }
+
+    class ArticuloMapper {
+        +toDomain(ArticuloEntity): Articulo
+        +toEntity(Articulo): ArticuloEntity
+    }
+
+    class ArticuloDtoMapper {
+        +toResponse(Articulo): ArticuloResponse
+        +toDomain(ArticuloRequest): Articulo
+    }
+
+    class ArticuloRequest {
+        +articuloId: String
+        +descripcion: String
+    }
+
+    class ArticuloResponse {
+        +articuloId: String
+        +descripcion: String
+        +precioVentaConIva: BigDecimal
+    }
+
+    class TotalArticuloResponse {
+        +totalConIva: BigDecimal
+        +totalSinIva: BigDecimal
+    }
+
+    ArticuloController --> ArticuloService
+    ArticuloController --> ArticuloDtoMapper
+    ArticuloService --> Articulo
+    ArticuloService --> ArticuloRepository
+    ArticuloRepositoryAdapter ..|> ArticuloRepository
+    ArticuloRepositoryAdapter --> ArticuloMapper
+    ArticuloRepositoryAdapter --> JpaArticuloRepository
+    JpaArticuloRepository --> ArticuloEntity
+    ArticuloMapper --> ArticuloEntity
+    ArticuloMapper --> Articulo
+    ArticuloDtoMapper --> ArticuloRequest
+    ArticuloDtoMapper --> ArticuloResponse
+    ArticuloService --> TotalArticuloResponse

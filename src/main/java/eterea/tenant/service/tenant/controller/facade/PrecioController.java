@@ -1,0 +1,46 @@
+/**
+ * 
+ */
+package eterea.tenant.service.tenant.controller.facade;
+
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+
+import eterea.tenant.service.tenant.model.dto.PriceDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import eterea.tenant.service.tenant.service.facade.PrecioService;
+
+/**
+ * @author daniel
+ *
+ */
+@RestController
+@RequestMapping("/api/tenant/core/precio")
+@RequiredArgsConstructor
+public class PrecioController {
+
+	private final PrecioService service;
+
+	@GetMapping("/articulo/{articuloId}/{fecha}")
+	public ResponseEntity<BigDecimal> getUnitPriceByArticuloIdAndFecha(@PathVariable String articuloId,
+																	  @PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) OffsetDateTime fecha) {
+		return ResponseEntity.ok(service.getUnitPriceByArticuloIdAndFecha(articuloId, fecha));
+	}
+
+	@GetMapping("/producto/{productoId}/{fecha}")
+	public ResponseEntity<BigDecimal> getUnitPriceByProductoIdAndFecha(@PathVariable Integer productoId,
+			@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) OffsetDateTime fecha) {
+		return ResponseEntity.ok(service.getUnitPriceByProductoIdAndFecha(productoId, fecha));
+	}
+
+	@PostMapping("/set/periodo")
+	public ResponseEntity<Boolean> setUnitPriceByPeriod(@RequestBody PriceDto priceDto) {
+		return ResponseEntity.ok(service.setUnitPriceByPeriod(priceDto));
+	}
+
+}

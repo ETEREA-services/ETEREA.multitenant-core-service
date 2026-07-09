@@ -1,0 +1,35 @@
+/src/main/resources/application-prod.properties
+/target/
+/logs/
+/data/
+/cloudbeaver/
+!.mvn/wrapper/maven-wrapper.jar
+.vscode/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/
+/bin/
+src/main/resources/config/eterea.properties
+*.pdf
+/tmp/
+src/main/resources/application.yml

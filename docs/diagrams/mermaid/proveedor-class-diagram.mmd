@@ -1,0 +1,88 @@
+classDiagram
+    direction LR
+
+    class ProveedorController {
+        +findAllBySearch(String): ResponseEntity
+        +findByProveedorId(Long): ResponseEntity
+        +findByNumeroDocumento(String): ResponseEntity
+        +findLast(): ResponseEntity
+        +add(Proveedor): ResponseEntity
+    }
+
+    class ProveedorService {
+        +findAllBySearch(String): List~ProveedorSearch~
+        +findByProveedorId(Long): Proveedor
+        +findByNumeroDocumento(String): Proveedor
+        +findLast(): Proveedor
+        +add(Proveedor): Proveedor
+    }
+
+    class ProveedorMovimientoController {
+        +findAllByRegimenInformacionCompras(OffsetDateTime, OffsetDateTime): ResponseEntity
+        +resumenIvaComprasMensual(Integer, Integer): ResponseEntity
+        +resumenIvaComprasPosicionMensual(Integer, Integer): ResponseEntity
+        +updateNetoAjuste(ProveedorMovimientoNetoAjusteRequest): ResponseEntity
+    }
+
+    class ProveedorMovimientoService {
+        +findAllByRegimenInformacionCompras(OffsetDateTime, OffsetDateTime): List~ProveedorMovimiento~
+        +getResumenIvaComprasMensual(Integer, Integer): ResumenIvaComprasMensual
+        +getAllResumenIvaComprasMensualPosicion(Integer, Integer): List~ResumenIvaComprasMensualPosicion~
+        +updateProveedorMovimientoNetoAjuste(ProveedorMovimientoNetoAjusteRequest): void
+    }
+
+    class ProveedorRepository {
+        +findByProveedorId(Long): Optional~Proveedor~
+        +findTopByNumeroDocumento(String): Optional~Proveedor~
+        +findTopByOrderByProveedorIdDesc(): Optional~Proveedor~
+        +save(Proveedor): Proveedor
+    }
+
+    class ProveedorMovimientoRepository {
+        +findAllByFechaContableBetweenAndComprobanteLibroIva(OffsetDateTime, OffsetDateTime, Byte, Sort): List~ProveedorMovimiento~
+        +findResumenByYearAndMonth(Integer, Integer): ResumenIvaComprasMensual
+        +findAllResumenPosicionByYearAndMonth(Integer, Integer): List~ResumenIvaComprasMensualPosicion~
+    }
+
+    class ProveedorMovimiento {
+        <<Java Domain Model>>
+        +proveedorMovimientoId: Long
+        +proveedorId: Long
+        +comprobanteId: Int
+        +fechaComprobante: OffsetDateTime
+        +prefijo: Int
+        +numeroComprobante: Long
+        +importe: BigDecimal
+        +neto: BigDecimal
+        +montoIva: BigDecimal
+        +fechaContable: OffsetDateTime
+        +comprobante: Comprobante
+        +proveedor: Proveedor
+    }
+
+    class Proveedor {
+        <<Kotlin Data Class>>
+        +proveedorId: Long
+        +nombre: String
+        +cuit: String
+        +razonSocial: String
+        +email: String
+        +numeroMovil: String
+        +limiteCredito: BigDecimal
+        +posicionIva: Int
+        +posicion: PosicionIva
+    }
+
+    class PosicionIva {
+        +posicionId: Integer
+        +nombre: String
+    }
+
+    ProveedorController --> ProveedorService
+    ProveedorService --> ProveedorRepository
+    ProveedorRepository --> Proveedor
+    Proveedor "1" -- "1" PosicionIva
+
+    ProveedorMovimientoController --> ProveedorMovimientoService
+    ProveedorMovimientoService --> ProveedorMovimientoRepository
+    ProveedorMovimientoRepository --> ProveedorMovimiento

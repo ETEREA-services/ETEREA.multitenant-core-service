@@ -1,0 +1,55 @@
+classDiagram
+    direction LR
+
+    class NegocioUnificado {
+        <<Domain Model>>
+        +negocioId: Integer
+        +nombre: String
+        +databaseIp: String
+        +databaseName: String
+        +databaseUsername: String
+        +backup: Byte
+        +backendServer: String
+        +backendPort: String
+        +tenantId: String
+    }
+
+    class NegocioUnificadoEntity {
+        <<JPA Entity>>
+        +negocioId: Integer
+        +nombre: String
+        +databaseIp: String
+        +databaseName: String
+        +databaseUsername: String
+        +backup: Byte
+        +backendServer: String
+        +backendPort: String
+        +tenantId: String
+    }
+
+    class NegocioUnificadoMapper {
+        +toDomain(NegocioUnificadoEntity): NegocioUnificado
+        +toEntity(NegocioUnificado): NegocioUnificadoEntity
+    }
+
+    class NegocioUnificadoResponse {
+        <<Response DTO>>
+        +negocioId: Integer
+        +nombre: String
+        +databaseIp: String
+        +databaseName: String
+        +databaseUsername: String
+        +backup: Byte
+        +backendServer: String
+        +backendPort: String
+        +tenantId: String
+    }
+
+    class NegocioUnificadoDtoMapper {
+        +toResponse(NegocioUnificado): NegocioUnificadoResponse
+    }
+
+    NegocioUnificadoMapper --> NegocioUnificadoEntity
+    NegocioUnificadoMapper --> NegocioUnificado
+    NegocioUnificadoDtoMapper --> NegocioUnificado
+    NegocioUnificadoDtoMapper --> NegocioUnificadoResponse
