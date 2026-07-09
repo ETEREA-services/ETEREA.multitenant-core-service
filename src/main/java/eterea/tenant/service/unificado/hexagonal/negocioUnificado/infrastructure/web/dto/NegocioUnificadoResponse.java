@@ -16,11 +16,10 @@ public class NegocioUnificadoResponse {
     private Integer negocioId;
     private String nombre;
     private String databaseIp;
+    private String databasePort;
     private String databaseName;
     private String databaseUsername;
     private Byte backup;
-    private String backendServer;
-    private String backendPort;
     private String tenantId;
 
 }

@@ -15,11 +15,10 @@ public class NegocioUnificadoMapper {
                 .negocioId(entity.getNegocioId())
                 .nombre(entity.getNombre())
                 .databaseIp(entity.getDatabaseIp())
+                .databasePort(entity.getDatabasePort())
                 .databaseName(entity.getDatabaseName())
                 .databaseUsername(entity.getDatabaseUsername())
                 .backup(entity.getBackup())
-                .backendServer(entity.getBackendServer())
-                .backendPort(entity.getBackendPort())
                 .tenantId(entity.getTenantId())
                 .build();
     }
@@ -32,11 +31,10 @@ public class NegocioUnificadoMapper {
                 .negocioId(domain.getNegocioId())
                 .nombre(domain.getNombre())
                 .databaseIp(domain.getDatabaseIp())
+                .databasePort(domain.getDatabasePort())
                 .databaseName(domain.getDatabaseName())
                 .databaseUsername(domain.getDatabaseUsername())
                 .backup(domain.getBackup())
-                .backendServer(domain.getBackendServer())
-                .backendPort(domain.getBackendPort())
                 .tenantId(domain.getTenantId())
                 .build();
     }

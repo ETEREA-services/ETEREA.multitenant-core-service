@@ -100,12 +100,27 @@ graph TB
             NU_ENTITY[NegocioUnificado Entity<br/>unificado.hexagonal.negocioUnificado.infrastructure.persistence.entity]
         end
         
+        subgraph "Multi-Tenancy Layer"
+            TX[TENANT Context<br/>configuration.TenantContext]
+            TXI[TENANT Interceptor<br/>configuration.TenantInterceptor]
+            TXDS[TENANT Routing DataSource<br/>configuration.TenantRoutingDataSource]
+            TXS[TENANT DataSource Service<br/>configuration.TenantDataSourceService]
+            TXCFG[OpenAPI Config<br/>configuration.OpenApiConfig]
+        end
+
         subgraph "External Clients"
             AFIP[AFIP Client<br/>client.arca.FacturacionAfipClient]
             CONSUL[Consul Discovery]
             DB[(MySQL Database)]
         end
         
+        %% Multi-Tenancy Layer - Interceptor intercepts API calls
+        TXI --> TXCFG
+        TXI --> TXS
+        TXS --> TXDS
+        TXS --> TX
+        TXDS --> TX
+
         %% API Layer to Application Layer
         ART_API --> ART_APP
         AM_API --> AM_APP
@@ -165,7 +180,8 @@ graph TB
         L_ENTITY --> DB
         NU_PORTS --> NU_REPO
         NU_REPO --> NU_ENTITY
-        NU_ENTITY --> DB
+        NU_ENTITY --> TXDS
+        TXDS --> DB
         ID_PORTS --> DB
         PM_ENTITY --> DB
         
@@ -184,6 +200,11 @@ graph TB
         style E_API fill:#e1f5fe
         style L_API fill:#e1f5fe
         style NU_API fill:#e1f5fe
+        style TXI fill:#fff3e0
+        style TXS fill:#fff3e0
+        style TXDS fill:#fff3e0
+        style TX fill:#fff3e0
+        style TXCFG fill:#fff3e0
         style ID_API fill:#e1f5fe
         style ART_APP fill:#f3e5f5
         style AM_APP fill:#f3e5f5

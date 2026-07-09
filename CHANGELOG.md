@@ -1,3 +1,31 @@
+## [2.6.0] - 2026-07-09
+
+### Features
+- **feat(multitenant)**: Nuevo sistema de multi-tenancy con ruteo dinámico de DataSources
+  - `TenantRoutingDataSource`: Implementación de `AbstractRoutingDataSource` para ruteo por tenant
+  - `TenantDataSourceService`: Servicio de creación dinámica de DataSources por tenant (pool HikariCP de 30 conexiones)
+  - `TenantContext`: Contexto thread-local para mantener el tenant activo durante la request
+  - `TenantInterceptor`: Interceptor HTTP que extrae el header `X-TENANT-ID` y resuelve el DataSource
+  - `WebMvcConfig`: Registro del interceptor en el pipeline MVC
+  - `OpenApiConfig`: Documentación Swagger automática del header `X-TENANT-ID` en endpoints tenant
+  - `DataSourceConfiguration`: Configuración del `DataSource` maestro y enrutador
+
+### Changed
+- **refactor(negociounificado)**: Modificación del modelo `NegocioUnificado` para soporte multi-tenant:
+  - Nuevo campo `databasePort` añadido al modelo de dominio, entidad JPA, mapper, DTO de respuesta y DTO mapper
+  - Eliminación de los campos `backendServer` y `backendPort` del modelo de dominio, entidad JPA y mapper
+  - Nuevo método `findByTenantId` en `NegocioUnificadoRepository` y su adaptador JPA para lookup de conexiones
+
+### Docs
+- **docs**: Nuevo diagrama de secuencia `tenant-resolution-sequence-diagram.mmd` para documentar el flujo de resolución de tenants
+- **docs**: Actualización del diagrama de clases `negociounificado-class-diagram.mmd` para reflejar los cambios en el modelo
+- **docs**: Actualización del diagrama de arquitectura hexagonal para incluir componentes de multi-tenancy
+
+### Tests
+- **test(tenant)**: Nuevos tests unitarios para `TenantInterceptor` con validación de header `X-TENANT-ID`
+  - Test: request sin header → 400 Bad Request
+  - Test: request con header → 200 OK
+
 ## [2.5.0] - 2026-07-08
 
 ### Features

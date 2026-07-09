@@ -15,11 +15,10 @@ public class NegocioUnificadoDtoMapper {
                 .negocioId(domain.getNegocioId())
                 .nombre(domain.getNombre())
                 .databaseIp(domain.getDatabaseIp())
+                .databasePort(domain.getDatabasePort())
                 .databaseName(domain.getDatabaseName())
                 .databaseUsername(domain.getDatabaseUsername())
                 .backup(domain.getBackup())
-                .backendServer(domain.getBackendServer())
-                .backendPort(domain.getBackendPort())
                 .tenantId(domain.getTenantId())
                 .build();
     }

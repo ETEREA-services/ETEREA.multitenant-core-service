@@ -1,6 +1,6 @@
-# ETEREA.core-service
+# ETEREA.multitenant-core-service
 
-[![ETEREA.core-service CI](https://github.com/ETEREA-services/ETEREA.core-service/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/ETEREA.core-service/actions/workflows/maven.yml)
+[![ETEREA.multitenant-core-service CI](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/actions/workflows/maven.yml)
 [![Java](https://img.shields.io/badge/Java-25-blue.svg)](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-blueviolet.svg)](https://kotlinlang.org/)
 
@@ -9,12 +9,13 @@
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-blue.svg)](https://springdoc.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-9.7.0-orange.svg)](https://www.mysql.com/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-2.5.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.core-service/releases)
+[![Version](https://img.shields.io/badge/Version-2.6.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
 
 ## Descripción
 
-Servicio Core para la gestión financiera y contable, implementado con **arquitectura hexagonal**. Proporciona:
+Servicio Core multi-tenant para la gestión financiera y contable, implementado con **arquitectura hexagonal**. Proporciona:
 
+- **Multi-tenancy**: Ruteo dinámico de bases de datos por tenant mediante header `X-TENANT-ID`
 - **Arquitectura Hexagonal**: Implementación completa con puertos, adaptadores y casos de uso
 - **Facturación Nacional y de Exportación**: Soporte completo para facturación electrónica argentina
 - **Gestión de Artículos, Comprobantes, Cuentas, Transferencias**: Módulos hexagonales migrados a Java
@@ -45,6 +46,12 @@ Servicio Core para la gestión financiera y contable, implementado con **arquite
 - MySQL Connector 9.7.0
 - Jacoco 0.8.13 (Cobertura de tests)
 - Apache Commons Lang3 3.20.0
+
+### Multi-tenancy
+- Ruteo dinámico de DataSources por tenant (`AbstractRoutingDataSource`)
+- Pool HikariCP de 30 conexiones por tenant
+- Header HTTP `X-TENANT-ID` para identificación del tenant
+- Integración con `NegocioUnificado` para lookup de conexiones
 
 ### Documentación
 - SpringDoc OpenAPI UI 3.0.3
@@ -111,8 +118,8 @@ El proyecto utiliza una **arquitectura hexagonal** con implementación mixta:
 
 ### Instalación
 ```bash
-git clone https://github.com/ETEREA-services/ETEREA.core-service.git
-cd ETEREA.core-service
+git clone https://github.com/ETEREA-services/ETEREA.multitenant-core-service.git
+cd ETEREA.multitenant-core-service
 mvn clean install
 ```
 
@@ -124,10 +131,10 @@ mvn spring-boot:run
 ### Docker
 ```bash
 # Construir imagen
-docker build -t eterea/core-service .
+docker build -t eterea/multitenant-core-service .
 
 # Ejecutar contenedor
-docker run -p 8080:8080 eterea/core-service
+docker run -p 8080:8080 eterea/multitenant-core-service
 ```
 
 ## Documentación API
@@ -140,8 +147,8 @@ La documentación de la API está disponible en:
 
 ## Documentación Adicional
 
-- [Documentación del Proyecto](https://eterea-services.github.io/ETEREA.core-service/)
-- [Wiki del Proyecto](https://github.com/ETEREA-services/ETEREA.core-service/wiki)
+- [Documentación del Proyecto](https://eterea-services.github.io/ETEREA.multitenant-core-service/)
+- [Wiki del Proyecto](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/wiki)
 - [CHANGELOG](CHANGELOG.md)
 
 ## Contribución
@@ -154,7 +161,7 @@ La documentación de la API está disponible en:
 
 ## Estado del Proyecto
 
-El proyecto está en **desarrollo activo** con arquitectura hexagonal estable. Ver [GitHub Projects](https://github.com/ETEREA-services/ETEREA.core-service/projects) para el roadmap.
+El proyecto está en **desarrollo activo** con arquitectura hexagonal estable. Ver [GitHub Projects](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/projects) para el roadmap.
 
 ## Licencia
 
@@ -168,6 +175,7 @@ Este proyecto es privado y de uso exclusivo de Termalia S.A.
 - ✅ **Clean Architecture** con separación clara de responsabilidades
 
 ### Funcionalidades Core
+- ✅ **Multi-tenancy** con ruteo dinámico de DataSources por tenant
 - ✅ **Facturación Nacional y Exportación** con integración AFIP
 - ✅ **Ajuste Automático** de comprobantes
 - ✅ **Gestión de Artículos** con arquitectura hexagonal (Java)
@@ -184,6 +192,7 @@ Este proyecto es privado y de uso exclusivo de Termalia S.A.
 - ✅ **Control de Movimientos** contables y valores
 
 ### Infraestructura
+- ✅ **Multi-tenancy** con `AbstractRoutingDataSource` y pool HikariCP de 30 conexiones por tenant
 - ✅ **Documentación API** con OpenAPI 3.0
 - ✅ **Service Discovery** con Consul
 - ✅ **Cache distribuido** con Caffeine
@@ -203,6 +212,7 @@ Este proyecto es privado y de uso exclusivo de Termalia S.A.
 - El proyecto utiliza arquitectura hexagonal desde la versión 1.0.0
 - Los modelos de dominio y entidades JPA están progresivamente migrados a Java
 - Los casos de uso y controladores siguen principios de Clean Architecture
+- **Multi-tenancy**: Los endpoints bajo `eterea.tenant.service.tenant` requieren el header `X-TENANT-ID` para el ruteo dinámico a la base de datos del tenant correspondiente
 - Se requiere configuración de Consul para el registro de servicios
 - La documentación de la API se genera automáticamente en tiempo de ejecución
 - Todas las pruebas unitarias deben seguir la estructura hexagonal
