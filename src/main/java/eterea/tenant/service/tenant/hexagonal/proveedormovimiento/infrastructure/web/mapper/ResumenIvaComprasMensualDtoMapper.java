@@ -19,9 +19,7 @@ public class ResumenIvaComprasMensualDtoMapper {
         }
         return ResumenIvaComprasMensualResponse.builder()
                 .negocioId(resumen.getNegocioId())
-                .negocio(negocioService.getNegocioById(resumen.getNegocioId())
-                        .map(Negocio::getNombre)
-                        .orElse(""))
+                .negocio(negocioService.getNegocioById(resumen.getNegocioId()).getNombre())
                 .anho(resumen.getAnho())
                 .mes(resumen.getMes())
                 .neto(resumen.getNeto())

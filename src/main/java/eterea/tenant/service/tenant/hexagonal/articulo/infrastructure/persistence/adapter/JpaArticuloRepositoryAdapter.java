@@ -1,9 +1,10 @@
-package eterea.tenant.service.tenant.hexagonal.articulo.infrastructure.persistence.repository;
+package eterea.tenant.service.tenant.hexagonal.articulo.infrastructure.persistence.adapter;
 
 import eterea.tenant.service.tenant.hexagonal.articulo.domain.model.Articulo;
 import eterea.tenant.service.tenant.hexagonal.articulo.domain.ports.out.ArticuloRepository;
 import eterea.tenant.service.tenant.hexagonal.articulo.infrastructure.persistence.entity.ArticuloEntity;
 import eterea.tenant.service.tenant.hexagonal.articulo.infrastructure.persistence.mapper.ArticuloMapper;
+import eterea.tenant.service.tenant.hexagonal.articulo.infrastructure.persistence.repository.JpaArticuloRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ArticuloRepositoryAdapter implements ArticuloRepository {
+public class JpaArticuloRepositoryAdapter implements ArticuloRepository {
 
     private final JpaArticuloRepository jpaArticuloRepository;
     private final ArticuloMapper articuloMapper;

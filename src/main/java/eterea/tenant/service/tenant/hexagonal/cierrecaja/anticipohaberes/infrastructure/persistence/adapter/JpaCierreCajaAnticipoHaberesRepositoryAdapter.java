@@ -1,9 +1,10 @@
-package eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.infrastructure.persistence.repository;
+package eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.infrastructure.persistence.adapter;
 
 import eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.domain.model.CierreCajaAnticipoHaberes;
 import eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.domain.ports.out.CierreCajaAnticipoHaberesRepository;
 import eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.infrastructure.persistence.entity.CierreCajaAnticipoHaberesEntity;
 import eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.infrastructure.persistence.mapper.AnticipoHaberesMapper;
+import eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.infrastructure.persistence.repository.JpaCierreCajaAnticipoHaberesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package eterea.tenant.service.tenant.hexagonal.proveedormovimiento.infrastructure.persistence.repository;
+package eterea.tenant.service.tenant.hexagonal.proveedormovimiento.infrastructure.persistence.adapter;
 
 import eterea.tenant.service.tenant.hexagonal.proveedormovimiento.domain.model.ProveedorMovimiento;
 import eterea.tenant.service.tenant.hexagonal.proveedormovimiento.domain.model.ResumenIvaComprasMensual;
@@ -8,6 +8,7 @@ import eterea.tenant.service.tenant.hexagonal.proveedormovimiento.infrastructure
 import eterea.tenant.service.tenant.hexagonal.proveedormovimiento.infrastructure.persistence.mapper.ProveedorMovimientoMapper;
 import eterea.tenant.service.tenant.hexagonal.proveedormovimiento.infrastructure.persistence.mapper.ResumenIvaComprasMensualMapper;
 import eterea.tenant.service.tenant.hexagonal.proveedormovimiento.infrastructure.persistence.mapper.ResumenIvaComprasMensualPosicionMapper;
+import eterea.tenant.service.tenant.hexagonal.proveedormovimiento.infrastructure.persistence.repository.JpaProveedorMovimientoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;

@@ -1,6 +1,6 @@
 package eterea.tenant.service.tenant.hexagonal.transferencia.application.usecases;
 
-import eterea.tenant.service.tenant.kotlin.exception.TransferenciaException;
+import eterea.tenant.service.tenant.hexagonal.transferencia.application.exception.TransferenciaException;
 import eterea.tenant.service.tenant.hexagonal.transferencia.domain.model.Transferencia;
 import eterea.tenant.service.tenant.hexagonal.transferencia.domain.ports.in.FindTransferenciaByUniqueUseCase;
 import eterea.tenant.service.tenant.hexagonal.transferencia.domain.ports.out.TransferenciaRepository;

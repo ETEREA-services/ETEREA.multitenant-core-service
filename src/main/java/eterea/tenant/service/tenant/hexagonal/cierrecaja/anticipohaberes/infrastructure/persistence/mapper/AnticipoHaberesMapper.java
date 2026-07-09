@@ -2,9 +2,9 @@ package eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.infras
 
 import eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.domain.model.CierreCajaAnticipoHaberes;
 import eterea.tenant.service.tenant.hexagonal.cierrecaja.anticipohaberes.infrastructure.persistence.entity.CierreCajaAnticipoHaberesEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class AnticipoHaberesMapper {
 
     public CierreCajaAnticipoHaberesEntity toEntity(CierreCajaAnticipoHaberes cierreCajaAnticipoHaberes) {
