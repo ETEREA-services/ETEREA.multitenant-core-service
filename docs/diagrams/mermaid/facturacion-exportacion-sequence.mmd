@@ -5,7 +5,7 @@ sequenceDiagram
     participant AFIP as AFIP Web Service
     participant DB as Base de Datos
     
-    Note over CLIENT,DB: Flujo de Facturación de Exportación v1.0.0
+    Note over CLIENT,DB: Flujo de Facturación de Exportación
     
     CLIENT->>API: POST /facturacion/exportacion
     Note right of CLIENT: FacturaExportacionContextRequest
@@ -40,7 +40,7 @@ sequenceDiagram
         API-->>CLIENT: Error de servicio
     end
     
-    Note over CLIENT,DB: Funcionalidades Nuevas v1.0.0:
+    Note over CLIENT,DB: Funcionalidades disponibles desde v1.0.0:
     Note over CLIENT,DB: • Soporte para moneda extranjera
     Note over CLIENT,DB: • Manejo de incoterms
     Note over CLIENT,DB: • Validación de permisos de exportación
