@@ -1,0 +1,21 @@
+package eterea.tenant.service.tenant.hexagonal.facturacion.arca.nacional.infrastructure.web.controller;
+
+import eterea.tenant.service.tenant.hexagonal.facturacion.arca.nacional.application.service.FacturacionElectronicaService;
+import eterea.tenant.service.tenant.hexagonal.facturacion.arca.nacional.infrastructure.web.dto.FacturacionDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/tenant/core/makeFactura")
+@RequiredArgsConstructor
+public class MakeFacturaController {
+
+    private final FacturacionElectronicaService facturacionElectronicaService;
+
+    @PostMapping("/afip/make")
+    public ResponseEntity<FacturacionDto> makeFactura(@RequestBody FacturacionDto facturacionDto) {
+        return ResponseEntity.ok(facturacionElectronicaService.makeFactura(facturacionDto));
+    }
+
+}

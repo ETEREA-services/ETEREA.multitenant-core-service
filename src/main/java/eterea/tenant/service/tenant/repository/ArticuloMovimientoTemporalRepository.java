@@ -1,0 +1,25 @@
+/**
+ * 
+ */
+package eterea.tenant.service.tenant.repository;
+
+import java.util.List;
+
+import eterea.tenant.service.tenant.kotlin.model.ArticuloMovimientoTemporal;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author daniel
+ *
+ */
+@Repository
+public interface ArticuloMovimientoTemporalRepository extends JpaRepository<ArticuloMovimientoTemporal, Long> {
+
+	List<ArticuloMovimientoTemporal> findAllByIpAddressAndHWnd(String ipAddress, Long hWnd, Sort sort);
+
+	List<ArticuloMovimientoTemporal> findAllByIpAddressAndHWndAndCentroId(String ipAddress, Long hWnd,
+			Integer centroId, Sort sort);
+
+}

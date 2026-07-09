@@ -1,0 +1,35 @@
+package eterea.tenant.service.tenant.hexagonal.negocio.infrastructure.web.mapper;
+
+import eterea.tenant.service.tenant.hexagonal.negocio.domain.model.Negocio;
+import eterea.tenant.service.tenant.hexagonal.negocio.infrastructure.web.dto.NegocioResponse;
+import org.springframework.stereotype.Component;
+
+@Component
+public class NegocioDtoMapper {
+
+    public NegocioResponse toResponse(Negocio domain) {
+        if (domain == null) {
+            return null;
+        }
+        return NegocioResponse.builder()
+                .negocioId(domain.getNegocioId())
+                .nombre(domain.getNombre())
+                .negocioIdReal(domain.getNegocioIdReal())
+                .databaseIpVpn(domain.getDatabaseIpVpn())
+                .databaseIpLan(domain.getDatabaseIpLan())
+                .databasePort(domain.getDatabasePort())
+                .database(domain.getDatabase())
+                .user(domain.getUser())
+                .transferenciaStock(domain.getTransferenciaStock())
+                .transferenciaValor(domain.getTransferenciaValor())
+                .backendIpVpn(domain.getBackendIpVpn())
+                .backendIpLan(domain.getBackendIpLan())
+                .backendServer(domain.getBackendServer())
+                .backendPort(domain.getBackendPort())
+                .hasGateway(domain.getHasGateway())
+                .copyArticulo(domain.getCopyArticulo())
+                .ipAddress(domain.getIpAddress())
+                .build();
+    }
+
+}

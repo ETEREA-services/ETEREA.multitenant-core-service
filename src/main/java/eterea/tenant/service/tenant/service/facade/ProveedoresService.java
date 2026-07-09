@@ -1,0 +1,41 @@
+package eterea.tenant.service.tenant.service.facade;
+
+import eterea.tenant.service.tenant.hexagonal.proveedormovimiento.domain.model.ProveedorMovimiento;
+import eterea.tenant.service.tenant.service.FacturaRendicionDetalleService;
+import eterea.tenant.service.tenant.hexagonal.proveedormovimiento.application.service.ProveedorMovimientoService;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Service
+public class ProveedoresService {
+
+    private final ProveedorMovimientoService proveedorMovimientoService;
+    private final FacturaRendicionDetalleService facturaRendicionDetalleService;
+
+    public ProveedoresService(ProveedorMovimientoService proveedorMovimientoService, FacturaRendicionDetalleService facturaRendicionDetalleService) {
+        this.proveedorMovimientoService = proveedorMovimientoService;
+        this.facturaRendicionDetalleService = facturaRendicionDetalleService;
+    }
+
+    public List<ProveedorMovimiento> findAllByProveedorIdSinRendicion(Long proveedorId) {
+        Map<String, ProveedorMovimiento> proveedorMovimientos = new HashMap<>();
+
+        proveedorMovimientoService.getProveedorMovimientosByProveedorId(proveedorId).forEach(movimiento ->
+                proveedorMovimientos.put(movimiento.comprobanteKey(), movimiento)
+        );
+
+        // Removemos los movimientos que tienen rendición
+        facturaRendicionDetalleService.findAllByProveedorId(proveedorId).forEach(detalle ->
+                proveedorMovimientos.remove(detalle.comprobanteKey())
+        );
+
+        // Convertimos a lista y ordenamos por fechaComprobante
+        return proveedorMovimientos.values()
+                .stream()
+                .sorted(Comparator.comparing(ProveedorMovimiento::getFechaComprobante, Comparator.nullsLast(Comparator.naturalOrder())))
+                .collect(Collectors.toList());
+    }
+
+}

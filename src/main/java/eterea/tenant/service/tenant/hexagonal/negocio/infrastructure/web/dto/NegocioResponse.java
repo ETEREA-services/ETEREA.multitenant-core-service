@@ -1,0 +1,30 @@
+package eterea.tenant.service.tenant.hexagonal.negocio.infrastructure.web.dto;
+
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class NegocioResponse {
+
+    private Integer negocioId;
+    private String nombre;
+    private Integer negocioIdReal;
+    private String databaseIpVpn;
+    private String databaseIpLan;
+    private String databasePort;
+    private String database;
+    private String user;
+    private Byte transferenciaStock;
+    private Byte transferenciaValor;
+    private String backendIpVpn;
+    private String backendIpLan;
+    private String backendServer;
+    private String backendPort;
+    private Byte hasGateway;
+    private Byte copyArticulo;
+    private String ipAddress;
+
+}

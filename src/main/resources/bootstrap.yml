@@ -1,0 +1,87 @@
+app:
+  port: ${APP_PORT:8080}
+  logging: debug
+  server: 192.168.201.132:3306
+  database: uniftsa
+  user: root
+  password: root
+  consul:
+    host: consul-service
+    port: 8500
+  mail:
+    username: uid
+    password: pwd
+
+server:
+  address: 0.0.0.0
+  port: ${app.port}
+
+spring:
+  application:
+    name: multitenant-core-service
+  cloud:
+    consul:
+      host: ${app.consul.host}
+      port: ${app.consul.port}
+      discovery:
+        prefer-ip-address: true
+        tags: eterea,tenant,core
+  datasource:
+    url: jdbc:mysql://${app.server}/${app.database}?useSSL=false&serverTimezone=UTC&tcpKeepAlive=true
+    username: ${app.user}
+    password: ${app.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      max-lifetime: 1200000        # 20 minutos (seguro, << 4h)
+      idle-timeout: 600000         # 10 minutos
+      connection-timeout: 30000    # 30 segundos
+      validation-timeout: 3000     # 3 segundos
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${app.mail.username}
+    password: ${app.mail.password}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+logging:
+  level:
+    eterea.tenant.service: ${app.logging}
+    web: ${app.logging}
+    org:
+      hibernate:
+        SQL: ${app.logging}
+        stat: ${app.logging}
+        engine.transaction: ${app.logging}
+      springframework:
+        transaction: ${app.logging}
+        cloud.config: ${app.logging}
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 60000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: scheduledtasks,env,health
+  health:
+    mail:
+      enabled: false
