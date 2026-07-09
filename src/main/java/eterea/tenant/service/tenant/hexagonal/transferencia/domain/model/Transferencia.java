@@ -1,6 +1,7 @@
 package eterea.tenant.service.tenant.hexagonal.transferencia.domain.model;
 
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -11,7 +12,7 @@ import java.time.OffsetDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transferencia {
+public class Transferencia implements Jsonifyable {
 
     private Long transferenciaId;
     private Integer negocioIdDesde;
@@ -24,7 +25,4 @@ public class Transferencia {
     private Integer comprobanteId;
     private OffsetDateTime fechaOtro;
 
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 }

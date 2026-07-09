@@ -3,6 +3,7 @@ package eterea.tenant.service.tenant.kotlin.model
 import com.fasterxml.jackson.annotation.JsonFormat
 import eterea.tenant.service.tenant.model.Auditable
 import eterea.tenant.service.tool.Jsonifier
+import eterea.tenant.service.tool.Jsonifyable
 import jakarta.persistence.*
 import java.time.OffsetDateTime
 import java.time.LocalTime
@@ -111,11 +112,7 @@ data class Reserva(
     @JoinColumn(name = "res_cli_id", insertable = false, updatable = false)
     var cliente: Cliente? = null
 
-) : Auditable() {
-
-    fun jsonify(): String {
-        return Jsonifier.builder(this).build()
-    }
+) : Auditable(), Jsonifyable {
 
     data class Builder(
         var reservaId: Long? = null,

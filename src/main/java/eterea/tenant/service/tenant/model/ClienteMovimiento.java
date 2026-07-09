@@ -6,6 +6,7 @@ import eterea.tenant.service.tenant.kotlin.model.Cliente;
 import eterea.tenant.service.tenant.hexagonal.comprobante.infrastructure.persistence.entity.ComprobanteEntity;
 import eterea.tenant.service.tenant.kotlin.model.Moneda;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +21,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ClienteMovimiento extends Auditable {
+public class ClienteMovimiento extends Auditable implements Jsonifyable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -188,9 +189,5 @@ public class ClienteMovimiento extends Auditable {
     @OneToOne(optional = true)
     @JoinColumn(name = "mcl_emp_id",  insertable = false, updatable = false)
     private EmpresaEntity empresa;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

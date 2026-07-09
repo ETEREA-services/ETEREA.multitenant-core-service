@@ -2,6 +2,7 @@ package eterea.tenant.service.tenant.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ParametroDto {
+public class ParametroDto implements Jsonifyable {
 
     private Long parametroId;
     private Integer negocioId;
@@ -49,9 +50,5 @@ public class ParametroDto {
 
     @Builder.Default
     private BigDecimal porcentajeDescuentoPersonal = BigDecimal.ZERO;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

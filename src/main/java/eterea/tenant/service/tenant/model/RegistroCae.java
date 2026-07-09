@@ -2,6 +2,7 @@ package eterea.tenant.service.tenant.model;
 
 import eterea.tenant.service.tenant.hexagonal.comprobante.infrastructure.persistence.entity.ComprobanteEntity;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class RegistroCae extends Auditable {
+public class RegistroCae extends Auditable implements Jsonifyable {
 
     @Id
     @Column(name = "rec_id")
@@ -91,9 +92,5 @@ public class RegistroCae extends Auditable {
     @OneToOne(optional = true)
     @JoinColumn(name = "rec_tco_id", insertable = false, updatable = false)
     private ComprobanteEntity comprobante;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

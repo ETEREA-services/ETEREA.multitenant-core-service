@@ -2,6 +2,7 @@ package eterea.tenant.service.tenant.hexagonal.articulo.domain.model;
 
 import eterea.tenant.service.tenant.hexagonal.cuenta.domain.model.Cuenta;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Articulo {
+public class Articulo implements Jsonifyable {
 
     private String articuloId;
     private Integer negocioId;
@@ -50,7 +51,4 @@ public class Articulo {
     private Long autoNumericoId;
     private Cuenta cuentaVentas;
 
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 }

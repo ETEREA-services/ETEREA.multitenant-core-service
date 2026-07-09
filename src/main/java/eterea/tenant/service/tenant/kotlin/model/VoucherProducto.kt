@@ -2,6 +2,7 @@ package eterea.tenant.service.tenant.kotlin.model
 
 import eterea.tenant.service.tenant.model.Auditable
 import eterea.tenant.service.tool.Jsonifier
+import eterea.tenant.service.tool.Jsonifyable
 import jakarta.persistence.*
 
 @Entity
@@ -28,11 +29,7 @@ data class VoucherProducto(
     @JoinColumn(name = "vpr_prd_id", insertable = false, updatable = false)
     var producto: Producto? = null
 
-) : Auditable() {
-
-    fun jsonify(): String {
-        return Jsonifier.builder(this).build()
-    }
+) : Auditable(), Jsonifyable {
 
     data class Builder(
         var voucherProductoId: Long? = null,

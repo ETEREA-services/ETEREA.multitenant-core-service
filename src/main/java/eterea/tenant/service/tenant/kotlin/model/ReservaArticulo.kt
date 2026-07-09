@@ -3,6 +3,7 @@ package eterea.tenant.service.tenant.kotlin.model
 import eterea.tenant.service.tenant.hexagonal.articulo.infrastructure.persistence.entity.ArticuloEntity
 import eterea.tenant.service.tenant.model.Auditable
 import eterea.tenant.service.tool.Jsonifier
+import eterea.tenant.service.tool.Jsonifyable
 import jakarta.persistence.*
 import java.math.BigDecimal
 
@@ -51,11 +52,7 @@ data class ReservaArticulo(
     @JoinColumn(name = "rar_art_id", insertable = false, updatable = false)
     var articulo: ArticuloEntity? = null
 
-) : Auditable() {
-
-    fun jsonify(): String {
-        return Jsonifier.builder(this).build()
-    }
+) : Auditable(), Jsonifyable {
 
     data class Builder(
         var reservaArticuloId: Long? = null,

@@ -2,6 +2,7 @@ package eterea.tenant.service.tenant.hexagonal.facturacion.arca.nacional.infrast
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FacturacionDto {
+public class FacturacionDto implements Jsonifyable {
 
     @Builder.Default
     @JsonProperty(value = "tipo_documento")
@@ -74,9 +75,5 @@ public class FacturacionDto {
 
     @JsonProperty(value = "id_condicion_iva")
     private Integer idCondicionIva;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

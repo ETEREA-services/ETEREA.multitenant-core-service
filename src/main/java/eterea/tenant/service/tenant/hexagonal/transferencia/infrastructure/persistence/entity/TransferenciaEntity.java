@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import eterea.tenant.service.tenant.hexagonal.comprobante.infrastructure.persistence.entity.ComprobanteEntity;
 import eterea.tenant.service.tenant.model.Auditable;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +20,7 @@ import java.time.OffsetDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransferenciaEntity extends Auditable {
+public class TransferenciaEntity extends Auditable implements Jsonifyable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,9 +61,5 @@ public class TransferenciaEntity extends Auditable {
     @OneToOne(optional = true)
     @JoinColumn(name = "tra_cmp_id", insertable = false, updatable = false)
     private ComprobanteEntity comprobante;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

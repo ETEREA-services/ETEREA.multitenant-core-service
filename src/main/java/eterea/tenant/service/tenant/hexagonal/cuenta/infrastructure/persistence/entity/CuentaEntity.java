@@ -3,6 +3,7 @@ package eterea.tenant.service.tenant.hexagonal.cuenta.infrastructure.persistence
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import eterea.tenant.service.tenant.model.Auditable;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -20,7 +21,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CuentaEntity extends Auditable {
+public class CuentaEntity extends Auditable implements Jsonifyable {
 
     @Id
     @Column(name = "cuenta")
@@ -66,9 +67,5 @@ public class CuentaEntity extends Auditable {
 
     @Column(name = "pla_gastos")
     private Byte gastos;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

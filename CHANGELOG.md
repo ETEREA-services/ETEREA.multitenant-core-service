@@ -1,3 +1,16 @@
+## [2.7.1] - 2026-07-09
+
+### Refactored
+- **refactor(json-serialization)**: Implementación de interfaz `Jsonifyable` unificada para serialización JSON en modelos de dominio, entidades JPA, DTOs y modelos Kotlin:
+  - Nuevos `Jsonifyable` interface y refactor de `Jsonifier` utilidad centralizada
+  - Modelos de dominio Java: `Articulo`, `ArticuloMovimiento`, `Comprobante`, `Cuenta`, `InvoiceData`, `Transferencia` implementan `Jsonifyable`
+  - Entidades JPA: `ArticuloEntity`, `ArticuloMovimientoEntity`, `ComprobanteEntity`, `CuentaEntity`, `TransferenciaEntity` implementan `Jsonifyable`
+  - DTOs: `FacturacionDto`, `ClienteMovimientoResponse`, `InvoiceDataResponse`, `RegistroCaeResponse`, `ArticuloDto`, `ImpresionFiscalDto`, `ParametroDto`, `TransferenciaDto`, `TransferenciaWrapperDto` implementan `Jsonifyable`
+  - Modelos Kotlin: `OrderNote`, `ArticuloBarra`, `ClienteMovimientoPrevio`, `Reserva`, `ReservaArticulo`, `StockMovimiento`, `Valor`, `ValorMovimiento`, `Voucher`, `VoucherProducto` implementan `Jsonifyable`
+  - Modelos Java adicionales: `ClienteMovimiento`, `CuentaMovimiento`, `RegistroCae`, `ReservaContext`, `Track`, `FacturaResponseDto`, `FacturaResponseDto.FacturaDto` implementan `Jsonifyable`
+  - `ConsolidadoService.ComprobanteRango` record ahora implementa `Jsonifyable` y usa `@RequiredArgsConstructor`
+  - Eliminación de métodos `jsonify()` duplicados en cada clase, delegando en `Jsonifier.builder(this).build()`
+
 ## [2.7.0] - 2026-07-09
 
 ### Changed

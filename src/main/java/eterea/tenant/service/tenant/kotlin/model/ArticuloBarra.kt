@@ -3,6 +3,7 @@ package eterea.tenant.service.tenant.kotlin.model
 import eterea.tenant.service.tenant.hexagonal.articulo.infrastructure.persistence.entity.ArticuloEntity
 import eterea.tenant.service.tenant.model.Auditable
 import eterea.tenant.service.tool.Jsonifier
+import eterea.tenant.service.tool.Jsonifyable
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -32,10 +33,4 @@ data class ArticuloBarra(
     @JoinColumn(name = "aba_art_id", updatable = false, insertable = false)
     var articulo: ArticuloEntity? = null
 
-) : Auditable() {
-
-    fun jsonify(): String {
-        return Jsonifier.builder(this).build()
-    }
-
-}
+) : Auditable(), Jsonifyable

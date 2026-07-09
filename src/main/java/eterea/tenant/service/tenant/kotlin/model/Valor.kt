@@ -2,6 +2,7 @@ package eterea.tenant.service.tenant.kotlin.model
 
 import eterea.tenant.service.tenant.model.Auditable
 import eterea.tenant.service.tool.Jsonifier
+import eterea.tenant.service.tool.Jsonifyable
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -67,9 +68,4 @@ data class Valor(
     var restaurant: Byte = 0,
     var tarjeta: Byte = 0
 
-) : Auditable() {
-
-    fun jsonify(): String {
-        return Jsonifier.builder(this).build()
-    }
-}
+) : Auditable(), Jsonifyable

@@ -15,6 +15,7 @@ import eterea.tenant.service.tenant.kotlin.model.ClienteMovimientoPrevio;
 import eterea.tenant.service.tenant.kotlin.model.StockMovimiento;
 import eterea.tenant.service.tenant.model.ClienteMovimiento;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.*;
 
 /**
@@ -26,7 +27,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImpresionFiscalDto implements Serializable {
+public class ImpresionFiscalDto implements Serializable, Jsonifyable {
 
 	@Serial
     private static final long serialVersionUID = 8474478112848630563L;
@@ -39,9 +40,5 @@ public class ImpresionFiscalDto implements Serializable {
 	private ClienteMovimientoPrevio clienteMovimientoPrevio;
 	private StockMovimiento stockMovimiento;
 	private List<ArticuloMovimiento> articuloMovimientos;
-
-	public String jsonify() {
-        return Jsonifier.builder(this).build();
-	}
 
 }

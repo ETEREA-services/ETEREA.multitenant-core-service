@@ -1,6 +1,7 @@
 package eterea.tenant.service.tenant.hexagonal.invoicedata.infrastructure.dto;
 
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class ClienteMovimientoResponse {
+public class ClienteMovimientoResponse implements Jsonifyable {
 
     private String letraComprobante;
     private Integer puntoVenta;
@@ -27,9 +28,5 @@ public class ClienteMovimientoResponse {
     private MonedaResponse moneda;
     private ComprobanteResponse comprobante;
     private List<ArticuloMovimientoResponse> articulos;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

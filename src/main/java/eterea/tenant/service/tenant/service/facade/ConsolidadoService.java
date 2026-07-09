@@ -6,7 +6,9 @@ import eterea.tenant.service.tenant.model.ClienteMovimiento;
 import eterea.tenant.service.tenant.service.ClienteMovimientoService;
 import eterea.tenant.service.tenant.service.ComprobanteFaltanteService;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -19,30 +21,20 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ConsolidadoService {
 
     private final ComprobanteFaltanteService comprobanteFaltanteService;
     private final ClienteMovimientoService clienteMovimientoService;
 
-    public record ComprobanteRango(
+    public record ComprobanteRango (
             Integer afipComprobanteId,
             String letraComprobante,
             Integer puntoVenta,
             Byte debita,
             Long minimoNumeroComprobante,
             Long maximoNumeroComprobante
-    ) {
-
-        public String jsonify() {
-            return Jsonifier.builder(this).build();
-        }
-    }
-
-    public ConsolidadoService(ComprobanteFaltanteService comprobanteFaltanteService,
-                              ClienteMovimientoService clienteMovimientoService) {
-        this.comprobanteFaltanteService = comprobanteFaltanteService;
-        this.clienteMovimientoService = clienteMovimientoService;
-    }
+    ) implements Jsonifyable {}
 
     @Transactional
     public String fillFaltantesFecha(OffsetDateTime fecha) {
