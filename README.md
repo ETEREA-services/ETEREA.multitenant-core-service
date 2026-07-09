@@ -8,7 +8,7 @@
 [![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2025.1.2-green.svg)](https://spring.io/projects/spring-cloud)
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-blue.svg)](https://springdoc.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-9.7.0-orange.svg)](https://www.mysql.com/)
-[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
+![License](https://img.shields.io/badge/License-Proprietary-red.svg)
 [![Version](https://img.shields.io/badge/Version-2.6.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
 
 ## Descripción
@@ -114,7 +114,7 @@ El proyecto utiliza una **arquitectura hexagonal** con implementación mixta:
 ### Requisitos
 - **JDK 25**
 - Maven 3.8+
-- MySQL 9.3+
+- MySQL 9.7+
 
 ### Instalación
 ```bash
