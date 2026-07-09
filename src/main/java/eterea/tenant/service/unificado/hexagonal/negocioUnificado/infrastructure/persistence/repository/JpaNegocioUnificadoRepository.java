@@ -11,4 +11,7 @@ public interface JpaNegocioUnificadoRepository extends JpaRepository<NegocioUnif
 
     Optional<NegocioUnificadoEntity> findByNegocioId(Integer negocioId);
 
+    Optional<NegocioUnificadoEntity> findByTenantId(String tenantId);
+
 }
+

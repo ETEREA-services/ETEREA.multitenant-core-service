@@ -33,6 +33,8 @@ public class NegocioUnificadoEntity extends Auditable {
     @Column(name = "neg_ip")
     private String databaseIp;
 
+    private String databasePort;
+
     @Column(name = "neg_db")
     private String databaseName;
 
@@ -42,9 +44,6 @@ public class NegocioUnificadoEntity extends Auditable {
     @Builder.Default
     private Byte backup = 0;
 
-    @Column(name = "backend_server")
-    private String backendServer;
-    private String backendPort;
     private String tenantId;
 
 }

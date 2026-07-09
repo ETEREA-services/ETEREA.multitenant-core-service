@@ -133,6 +133,11 @@ jobs:
                   <div id="negociounificado-class-diagram"></div>
               </div>
 
+              <div class="section">
+                  <h2>Multi-tenancy</h2>
+                  <div id="tenant-resolution-sequence-diagram"></div>
+              </div>
+
               <div id="dependencies" class="section">
                   <h2>🌳 Grafo de Dependencias</h2>
                   <p>El siguiente es el árbol de dependencias completo del proyecto, generado por Maven.</p>
@@ -213,7 +218,9 @@ jobs:
                        // Negocio Domain
                        { id: 'negocio-class-diagram', path: 'diagrams/mermaid/negocio-class-diagram.mmd', title: 'UML Diagrama de Clases del Modelo Negocio' },
                        // NegocioUnificado Domain
-                       { id: 'negociounificado-class-diagram', path: 'diagrams/mermaid/negociounificado-class-diagram.mmd', title: 'UML Diagrama de Clases del Modelo Negocio Unificado' }
+                       { id: 'negociounificado-class-diagram', path: 'diagrams/mermaid/negociounificado-class-diagram.mmd', title: 'UML Diagrama de Clases del Modelo Negocio Unificado' },
+                       // Multi-Tenancy Domain
+                       { id: 'tenant-resolution-sequence-diagram', path: 'diagrams/mermaid/tenant-resolution-sequence-diagram.mmd', title: 'Diagrama de Secuencia: Resolución de Tenant Multi-tenancy' }
                    ];
 
                   // Insert titles and mermaid divs first

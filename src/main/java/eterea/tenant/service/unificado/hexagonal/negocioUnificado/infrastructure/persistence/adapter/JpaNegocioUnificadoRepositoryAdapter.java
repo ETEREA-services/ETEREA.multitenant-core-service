@@ -35,4 +35,11 @@ public class JpaNegocioUnificadoRepositoryAdapter implements NegocioUnificadoRep
                 .map(mapper::toDomain);
     }
 
+    @Override
+    public Optional<NegocioUnificado> findByTenantId(String tenantId) {
+        return jpaRepository.findByTenantId(tenantId)
+                .map(mapper::toDomain);
+    }
+
 }
+

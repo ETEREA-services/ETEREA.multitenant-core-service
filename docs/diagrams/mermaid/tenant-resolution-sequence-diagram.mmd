@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant Client as Cliente HTTP
+    participant TXI as TenantInterceptor
+    participant TXS as TenantDataSourceService
+    participant NU as NegocioUnificadoRepository
+    participant TXDS as TenantRoutingDataSource
+    participant Controller as Tenant Controller
+    participant DB as MySQL (Tenant DB)
+
+    Client->>TXI: GET /api/tenant/... (X-TENANT-ID: tenant-123)
+    TXI->>TXI: Extraer X-TENANT-ID del header
+    TXI->>TXS: ensureTenantDataSource(tenant-123)
+    TXS->>TXS: Limpiar TenantContext (evitar ruteo circular)
+    TXS->>NU: findByTenantId(tenant-123)
+    NU-->>TXS: NegocioUnificado (ip, puerto, db, usuario)
+    TXS->>TXS: createDataSource(negocio)
+    TXS->>TXS: Crear HikariDataSource (pool 30 conexiones)
+    TXS->>TXDS: addTenantDataSource(tenant-123, ds)
+    TXS-->>TXI: OK
+    TXI->>TXI: TenantContext.setCurrentTenant(tenant-123)
+    TXI->>TXI: Continuar con handler del controlador
+    Controller->>TXDS: determineCurrentLookupKey()
+    TXDS-->>Controller: tenant-123
+    Controller->>DB: Consulta BD del tenant
+    DB-->>Controller: Resultados
+    Controller-->>Client: HTTP 200 Response

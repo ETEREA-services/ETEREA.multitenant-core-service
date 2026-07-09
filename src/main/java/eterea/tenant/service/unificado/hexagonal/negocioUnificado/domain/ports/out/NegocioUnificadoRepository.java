@@ -10,4 +10,7 @@ public interface NegocioUnificadoRepository {
 
     Optional<NegocioUnificado> findByNegocioId(Integer negocioId);
 
+    Optional<NegocioUnificado> findByTenantId(String tenantId);
+
 }
+
