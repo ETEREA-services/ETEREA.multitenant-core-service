@@ -3,6 +3,7 @@ package eterea.tenant.service.tenant.kotlin.model
 import com.fasterxml.jackson.annotation.JsonFormat
 import eterea.tenant.service.tenant.model.Auditable
 import eterea.tenant.service.tool.Jsonifier
+import eterea.tenant.service.tool.Jsonifyable
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.OffsetDateTime
@@ -38,10 +39,4 @@ data class ClienteMovimientoPrevio(
     @JoinColumn(name = "clientemovimientoprevio_id", insertable = false, updatable = false)
     var articuloMovimientoPrevios: List<ArticuloMovimientoPrevio>? = null
 
-) : Auditable() {
-
-    fun jsonify(): String {
-        return Jsonifier.builder(this).build()
-    }
-
-}
+) : Auditable(), Jsonifyable

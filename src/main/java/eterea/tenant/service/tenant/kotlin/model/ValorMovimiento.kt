@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import eterea.tenant.service.tenant.hexagonal.cuenta.infrastructure.persistence.entity.CuentaEntity
 import eterea.tenant.service.tenant.model.Auditable
 import eterea.tenant.service.tool.Jsonifier
+import eterea.tenant.service.tool.Jsonifyable
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.OffsetDateTime
@@ -98,11 +99,7 @@ data class ValorMovimiento(
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     var cuenta: CuentaEntity? = null
 
-) : Auditable() {
-
-    fun jsonify(): String {
-        return Jsonifier.builder(this).build()
-    }
+) : Auditable(), Jsonifyable {
 
     data class Builder(
         var valorMovimientoId: Long? = null,

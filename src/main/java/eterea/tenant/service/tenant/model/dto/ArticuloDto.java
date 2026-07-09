@@ -2,6 +2,7 @@ package eterea.tenant.service.tenant.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ArticuloDto {
+public class ArticuloDto implements Jsonifyable {
 
     private String articuloId;
     private Integer negocioId;
@@ -50,7 +51,4 @@ public class ArticuloDto {
     private Integer prestadorId;
     private Long autoNumericoId;
 
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 }

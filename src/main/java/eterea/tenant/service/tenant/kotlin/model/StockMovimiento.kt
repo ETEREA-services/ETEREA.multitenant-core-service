@@ -3,6 +3,7 @@ package eterea.tenant.service.tenant.kotlin.model
 import com.fasterxml.jackson.annotation.JsonFormat
 import eterea.tenant.service.tenant.model.Auditable
 import eterea.tenant.service.tool.Jsonifier
+import eterea.tenant.service.tool.Jsonifyable
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import jakarta.persistence.Column
@@ -111,10 +112,4 @@ data class StockMovimiento(
     var netoFactura: BigDecimal = BigDecimal.ZERO,
     var netoRegistrado: BigDecimal = BigDecimal.ZERO
 
-) : Auditable() {
-
-    fun jsonify(): String {
-        return Jsonifier.builder(this).build();
-    }
-
-}
+) : Auditable(), Jsonifyable

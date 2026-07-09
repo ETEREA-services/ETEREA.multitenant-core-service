@@ -2,6 +2,7 @@ package eterea.tenant.service.tenant.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import java.time.OffsetDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransferenciaDto {
+public class TransferenciaDto implements Jsonifyable {
 
     private Long transferenciaId;
     private Integer negocioIdDesde;
@@ -35,7 +36,4 @@ public class TransferenciaDto {
 
     private ComprobanteDto comprobante;
 
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 }

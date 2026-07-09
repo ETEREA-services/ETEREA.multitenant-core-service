@@ -2,9 +2,12 @@ package eterea.tenant.service.tenant.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+
+import java.io.Serializable;
 
 
 @Data
@@ -13,7 +16,7 @@ import org.hibernate.annotations.ColumnDefault;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Track extends Auditable {
+public class Track extends Auditable implements Jsonifyable {
 
     @Id
     private String uuid;
@@ -25,19 +28,6 @@ public class Track extends Auditable {
     @Column(nullable = false)
     @ColumnDefault("'IN_PROGRESS'")
     private Status status = Status.IN_PROGRESS;
-
-    public String jsonify() {
-        try {
-            return JsonMapper
-                    .builder()
-                    .findAndAddModules()
-                    .build()
-                    .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            return "jsonify error: " + e.getMessage();
-        }
-    }
 
     public enum Status {
         IN_PROGRESS,

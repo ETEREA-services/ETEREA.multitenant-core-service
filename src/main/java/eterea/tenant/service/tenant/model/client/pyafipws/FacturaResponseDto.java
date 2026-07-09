@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FacturaResponseDto {
+public class FacturaResponseDto implements Jsonifyable {
 
     @JsonProperty("mensaje")
     private String mensaje;
@@ -25,23 +26,10 @@ public class FacturaResponseDto {
     @JsonProperty("factura")
     private FacturaDto factura;
 
-    public String jsonify() {
-        try {
-            return JsonMapper
-                    .builder()
-                    .findAndAddModules()
-                    .build()
-                    .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            return "jsonify error {}" + e.getMessage();
-        }
-    }
-
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class FacturaDto {
+    public static class FacturaDto implements Jsonifyable {
         @JsonProperty("concepto")
         private Integer concepto;
 
@@ -130,19 +118,6 @@ public class FacturaResponseDto {
 
         @JsonProperty("obs")
         private List<Object> obs;
-
-        public String jsonify() {
-            try {
-                return JsonMapper
-                        .builder()
-                        .findAndAddModules()
-                        .build()
-                        .writerWithDefaultPrettyPrinter()
-                        .writeValueAsString(this);
-            } catch (JsonProcessingException e) {
-                return "jsonify error {}" + e.getMessage();
-            }
-        }
 
     }
 

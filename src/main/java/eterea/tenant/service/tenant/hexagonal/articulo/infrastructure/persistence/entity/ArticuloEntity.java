@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import eterea.tenant.service.tenant.hexagonal.cuenta.infrastructure.persistence.entity.CuentaEntity;
 import eterea.tenant.service.tenant.model.Auditable;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ArticuloEntity extends Auditable {
+public class ArticuloEntity extends Auditable implements Jsonifyable {
 
     @Id
     @Column(name = "codigo")
@@ -150,7 +151,4 @@ public class ArticuloEntity extends Auditable {
     @JoinColumn(name = "cgocontable", insertable = false, updatable = false)
     private CuentaEntity cuentaVentas;
 
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 }

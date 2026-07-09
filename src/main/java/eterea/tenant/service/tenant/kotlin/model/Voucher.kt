@@ -3,6 +3,7 @@ package eterea.tenant.service.tenant.kotlin.model
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.json.JsonMapper
+import eterea.tenant.service.tool.Jsonifyable
 import jakarta.persistence.*
 import java.time.LocalTime
 import java.time.OffsetDateTime
@@ -131,20 +132,7 @@ data class Voucher(
     @JoinColumn(name = "vou_res_id", insertable = false, updatable = false)
     var reserva: Reserva? = null
 
-) {
-
-    fun jsonify(): String {
-        try {
-            return JsonMapper
-                .builder()
-                .findAndAddModules()
-                .build()
-                .writerWithDefaultPrettyPrinter()
-                .writeValueAsString(this)
-        } catch (e: JsonProcessingException) {
-            return "jsonify error: " + e.message;
-        }
-    }
+) : Jsonifyable {
 
     data class Builder(
         var voucherId: Long? = null,

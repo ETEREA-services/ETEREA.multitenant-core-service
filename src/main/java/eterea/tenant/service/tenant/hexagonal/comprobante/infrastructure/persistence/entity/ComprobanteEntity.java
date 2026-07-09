@@ -5,6 +5,7 @@ import eterea.tenant.service.tenant.hexagonal.cuenta.infrastructure.persistence.
 import eterea.tenant.service.tenant.kotlin.model.ComprobanteAfip;
 import eterea.tenant.service.tenant.model.Auditable;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ComprobanteEntity extends Auditable {
+public class ComprobanteEntity extends Auditable implements Jsonifyable {
 
     @Id
     @Column(name = "codigo")
@@ -155,9 +156,5 @@ public class ComprobanteEntity extends Auditable {
     @OneToOne(optional = true)
     @JoinColumn(name = "tco_tipoafip", insertable = false, updatable = false)
     private ComprobanteAfip comprobanteAfip;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

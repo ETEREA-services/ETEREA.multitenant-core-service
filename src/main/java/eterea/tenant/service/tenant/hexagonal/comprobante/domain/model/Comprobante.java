@@ -1,6 +1,7 @@
 package eterea.tenant.service.tenant.hexagonal.comprobante.domain.model;
 
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import lombok.*;
 
 @Getter
@@ -8,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comprobante {
+public class Comprobante implements Jsonifyable {
 
     private Integer comprobanteId;
     private String descripcion;
@@ -46,9 +47,5 @@ public class Comprobante {
     private Integer comprobanteAfipId;
     private Byte facturaElectronica;
     private Byte asociado;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

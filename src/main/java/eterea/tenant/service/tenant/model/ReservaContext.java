@@ -1,6 +1,7 @@
 package eterea.tenant.service.tenant.model;
 
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ReservaContext extends Auditable {
+public class ReservaContext extends Auditable implements Jsonifyable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,9 +40,5 @@ public class ReservaContext extends Auditable {
     @Builder.Default
     private Byte facturaArca = 0;
     private String payloadArca;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }

@@ -5,6 +5,7 @@ import eterea.tenant.service.tenant.hexagonal.comprobante.infrastructure.persist
 import eterea.tenant.service.tenant.hexagonal.cuenta.infrastructure.persistence.entity.CuentaEntity;
 import eterea.tenant.service.tenant.hexagonal.negocio.infrastructure.persistence.entity.NegocioEntity;
 import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -19,7 +20,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CuentaMovimiento extends Auditable {
+public class CuentaMovimiento extends Auditable implements Jsonifyable {
 
     @Id
     @Column(name = "id")
@@ -112,9 +113,5 @@ public class CuentaMovimiento extends Auditable {
     @JoinColumn(name = "mco_neg_id", insertable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private NegocioEntity negocio;
-
-    public String jsonify() {
-        return Jsonifier.builder(this).build();
-    }
 
 }
