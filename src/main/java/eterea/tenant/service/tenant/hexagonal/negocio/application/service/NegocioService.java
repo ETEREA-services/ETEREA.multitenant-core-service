@@ -1,44 +1,38 @@
-/**
- * 
- */
 package eterea.tenant.service.tenant.hexagonal.negocio.application.service;
 
 import eterea.tenant.service.tenant.hexagonal.negocio.domain.model.Negocio;
 import eterea.tenant.service.tenant.hexagonal.negocio.domain.ports.in.GetAllNegociosByCopyArticuloUseCase;
 import eterea.tenant.service.tenant.hexagonal.negocio.domain.ports.in.GetAllNegociosWithIpAddressUseCase;
 import eterea.tenant.service.tenant.hexagonal.negocio.domain.ports.in.GetNegocioByIdUseCase;
-import eterea.tenant.service.tenant.hexagonal.negocio.domain.ports.out.NegocioRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
-/**
- * @author daniel
- *
- */
 @Service
-@Slf4j
-@RequiredArgsConstructor
-public class NegocioService implements GetAllNegociosByCopyArticuloUseCase, GetNegocioByIdUseCase, GetAllNegociosWithIpAddressUseCase {
+public class NegocioService {
 
-	private final NegocioRepository negocioRepository;
+    private final GetAllNegociosByCopyArticuloUseCase getAllNegociosByCopyArticuloUseCase;
+    private final GetNegocioByIdUseCase getNegocioByIdUseCase;
+    private final GetAllNegociosWithIpAddressUseCase getAllNegociosWithIpAddressUseCase;
 
-	@Override
-	public List<Negocio> getAllNegociosByCopyArticulo(Byte copyArticulo) {
-		return negocioRepository.findAllByCopyArticulo(copyArticulo);
-	}
+    public NegocioService(GetAllNegociosByCopyArticuloUseCase getAllNegociosByCopyArticuloUseCase,
+                          GetNegocioByIdUseCase getNegocioByIdUseCase,
+                          GetAllNegociosWithIpAddressUseCase getAllNegociosWithIpAddressUseCase) {
+        this.getAllNegociosByCopyArticuloUseCase = getAllNegociosByCopyArticuloUseCase;
+        this.getNegocioByIdUseCase = getNegocioByIdUseCase;
+        this.getAllNegociosWithIpAddressUseCase = getAllNegociosWithIpAddressUseCase;
+    }
 
-	@Override
-	public Optional<Negocio> getNegocioById(Integer negocioId) {
-		return negocioRepository.findByNegocioId(negocioId);
-	}
+    public List<Negocio> getAllNegociosByCopyArticulo(Byte copyArticulo) {
+        return getAllNegociosByCopyArticuloUseCase.getAllNegociosByCopyArticulo(copyArticulo);
+    }
 
-	@Override
-	public List<Negocio> getAllNegociosWithIpAddress(Integer negocioId) {
-		return negocioRepository.findAllWithIpAddress(negocioId);
-	}
+    public Negocio getNegocioById(Integer negocioId) {
+        return getNegocioByIdUseCase.getNegocioById(negocioId);
+    }
+
+    public List<Negocio> getAllNegociosWithIpAddress(Integer negocioId) {
+        return getAllNegociosWithIpAddressUseCase.getAllNegociosWithIpAddress(negocioId);
+    }
 
 }

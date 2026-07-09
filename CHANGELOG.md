@@ -1,3 +1,31 @@
+## [2.7.0] - 2026-07-09
+
+### Changed
+- **refactor(negocio)**: Refactorización completa del módulo Negocio a arquitectura hexagonal con use cases dedicados:
+  - Nuevos `GetNegocioByIdUseCaseImpl`, `GetAllNegociosByCopyArticuloUseCaseImpl`, `GetAllNegociosWithIpAddressUseCaseImpl` como implementaciones de puertos de entrada
+  - `NegocioService` ahora delega en los use cases en lugar de implementarlos directamente
+  - `GetNegocioByIdUseCase.getNegocioById()` retorna `Negocio` directo (lanza `NegocioException`) en lugar de `Optional<Negocio>`
+  - Añadido `@Builder` a `Negocio` y `NegocioEntity`; nuevo `NegocioMapper.toEntity()`
+  - `NegocioController`: cambio de ruta de `/api/core/negocio` y `/negocio` a `/api/tenant/core/negocio`, constructores explícitos, manejo de `NegocioException` con 404
+- **refactor(adapter-packages)**: Estandarización de paquetes de adaptadores JPA — 5 adaptadores movidos de `persistence/repository/` a `persistence/adapter/`: `JpaCuentaRepositoryAdapter`, `JpaEmpresaRepositoryAdapter`, `JpaLegajoRepositoryAdapter`, `JpaProveedorMovimientoRepositoryAdapter`, `JpaTransferenciaRepositoryAdapter`
+- **refactor(controller-constructors)**: Sustitución de `@RequiredArgsConstructor` por constructores explícitos en `InvoiceDataController`, `NegocioController`, `AnticipoHaberesController`; adición de `@RequiredArgsConstructor` en `JpaComprobanteRepositoryAdapter`, `JpaCuentaRepositoryAdapter`, `JpaNegocioUnificadoRepositoryAdapter`, `JpaNegocioUnificadoController`
+- **refactor(service)**: `CierreCajaAnticipoHaberesService` refactorizado para delegar en nuevo `SaveAllAnticipoHaberesUseCaseImpl`
+- **refactor(mapper)**: `ResumenIvaComprasMensualDtoMapper` actualizado para usar `negocioService.getNegocioById()` sin `Optional`; `AnticipoHaberesMapper` cambiado de `@Service` a `@Component`
+- **refactor(imports)**: Limpieza de imports no utilizados y eliminación de `@Component` de `LegajoRepository` (interface, no clase concreta)
+
+### Fixed
+- **fix(http-status)**: Corrección de códigos HTTP en endpoints de negocio y legajo — `BAD_REQUEST` (400) cambiado a `NOT_FOUND` (404) cuando no se encuentra un recurso
+- **fix(error-handling)**: `InvoiceDataController` ahora captura `InvoiceDataException` y retorna 404 con mensaje descriptivo en lugar de 500
+
+### Removed
+- **chore(cleanup)**: Eliminación de 5 clases de excepción Kotlin/Java antiguas reemplazadas por versiones hexagonales Java:
+  - `tenant/exception/LegajoException.java`, `tenant/exception/NegocioException.java`, `tenant/exception/ProductoArticuloException.kt`
+  - `kotlin/exception/ArticuloMovimientoException.kt`, `kotlin/exception/TransferenciaException.kt`
+
+### New
+- **feat(anticipohaberes)**: Nuevo caso de uso `SaveAllAnticipoHaberesUseCaseImpl` para el módulo de anticipo de haberes
+- **feat(exceptions)**: Nuevas excepciones hexagonales Java: `InvoiceDataException`, `LegajoException`, `NegocioException`, `TransferenciaException`, `ProductoArticuloException`
+
 ## [2.6.0] - 2026-07-09
 
 ### Features

@@ -1,8 +1,9 @@
-package eterea.tenant.service.tenant.hexagonal.articulomovimiento.infrastructure.persistence.repository;
+package eterea.tenant.service.tenant.hexagonal.articulomovimiento.infrastructure.persistence.adapter;
 
 import eterea.tenant.service.tenant.hexagonal.articulomovimiento.domain.model.ArticuloMovimiento;
 import eterea.tenant.service.tenant.hexagonal.articulomovimiento.domain.ports.out.ArticuloMovimientoRepository;
 import eterea.tenant.service.tenant.hexagonal.articulomovimiento.infrastructure.persistence.mapper.ArticuloMovimientoMapper;
+import eterea.tenant.service.tenant.hexagonal.articulomovimiento.infrastructure.persistence.repository.JpaArticuloMovimientoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

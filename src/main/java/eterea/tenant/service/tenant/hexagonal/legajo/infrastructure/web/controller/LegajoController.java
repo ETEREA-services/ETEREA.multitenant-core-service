@@ -3,7 +3,7 @@
  */
 package eterea.tenant.service.tenant.hexagonal.legajo.infrastructure.web.controller;
 
-import eterea.tenant.service.tenant.exception.LegajoException;
+import eterea.tenant.service.tenant.hexagonal.legajo.application.exception.LegajoException;
 
 import java.net.URI;
 import java.util.List;
@@ -44,7 +44,7 @@ public class LegajoController {
     public ResponseEntity<LegajoResponse> findByLegajoId(@PathVariable Integer legajoId) {
         return legajoService.findByLegajoId(legajoId)
                 .map(legajo -> ResponseEntity.ok(legajoDtoMapper.toResponse(legajo)))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, new LegajoException(legajoId).getMessage()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, new LegajoException(legajoId).getMessage()));
     }
 
 	@PostMapping("/search")

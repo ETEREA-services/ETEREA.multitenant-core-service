@@ -1,6 +1,6 @@
 package eterea.tenant.service.tenant.hexagonal.transferencia.infrastructure.web.controller;
 
-import eterea.tenant.service.tenant.kotlin.exception.TransferenciaException;
+import eterea.tenant.service.tenant.hexagonal.transferencia.application.exception.TransferenciaException;
 import eterea.tenant.service.tenant.hexagonal.transferencia.domain.model.Transferencia;
 import eterea.tenant.service.tenant.hexagonal.transferencia.application.service.TransferenciaService;
 import eterea.tenant.service.tenant.hexagonal.transferencia.infrastructure.web.dto.TransferenciaResponse;

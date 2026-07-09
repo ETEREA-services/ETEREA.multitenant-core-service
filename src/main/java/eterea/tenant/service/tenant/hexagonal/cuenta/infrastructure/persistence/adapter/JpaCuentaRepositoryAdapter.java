@@ -1,8 +1,10 @@
-package eterea.tenant.service.tenant.hexagonal.cuenta.infrastructure.persistence.repository;
+package eterea.tenant.service.tenant.hexagonal.cuenta.infrastructure.persistence.adapter;
 
 import eterea.tenant.service.tenant.hexagonal.cuenta.domain.model.Cuenta;
 import eterea.tenant.service.tenant.hexagonal.cuenta.domain.ports.out.CuentaRepository;
 import eterea.tenant.service.tenant.hexagonal.cuenta.infrastructure.persistence.mapper.CuentaMapper;
+import eterea.tenant.service.tenant.hexagonal.cuenta.infrastructure.persistence.repository.JpaCuentaRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -11,15 +13,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class JpaCuentaRepositoryAdapter implements CuentaRepository {
 
     private final JpaCuentaRepository jpaRepository;
     private final CuentaMapper mapper;
-
-    public JpaCuentaRepositoryAdapter(JpaCuentaRepository jpaRepository, CuentaMapper mapper) {
-        this.jpaRepository = jpaRepository;
-        this.mapper = mapper;
-    }
 
     @Override
     public List<Cuenta> findAll() {

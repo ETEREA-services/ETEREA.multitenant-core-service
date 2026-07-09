@@ -1,8 +1,9 @@
-package eterea.tenant.service.tenant.hexagonal.transferencia.infrastructure.persistence.repository;
+package eterea.tenant.service.tenant.hexagonal.transferencia.infrastructure.persistence.adapter;
 
 import eterea.tenant.service.tenant.hexagonal.transferencia.domain.model.Transferencia;
 import eterea.tenant.service.tenant.hexagonal.transferencia.domain.ports.out.TransferenciaRepository;
 import eterea.tenant.service.tenant.hexagonal.transferencia.infrastructure.persistence.mapper.TransferenciaMapper;
+import eterea.tenant.service.tenant.hexagonal.transferencia.infrastructure.persistence.repository.JpaTransferenciaRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

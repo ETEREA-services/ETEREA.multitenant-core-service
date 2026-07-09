@@ -1,4 +1,4 @@
-package eterea.tenant.service.tenant.hexagonal.legajo.infrastructure.persistence.repository.adapter;
+package eterea.tenant.service.tenant.hexagonal.legajo.infrastructure.persistence.adapter;
 
 import eterea.tenant.service.tenant.hexagonal.legajo.domain.model.Legajo;
 import eterea.tenant.service.tenant.hexagonal.legajo.domain.ports.out.LegajoRepository;

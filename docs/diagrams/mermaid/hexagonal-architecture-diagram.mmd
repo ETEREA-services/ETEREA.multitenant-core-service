@@ -62,6 +62,13 @@ graph TB
             L_PORTS[Ports In/Out<br/>hexagonal.legajo.domain.ports]
         end
 
+        subgraph "Gestión Negocios"
+            NEG_API[Negocio Controller<br/>hexagonal.negocio.infrastructure.web.controller]
+            NEG_APP[Negocio Service<br/>hexagonal.negocio.application.service]
+            NEG_DOMAIN[Negocio Model<br/>hexagonal.negocio.domain.model]
+            NEG_PORTS[Ports In/Out<br/>hexagonal.negocio.domain.ports]
+        end
+
         subgraph "Gestión Proveedores"
             PM_DOMAIN[ProveedorMovimiento Model<br/>hexagonal.proveedormovimiento.domain.model]
             PM_ENTITY[ProveedorMovimiento Entity<br/>hexagonal.proveedormovimiento.infrastructure.persistence.entity]
@@ -75,7 +82,7 @@ graph TB
         end
 
         subgraph "Consulta de Datos de Facturación"
-            ID_API[InvoiceData Controller<br/>hexagonal.invoicedata.infrastructure.web]
+            ID_API[InvoiceData Controller<br/>hexagonal.invoicedata.infrastructure.web.controller]
             ID_APP[InvoiceData Service<br/>hexagonal.invoicedata.application.service]
             ID_DOMAIN[InvoiceData Model<br/>hexagonal.invoicedata.domain.model]
             ID_PORTS[Ports In<br/>hexagonal.invoicedata.domain.ports.in]
@@ -88,14 +95,16 @@ graph TB
             AM_ENTITY[ArticuloMovimiento Entity<br/>hexagonal.articulomovimiento.infrastructure.persistence.entity]
             COMP_REPO[Comprobante Repository Adapter<br/>hexagonal.comprobante.infrastructure.persistence.repository]
             COMP_ENTITY[Comprobante Entity<br/>hexagonal.comprobante.infrastructure.persistence.entity]
-            CTA_REPO[Cuenta Repository Adapter<br/>hexagonal.cuenta.infrastructure.persistence.repository]
+            CTA_REPO[Cuenta Repository Adapter<br/>hexagonal.cuenta.infrastructure.persistence.adapter]
             CTA_ENTITY[Cuenta Entity<br/>hexagonal.cuenta.infrastructure.persistence.entity]
-            TRF_REPO[Transferencia Repository Adapter<br/>hexagonal.transferencia.infrastructure.persistence.repository]
+            TRF_REPO[Transferencia Repository Adapter<br/>hexagonal.transferencia.infrastructure.persistence.adapter]
             TRF_ENTITY[Transferencia Entity<br/>hexagonal.transferencia.infrastructure.persistence.entity]
-            E_REPO[Empresa Repository Adapter<br/>hexagonal.empresa.infrastructure.persistence.repository]
+            E_REPO[Empresa Repository Adapter<br/>hexagonal.empresa.infrastructure.persistence.adapter]
             E_ENTITY[Empresa Entity<br/>hexagonal.empresa.infrastructure.persistence.entity]
-            L_REPO[Legajo Repository Adapter<br/>hexagonal.legajo.infrastructure.persistence.repository]
+            L_REPO[Legajo Repository Adapter<br/>hexagonal.legajo.infrastructure.persistence.adapter]
             L_ENTITY[Legajo Entity<br/>hexagonal.legajo.infrastructure.persistence.entity]
+            NEG_REPO[Negocio Repository Adapter<br/>hexagonal.negocio.infrastructure.persistence.adapter]
+            NEG_ENTITY[Negocio Entity<br/>hexagonal.negocio.infrastructure.persistence.entity]
             NU_REPO[NegocioUnificado Repository Adapter<br/>unificado.hexagonal.negocioUnificado.infrastructure.persistence.repository]
             NU_ENTITY[NegocioUnificado Entity<br/>unificado.hexagonal.negocioUnificado.infrastructure.persistence.entity]
         end
@@ -131,6 +140,7 @@ graph TB
         FE_API --> FE_APP
         E_API --> E_APP
         L_API --> L_APP
+        NEG_API --> NEG_APP
         NU_API --> NU_APP
         ID_API --> ID_APP
         
@@ -151,6 +161,8 @@ graph TB
         E_APP --> E_PORTS
         L_APP --> L_DOMAIN
         L_APP --> L_PORTS
+        NEG_APP --> NEG_DOMAIN
+        NEG_APP --> NEG_PORTS
         NU_APP --> NU_DOMAIN
         NU_APP --> NU_PORTS
         ID_APP --> ID_DOMAIN
@@ -178,6 +190,9 @@ graph TB
         L_PORTS --> L_REPO
         L_REPO --> L_ENTITY
         L_ENTITY --> DB
+        NEG_PORTS --> NEG_REPO
+        NEG_REPO --> NEG_ENTITY
+        NEG_ENTITY --> DB
         NU_PORTS --> NU_REPO
         NU_REPO --> NU_ENTITY
         NU_ENTITY --> TXDS
@@ -199,6 +214,7 @@ graph TB
         style FE_API fill:#e1f5fe
         style E_API fill:#e1f5fe
         style L_API fill:#e1f5fe
+        style NEG_API fill:#e1f5fe
         style NU_API fill:#e1f5fe
         style TXI fill:#fff3e0
         style TXS fill:#fff3e0
@@ -215,6 +231,7 @@ graph TB
         style FE_APP fill:#f3e5f5
         style E_APP fill:#f3e5f5
         style L_APP fill:#f3e5f5
+        style NEG_APP fill:#f3e5f5
         style NU_APP fill:#f3e5f5
         style ID_APP fill:#f3e5f5
         style DB fill:#ffebee

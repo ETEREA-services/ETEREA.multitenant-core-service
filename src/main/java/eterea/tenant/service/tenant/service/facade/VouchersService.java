@@ -50,7 +50,7 @@ public class VouchersService {
 
         Product product = orderNote.getProducts().getFirst();
         assert product != null;
-        return processProduct(orderNote, product, negocioService.getNegocioById(empresaService.findLast().get().getNegocioId()).get(), track);
+        return processProduct(orderNote, product, negocioService.getNegocioById(empresaService.findLast().get().getNegocioId()), track);
     }
 
     private OrderNote getOrderNoteById(Long orderNumberId) {
