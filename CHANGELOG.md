@@ -1,3 +1,28 @@
+## [2.8.0] - 2026-07-09
+
+### Added
+- **feat(unificado-usuarios)**: Nuevos módulos de arquitectura hexagonal para la gestión de usuarios unificados y vinculación con negocios:
+  - **Módulo `usuarioUnificado`**:
+    - Modelo de dominio `UsuarioUnificado` (id, login, password).
+    - Entidad JPA `UsuarioUnificadoEntity` y su correspondiente repositorio Spring Data `JpaUsuarioUnificadoRepository`.
+    - Puerto de salida `UsuarioUnificadoRepository` con adaptador JPA `JpaUsuarioUnificadoRepositoryAdapter`.
+    - Casos de uso de entrada: `FindAllUsuarioUnificadoUseCaseImpl`, `FindUsuarioUnificadoByLoginUseCaseImpl`, y `FindUsuarioUnificadoByUsuarioIdUseCaseImpl` para consultas de usuarios unificados.
+    - Servicio de aplicación `UsuarioUnificadoService` como orquestador.
+    - Controlador REST `UsuarioUnificadoController` bajo la ruta `/api/unificado/core/usuarioUnificado`.
+    - DTOs y mappers bidireccionales (`UsuarioUnificadoMapper`, `UsuarioUnificadoDtoMapper`).
+  - **Módulo `usuarioNegocioUnificado`**:
+    - Modelo de dominio `UsuarioNegocioUnificado` (usuarioNegocioId, usuarioId, negocioId, objeto NegocioUnificado, objeto UsuarioUnificado).
+    - Entidad JPA `UsuarioNegocioUnificadoEntity` y su repositorio Spring Data `JpaUsuarioNegocioUnificadoRepository`.
+    - Puerto de salida `UsuarioNegocioUnificadoRepository` con adaptador JPA `JpaUsuarioNegocioUnificadoRepositoryAdapter`.
+    - Casos de uso de entrada: `FindAllUsuarioNegocioUnificadoUseCaseImpl`, `FindUsuarioNegocioUnificadoByUsuarioIdUseCaseImpl`, y `FindUsuarioNegocioUnificadoByUsuarioNegocioIdUseCaseImpl` para consultas de vinculación usuario-negocio.
+    - Servicio de aplicación `UsuarioNegocioUnificadoService` como orquestador.
+    - Controlador REST `UsuarioNegocioUnificadoController` bajo la ruta `/api/unificado/core/usuarioNegocioUnificado`.
+    - DTOs y mappers bidireccionales (`UsuarioNegocioUnificadoMapper`, `UsuarioNegocioUnificadoDtoMapper`).
+- **docs**:
+  - Nuevo diagrama de clases de Mermaid `usuario-class-diagram.mmd` que detalla los nuevos modelos, mappers, DTOs y entidades de usuarios.
+  - Integración del diagrama en el pipeline automatizado de GitHub Actions de generación de documentación (`generate-docs.yml`).
+  - Actualización del diagrama de componentes (`component-diagram.mmd`) y arquitectura hexagonal (`hexagonal-architecture-diagram.mmd`) para reflejar los nuevos módulos unificados.
+
 ## [2.7.1] - 2026-07-09
 
 ### Refactored

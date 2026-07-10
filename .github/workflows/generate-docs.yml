@@ -134,6 +134,11 @@ jobs:
               </div>
 
               <div class="section">
+                  <h2>Dominio: Gestión Unificada de Usuarios</h2>
+                  <div id="usuario-class-diagram"></div>
+              </div>
+
+              <div class="section">
                   <h2>Multi-tenancy</h2>
                   <div id="tenant-resolution-sequence-diagram"></div>
               </div>
@@ -217,9 +222,11 @@ jobs:
                        { id: 'invoicedata-class-diagram', path: 'diagrams/mermaid/invoicedata-class-diagram.mmd', title: 'UML Diagrama de Clases de Consulta de Datos de Facturación' },
                        // Negocio Domain
                        { id: 'negocio-class-diagram', path: 'diagrams/mermaid/negocio-class-diagram.mmd', title: 'UML Diagrama de Clases del Modelo Negocio' },
-                       // NegocioUnificado Domain
-                       { id: 'negociounificado-class-diagram', path: 'diagrams/mermaid/negociounificado-class-diagram.mmd', title: 'UML Diagrama de Clases del Modelo Negocio Unificado' },
-                       // Multi-Tenancy Domain
+                        // NegocioUnificado Domain
+                        { id: 'negociounificado-class-diagram', path: 'diagrams/mermaid/negociounificado-class-diagram.mmd', title: 'UML Diagrama de Clases del Modelo Negocio Unificado' },
+                        // UsuarioUnificado & UsuarioNegocioUnificado Domains
+                        { id: 'usuario-class-diagram', path: 'diagrams/mermaid/usuario-class-diagram.mmd', title: 'UML Diagrama de Clases de Gestión Unificada de Usuarios' },
+                        // Multi-Tenancy Domain
                        { id: 'tenant-resolution-sequence-diagram', path: 'diagrams/mermaid/tenant-resolution-sequence-diagram.mmd', title: 'Diagrama de Secuencia: Resolución de Tenant Multi-tenancy' }
                    ];
 

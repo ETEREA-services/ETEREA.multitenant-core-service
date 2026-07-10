@@ -1,0 +1,78 @@
+classDiagram
+    direction LR
+
+    class UsuarioUnificado {
+        <<Domain Model>>
+        +usuarioId: Integer
+        +login: String
+        +password: String
+    }
+
+    class UsuarioUnificadoEntity {
+        <<JPA Entity>>
+        +usuarioId: Integer
+        +login: String
+        +password: String
+    }
+
+    class UsuarioUnificadoMapper {
+        +toDomain(UsuarioUnificadoEntity): UsuarioUnificado
+        +toEntity(UsuarioUnificado): UsuarioUnificadoEntity
+    }
+
+    class UsuarioUnificadoResponse {
+        <<Response DTO>>
+        +usuarioId: Integer
+        +login: String
+    }
+
+    class UsuarioUnificadoDtoMapper {
+        +toResponse(UsuarioUnificado): UsuarioUnificadoResponse
+    }
+
+    class UsuarioNegocioUnificado {
+        <<Domain Model>>
+        +usuarioNegocioId: Integer
+        +usuarioId: Long
+        +negocioId: Integer
+        +negocio: NegocioUnificado
+        +usuario: UsuarioUnificado
+    }
+
+    class UsuarioNegocioUnificadoEntity {
+        <<JPA Entity>>
+        +usuarioNegocioId: Integer
+        +usuarioId: Long
+        +negocioId: Integer
+    }
+
+    class UsuarioNegocioUnificadoMapper {
+        +toDomain(UsuarioNegocioUnificadoEntity): UsuarioNegocioUnificado
+        +toEntity(UsuarioNegocioUnificado): UsuarioNegocioUnificadoEntity
+    }
+
+    class UsuarioNegocioUnificadoResponse {
+        <<Response DTO>>
+        +usuarioNegocioId: Integer
+        +usuarioId: Long
+        +negocioId: Integer
+        +negocio: NegocioUnificadoResponse
+        +usuario: UsuarioUnificadoResponse
+    }
+
+    class UsuarioNegocioUnificadoDtoMapper {
+        +toResponse(UsuarioNegocioUnificado): UsuarioNegocioUnificadoResponse
+    }
+
+    UsuarioUnificadoMapper --> UsuarioUnificadoEntity
+    UsuarioUnificadoMapper --> UsuarioUnificado
+    UsuarioUnificadoDtoMapper --> UsuarioUnificado
+    UsuarioUnificadoDtoMapper --> UsuarioUnificadoResponse
+
+    UsuarioNegocioUnificadoMapper --> UsuarioNegocioUnificadoEntity
+    UsuarioNegocioUnificadoMapper --> UsuarioNegocioUnificado
+    UsuarioNegocioUnificadoDtoMapper --> UsuarioNegocioUnificado
+    UsuarioNegocioUnificadoDtoMapper --> UsuarioNegocioUnificadoResponse
+
+    UsuarioNegocioUnificado --> UsuarioUnificado : tiene
+    UsuarioNegocioUnificadoResponse --> UsuarioUnificadoResponse : tiene

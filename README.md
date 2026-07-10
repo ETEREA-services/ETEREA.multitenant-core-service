@@ -9,7 +9,7 @@
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-blue.svg)](https://springdoc.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-9.7.0-orange.svg)](https://www.mysql.com/)
 ![License](https://img.shields.io/badge/License-Proprietary-red.svg)
-[![Version](https://img.shields.io/badge/Version-2.7.1-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
+[![Version](https://img.shields.io/badge/Version-2.8.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
 
 ## Descripción
 
@@ -74,6 +74,8 @@ El proyecto utiliza una **arquitectura hexagonal** con implementación mixta:
 - **`hexagonal/facturacion/arca/nacional/`**: Facturación electrónica nacional
 - **`hexagonal/facturacion/arca/exportacion/`**: Facturación de exportación
 - **`unificado/hexagonal/negocioUnificado/`**: Gestión unificada de negocios
+- **`unificado/hexagonal/usuarioUnificado/`**: Gestión unificada de usuarios con arquitectura hexagonal
+- **`unificado/hexagonal/usuarioNegocioUnificado/`**: Vinculación unificada de usuarios con negocios
 
 ### Estructura por Tecnología
 - **Modelos de Dominio**: Implementados en Java siguiendo principios de Clean Architecture
@@ -189,6 +191,8 @@ Este proyecto es privado y de uso exclusivo de Termalia S.A.
 - ✅ **Consulta de Datos de Facturación (InvoiceData)** con arquitectura hexagonal
 - ✅ **Gestión de Proveedores** con arquitectura hexagonal
 - ✅ **Gestión Unificada de Negocios (NegocioUnificado)** con arquitectura hexagonal
+- ✅ **Gestión Unificada de Usuarios (UsuarioUnificado)** con arquitectura hexagonal
+- ✅ **Gestión Unificada de Usuarios y Negocios (UsuarioNegocioUnificado)** con arquitectura hexagonal
 - ✅ **Control de Movimientos** contables y valores
 
 ### Infraestructura
