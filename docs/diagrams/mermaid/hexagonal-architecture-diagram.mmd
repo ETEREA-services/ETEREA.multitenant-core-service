@@ -81,6 +81,20 @@ graph TB
             NU_PORTS[Ports In/Out<br/>unificado.hexagonal.negocioUnificado.domain.ports]
         end
 
+        subgraph "Gestión Unificada de Usuarios"
+            UU_API[UsuarioUnificado Controller<br/>unificado.hexagonal.usuarioUnificado.infrastructure.web.controller]
+            UU_APP[UsuarioUnificado Service<br/>unificado.hexagonal.usuarioUnificado.application.service]
+            UU_DOMAIN[UsuarioUnificado Model<br/>unificado.hexagonal.usuarioUnificado.domain.model]
+            UU_PORTS[Ports In/Out<br/>unificado.hexagonal.usuarioUnificado.domain.ports]
+        end
+
+        subgraph "Gestión Unificada de Usuarios y Negocios"
+            UUN_API[UsuarioNegocioUnificado Controller<br/>unificado.hexagonal.usuarioNegocioUnificado.infrastructure.web.controller]
+            UUN_APP[UsuarioNegocioUnificado Service<br/>unificado.hexagonal.usuarioNegocioUnificado.application.service]
+            UUN_DOMAIN[UsuarioNegocioUnificado Model<br/>unificado.hexagonal.usuarioNegocioUnificado.domain.model]
+            UUN_PORTS[Ports In/Out<br/>unificado.hexagonal.usuarioNegocioUnificado.domain.ports]
+        end
+
         subgraph "Consulta de Datos de Facturación"
             ID_API[InvoiceData Controller<br/>hexagonal.invoicedata.infrastructure.web.controller]
             ID_APP[InvoiceData Service<br/>hexagonal.invoicedata.application.service]
@@ -107,6 +121,10 @@ graph TB
             NEG_ENTITY[Negocio Entity<br/>hexagonal.negocio.infrastructure.persistence.entity]
             NU_REPO[NegocioUnificado Repository Adapter<br/>unificado.hexagonal.negocioUnificado.infrastructure.persistence.repository]
             NU_ENTITY[NegocioUnificado Entity<br/>unificado.hexagonal.negocioUnificado.infrastructure.persistence.entity]
+            UU_REPO[UsuarioUnificado Repository Adapter<br/>unificado.hexagonal.usuarioUnificado.infrastructure.persistence.adapter]
+            UU_ENTITY[UsuarioUnificado Entity<br/>unificado.hexagonal.usuarioUnificado.infrastructure.persistence.entity]
+            UUN_REPO[UsuarioNegocioUnificado Repository Adapter<br/>unificado.hexagonal.usuarioNegocioUnificado.infrastructure.persistence.adapter]
+            UUN_ENTITY[UsuarioNegocioUnificado Entity<br/>unificado.hexagonal.usuarioNegocioUnificado.infrastructure.persistence.entity]
         end
         
         subgraph "Multi-Tenancy Layer"
@@ -142,6 +160,8 @@ graph TB
         L_API --> L_APP
         NEG_API --> NEG_APP
         NU_API --> NU_APP
+        UU_API --> UU_APP
+        UUN_API --> UUN_APP
         ID_API --> ID_APP
         
         %% Application to Domain
@@ -165,6 +185,10 @@ graph TB
         NEG_APP --> NEG_PORTS
         NU_APP --> NU_DOMAIN
         NU_APP --> NU_PORTS
+        UU_APP --> UU_DOMAIN
+        UU_APP --> UU_PORTS
+        UUN_APP --> UUN_DOMAIN
+        UUN_APP --> UUN_PORTS
         ID_APP --> ID_DOMAIN
         ID_APP --> ID_PORTS
         
@@ -196,6 +220,12 @@ graph TB
         NU_PORTS --> NU_REPO
         NU_REPO --> NU_ENTITY
         NU_ENTITY --> TXDS
+        UU_PORTS --> UU_REPO
+        UU_REPO --> UU_ENTITY
+        UU_ENTITY --> TXDS
+        UUN_PORTS --> UUN_REPO
+        UUN_REPO --> UUN_ENTITY
+        UUN_ENTITY --> TXDS
         TXDS --> DB
         ID_PORTS --> DB
         PM_ENTITY --> DB
@@ -216,6 +246,8 @@ graph TB
         style L_API fill:#e1f5fe
         style NEG_API fill:#e1f5fe
         style NU_API fill:#e1f5fe
+        style UU_API fill:#e1f5fe
+        style UUN_API fill:#e1f5fe
         style TXI fill:#fff3e0
         style TXS fill:#fff3e0
         style TXDS fill:#fff3e0
@@ -233,6 +265,8 @@ graph TB
         style L_APP fill:#f3e5f5
         style NEG_APP fill:#f3e5f5
         style NU_APP fill:#f3e5f5
+        style UU_APP fill:#f3e5f5
+        style UUN_APP fill:#f3e5f5
         style ID_APP fill:#f3e5f5
         style DB fill:#ffebee
     end
