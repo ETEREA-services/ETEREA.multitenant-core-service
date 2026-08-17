@@ -1,9 +1,10 @@
 package eterea.tenant.service.configuration;
 
-import eterea.tenant.service.unificado.hexagonal.negocioUnificado.domain.model.NegocioUnificado;
-import eterea.tenant.service.unificado.hexagonal.negocioUnificado.domain.ports.out.NegocioUnificadoRepository;
+import eterea.tenant.service.brain.negocio.domain.model.NegocioBrain;
+import eterea.tenant.service.brain.negocio.domain.ports.out.NegocioBrainRepository;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.jdbc.autoconfigure.DataSourceProperties;
 import org.springframework.stereotype.Service;
 
@@ -11,19 +12,12 @@ import javax.sql.DataSource;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TenantDataSourceService {
 
-    private final NegocioUnificadoRepository negocioUnificadoRepository;
+    private final NegocioBrainRepository negocioBrainRepository;
     private final TenantRoutingDataSource routingDataSource;
     private final DataSourceProperties masterDataSourceProperties;
-
-    public TenantDataSourceService(NegocioUnificadoRepository negocioUnificadoRepository,
-                                   TenantRoutingDataSource routingDataSource,
-                                   DataSourceProperties masterDataSourceProperties) {
-        this.negocioUnificadoRepository = negocioUnificadoRepository;
-        this.routingDataSource = routingDataSource;
-        this.masterDataSourceProperties = masterDataSourceProperties;
-    }
 
     public void ensureTenantDataSource(String tenantId) {
         if (routingDataSource.hasTenantDataSource(tenantId)) {
@@ -36,12 +30,12 @@ public class TenantDataSourceService {
         String previousTenant = TenantContext.getCurrentTenant();
         TenantContext.clear();
         try {
-            Optional<NegocioUnificado> negocioOpt = negocioUnificadoRepository.findByTenantId(tenantId);
+            Optional<NegocioBrain> negocioOpt = negocioBrainRepository.findByTenantId(tenantId);
             if (negocioOpt.isEmpty()) {
                 throw new IllegalArgumentException("No tenant configuration found in negocio for tenantId: " + tenantId);
             }
 
-            NegocioUnificado negocio = negocioOpt.get();
+            NegocioBrain negocio = negocioOpt.get();
             DataSource tenantDs = createDataSource(negocio);
             routingDataSource.addTenantDataSource(tenantId, tenantDs);
         } finally {
@@ -51,7 +45,7 @@ public class TenantDataSourceService {
         }
     }
 
-    private DataSource createDataSource(NegocioUnificado negocio) {
+    private DataSource createDataSource(NegocioBrain negocio) {
         String ip = negocio.getDatabaseIp();
         String port = negocio.getDatabasePort();
         if (ip != null && !ip.contains(":")) {
