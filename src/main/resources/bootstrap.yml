@@ -27,7 +27,7 @@ spring:
         prefer-ip-address: true
         tags: eterea,tenant,core
   datasource:
-    url: jdbc:mysql://${app.server}/${app.database}?useSSL=false&serverTimezone=UTC&tcpKeepAlive=true
+    url: jdbc:mysql://${app.server}/${app.database}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&tcpKeepAlive=true
     username: ${app.user}
     password: ${app.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
