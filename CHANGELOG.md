@@ -1,3 +1,20 @@
+## [3.0.0] - 2026-08-17
+
+### Breaking Changes
+- **refactor!(brain-api)**: Sustituidos los módulos y rutas públicas `unificado` de negocio y usuario por los módulos Brain bajo `/api/brain/core/empresa`, `/api/brain/core/negocio` y `/api/brain/core/usuario`.
+- **refactor!(tenant-api)**: La API de movimientos de proveedores queda disponible en `/api/tenant/core/proveedormovimiento`; se eliminan las rutas anteriores.
+
+### Added
+- **feat(brain-empresa)**: CRUD de empresas Brain con validación de requests y respuestas `201 Created`.
+- **feat(brain-negocio)**: CRUD de negocios Brain y consulta por `tenantId`.
+- **feat(brain-usuario)**: CRUD de usuarios Brain, login con resolución de IP del cliente y cambio de contraseña.
+- **feat(security)**: Hashing de contraseñas mediante el adaptador Argon2.
+
+### Changed
+- **refactor(multitenancy)**: La resolución dinámica de DataSources consulta `NegocioBrainRepository` y expone el bean principal como `TenantRoutingDataSource`.
+- **fix(mysql)**: Añadido `allowPublicKeyRetrieval=true` a la URL JDBC de MySQL.
+- **chore(deps)**: Actualizado SpringDoc OpenAPI de 3.0.3 a 3.1.0 y MySQL Connector/J de 9.7.0 a 26.7.0.
+
 ## [2.8.0] - 2026-07-09
 
 ### Added
