@@ -16,7 +16,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/core/proveedormovimiento", "/proveedormovimiento"})
+@RequestMapping("/api/tenant/core/proveedormovimiento")
 @RequiredArgsConstructor
 public class ProveedorMovimientoController {
 

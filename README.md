@@ -6,10 +6,10 @@
 
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0-green.svg)](https://spring.io/projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2025.1.2-green.svg)](https://spring.io/projects/spring-cloud)
-[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.3-blue.svg)](https://springdoc.org/)
-[![MySQL](https://img.shields.io/badge/MySQL-9.7.0-orange.svg)](https://www.mysql.com/)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.1.0-blue.svg)](https://springdoc.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-26.7.0-orange.svg)](https://www.mysql.com/)
 ![License](https://img.shields.io/badge/License-Proprietary-red.svg)
-[![Version](https://img.shields.io/badge/Version-2.8.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
+[![Version](https://img.shields.io/badge/Version-3.0.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
 
 ## Descripción
 
@@ -43,7 +43,7 @@ Servicio Core multi-tenant para la gestión financiera y contable, implementado 
 - Lombok
 - ModelMapper 3.2.6
 - Caffeine Cache
-- MySQL Connector 9.7.0
+- MySQL Connector 26.7.0
 - Jacoco 0.8.13 (Cobertura de tests)
 - Apache Commons Lang3 3.20.0
 
@@ -51,10 +51,10 @@ Servicio Core multi-tenant para la gestión financiera y contable, implementado 
 - Ruteo dinámico de DataSources por tenant (`AbstractRoutingDataSource`)
 - Pool HikariCP de 30 conexiones por tenant
 - Header HTTP `X-TENANT-ID` para identificación del tenant
-- Integración con `NegocioUnificado` para lookup de conexiones
+- Integración con `NegocioBrain` para lookup de conexiones
 
 ### Documentación
-- SpringDoc OpenAPI UI 3.0.3
+- SpringDoc OpenAPI UI 3.1.0
 
 ## Arquitectura
 
@@ -73,9 +73,9 @@ El proyecto utiliza una **arquitectura hexagonal** con implementación mixta:
 - **`hexagonal/proveedormovimiento/`**: Gestión de movimientos de proveedores
 - **`hexagonal/facturacion/arca/nacional/`**: Facturación electrónica nacional
 - **`hexagonal/facturacion/arca/exportacion/`**: Facturación de exportación
-- **`unificado/hexagonal/negocioUnificado/`**: Gestión unificada de negocios
-- **`unificado/hexagonal/usuarioUnificado/`**: Gestión unificada de usuarios con arquitectura hexagonal
-- **`unificado/hexagonal/usuarioNegocioUnificado/`**: Vinculación unificada de usuarios con negocios
+- **`brain/empresa/`**: Gestión CRUD de empresas Brain
+- **`brain/negocio/`**: Gestión CRUD de negocios Brain y búsqueda por tenant
+- **`brain/usuario/`**: Gestión de usuarios Brain, login y cambio de contraseña
 
 ### Estructura por Tecnología
 - **Modelos de Dominio**: Implementados en Java siguiendo principios de Clean Architecture
@@ -110,6 +110,11 @@ El proyecto utiliza una **arquitectura hexagonal** con implementación mixta:
 - **Service Discovery**: Integración con Consul
 - **Cobertura de tests**: Jacoco para análisis de cobertura
 - **Utilidades**: Herramientas centralizadas para operaciones comunes
+
+### API Brain
+- Empresas: `/api/brain/core/empresa`
+- Negocios: `/api/brain/core/negocio`, incluida la búsqueda por tenant
+- Usuarios: `/api/brain/core/usuario`, login y cambio de contraseña
 
 ## Configuración del Proyecto
 
@@ -190,9 +195,9 @@ Este proyecto es privado y de uso exclusivo de Termalia S.A.
 - ✅ **Gestión de Legajos** con arquitectura hexagonal
 - ✅ **Consulta de Datos de Facturación (InvoiceData)** con arquitectura hexagonal
 - ✅ **Gestión de Proveedores** con arquitectura hexagonal
-- ✅ **Gestión Unificada de Negocios (NegocioUnificado)** con arquitectura hexagonal
-- ✅ **Gestión Unificada de Usuarios (UsuarioUnificado)** con arquitectura hexagonal
-- ✅ **Gestión Unificada de Usuarios y Negocios (UsuarioNegocioUnificado)** con arquitectura hexagonal
+- ✅ **Gestión Brain de Empresas (EmpresaBrain)** con arquitectura hexagonal
+- ✅ **Gestión Brain de Negocios (NegocioBrain)** con arquitectura hexagonal
+- ✅ **Gestión Brain de Usuarios (UsuarioBrain)** con login y cambio de contraseña
 - ✅ **Control de Movimientos** contables y valores
 
 ### Infraestructura

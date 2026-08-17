@@ -28,7 +28,7 @@ public class DataSourceConfiguration {
 
     @Bean
     @Primary
-    public DataSource dataSource(DataSource masterDataSource) {
+    public TenantRoutingDataSource dataSource(DataSource masterDataSource) {
         TenantRoutingDataSource routingDataSource = new TenantRoutingDataSource();
         routingDataSource.setDefaultTargetDataSource(masterDataSource);
         
