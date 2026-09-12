@@ -24,9 +24,14 @@ graph TD
         FN[facturacion nacional]
         FE[facturacion exportacion]
         PM[proveedormovimiento]
-        NU[negocioUnificado]
-        USU[usuarioUnificado]
-        USN[usuarioNegocioUnificado]
+    end
+
+    subgraph "Módulos Brain"
+        BE[brain/empresa]
+        BN[brain/negocio]
+        BU[brain/usuarios/usuario]
+        BUE[brain/usuarios/usuario_empresa]
+        BUN[brain/usuarios/usuario_negocio]
     end
 
     subgraph "Clientes Externos"

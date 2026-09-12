@@ -1,3 +1,24 @@
+## [3.1.0] - 2026-09-12
+
+### Added
+- **feat(brain-usuario-empresa)**: Nuevo módulo hexagonal `brain/usuarios/usuario_empresa` para la vinculación usuario-empresa con arquitectura Brain:
+  - Modelo de dominio `UsuarioEmpresaBrain`, entidad JPA `UsuarioEmpresaBrainEntity` (tabla `usuario_empresa`, restricción `uq_usuario_empresa` e índice `idx_empresa_id`) y puertos de entrada/salida.
+  - Casos de uso: `CreateUsuarioEmpresaBrainUseCaseImpl`, `GetUsuarioEmpresaBrainsByUsuarioIdUseCaseImpl`, `ActivateUsuarioEmpresaBrainUseCaseImpl` y `DeactivateUsuarioEmpresaBrainUseCaseImpl`.
+  - Servicio de aplicación `UsuarioEmpresaBrainService`, adaptador `JpaUsuarioEmpresaBrainRepositoryAdapter`, mappers (`UsuarioEmpresaBrainMapper`, `UsuarioEmpresaBrainDtoMapper`) y excepción `UsuarioEmpresaBrainException`.
+  - Nuevos endpoints REST bajo `/api/brain/core/usuario-empresa`: creación (`POST`), consulta por usuario (`GET /usuario/{usuarioId}`), activación (`PUT /{usuarioEmpresaId}/activate`) y desactivación (`PUT /{usuarioEmpresaId}/deactivate`).
+- **feat(brain-usuario-negocio)**: Nuevo módulo hexagonal `brain/usuarios/usuario_negocio` para la vinculación usuario-negocio con datos del negocio:
+  - Modelos de dominio `UsuarioNegocioBrain`, `NegocioInfo` y `UsuarioNegocioConNegocioBrain`; entidad JPA `UsuarioNegocioBrainEntity` (tabla `usuario_negocio`, restricción `uq_usuario_negocio` e índice `idx_negocio_id`).
+  - Casos de uso: `CreateUsuarioNegocioBrainUseCaseImpl`, `GetUsuarioNegocioBrainsByUsuarioIdAndEmpresaIdUseCaseImpl`, `ActivateUsuarioNegocioBrainUseCaseImpl` y `DeactivateUsuarioNegocioBrainUseCaseImpl`.
+  - Puerto de salida `NegocioInfoRepository` con adaptador `NegocioInfoRepositoryAdapter`, servicio `UsuarioNegocioBrainService`, mappers (`UsuarioNegocioBrainMapper`, `UsuarioNegocioBrainDtoMapper`) y excepción `UsuarioNegocioBrainException`.
+  - Nuevos endpoints REST bajo `/api/brain/core/usuario-negocio`: creación (`POST`), consulta con datos del negocio (`GET /usuario/{usuarioId}/empresa/{empresaId}`), activación (`PUT /{usuarioNegocioId}/activate`) y desactivación (`PUT /{usuarioNegocioId}/deactivate`).
+
+### Changed
+- **refactor(brain-usuario)**: Reubicación del módulo de usuarios Brain del paquete `brain.usuario` a `brain.usuarios.usuario`, agrupándolo con los nuevos módulos de vinculación. Sin cambios en rutas HTTP (`/api/brain/core/usuario`) ni en las firmas de los puertos de entrada.
+- **refactor(deps)**: Actualización de Spring Boot 4.1.0 → 4.1.1 (`pom.xml`).
+- **refactor(deps)**: Actualización de Spring Cloud 2025.1.2 → 2025.1.3 (`pom.xml`).
+- **refactor(deps)**: Actualización de SpringDoc OpenAPI 3.1.0 → 3.1.1 (`pom.xml`).
+- **docs**: Actualización de los diagramas `usuario-class-diagram.mmd`, `component-diagram.mmd` y `hexagonal-architecture-diagram.mmd` para reflejar los módulos Brain de usuarios (`usuario`, `usuario_empresa`, `usuario_negocio`) en lugar de los eliminados módulos unificados.
+
 ## [3.0.0] - 2026-08-17
 
 ### Breaking Changes
@@ -133,7 +154,7 @@
 ### Changed
 - **refactor(logging)**: Eliminación de Log4j2 — removido `spring-boot-starter-logging` exclusion y dependencia `spring-boot-starter-log4j2` de `spring-boot-starter`, revirtiendo al logging default de Spring Boot (Logback)
 - **refactor(deps)**: Actualización de Spring Boot 4.0.6 → 4.1.0 (`pom.xml`)
-- **refactor(deps)**: Actualización de Spring Cloud 2025.1.0 → 2025.1.2 (`pom.xml`)
+- **refactor(deps)**: Actualización de Spring Cloud 2025.1.0 → 2025.1.3 (`pom.xml`)
 - **refactor(deps)**: Actualización de OpenPDF 3.0.3 → 3.0.5 (`pom.xml`)
 - **refactor(deps)**: Actualización de MySQL Connector 9.6.0 → 9.7.0 (`pom.xml`)
 

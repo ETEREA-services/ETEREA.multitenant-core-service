@@ -4,12 +4,12 @@
 [![Java](https://img.shields.io/badge/Java-25-blue.svg)](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-blueviolet.svg)](https://kotlinlang.org/)
 
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0-green.svg)](https://spring.io/projects/spring-boot)
-[![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2025.1.2-green.svg)](https://spring.io/projects/spring-cloud)
-[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.1.0-blue.svg)](https://springdoc.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-green.svg)](https://spring.io/projects/spring-boot)
+[![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2025.1.3-green.svg)](https://spring.io/projects/spring-cloud)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.1.1-blue.svg)](https://springdoc.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-26.7.0-orange.svg)](https://www.mysql.com/)
 ![License](https://img.shields.io/badge/License-Proprietary-red.svg)
-[![Version](https://img.shields.io/badge/Version-3.0.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
+[![Version](https://img.shields.io/badge/Version-3.1.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
 
 ## Descripción
 
@@ -27,7 +27,7 @@ Servicio Core multi-tenant para la gestión financiera y contable, implementado 
 ## Stack Tecnológico
 
 - **Java 25** y **Kotlin 2.4.0**
-- **Spring Boot 4.1.0** con Spring Cloud 2025.1.2
+- **Spring Boot 4.1.1** con Spring Cloud 2025.1.3
 - **Arquitectura Hexagonal** para modularidad y testabilidad
 - **Consul Discovery** y **OpenFeign**
   - Consul Discovery
@@ -54,7 +54,7 @@ Servicio Core multi-tenant para la gestión financiera y contable, implementado 
 - Integración con `NegocioBrain` para lookup de conexiones
 
 ### Documentación
-- SpringDoc OpenAPI UI 3.1.0
+- SpringDoc OpenAPI UI 3.1.1
 
 ## Arquitectura
 
@@ -75,7 +75,9 @@ El proyecto utiliza una **arquitectura hexagonal** con implementación mixta:
 - **`hexagonal/facturacion/arca/exportacion/`**: Facturación de exportación
 - **`brain/empresa/`**: Gestión CRUD de empresas Brain
 - **`brain/negocio/`**: Gestión CRUD de negocios Brain y búsqueda por tenant
-- **`brain/usuario/`**: Gestión de usuarios Brain, login y cambio de contraseña
+- **`brain/usuarios/usuario/`**: Gestión de usuarios Brain, login y cambio de contraseña
+- **`brain/usuarios/usuario_empresa/`**: Vinculación usuario-empresa Brain con activación/desactivación
+- **`brain/usuarios/usuario_negocio/`**: Vinculación usuario-negocio Brain con consulta de negocios del usuario por empresa
 
 ### Estructura por Tecnología
 - **Modelos de Dominio**: Implementados en Java siguiendo principios de Clean Architecture
@@ -115,6 +117,8 @@ El proyecto utiliza una **arquitectura hexagonal** con implementación mixta:
 - Empresas: `/api/brain/core/empresa`
 - Negocios: `/api/brain/core/negocio`, incluida la búsqueda por tenant
 - Usuarios: `/api/brain/core/usuario`, login y cambio de contraseña
+- Vinculación Usuario-Empresa: `/api/brain/core/usuario-empresa`
+- Vinculación Usuario-Negocio: `/api/brain/core/usuario-negocio`
 
 ## Configuración del Proyecto
 
@@ -198,6 +202,8 @@ Este proyecto es privado y de uso exclusivo de Termalia S.A.
 - ✅ **Gestión Brain de Empresas (EmpresaBrain)** con arquitectura hexagonal
 - ✅ **Gestión Brain de Negocios (NegocioBrain)** con arquitectura hexagonal
 - ✅ **Gestión Brain de Usuarios (UsuarioBrain)** con login y cambio de contraseña
+- ✅ **Vinculación Brain Usuario-Empresa (UsuarioEmpresaBrain)** con activación/desactivación
+- ✅ **Vinculación Brain Usuario-Negocio (UsuarioNegocioBrain)** con datos del negocio
 - ✅ **Control de Movimientos** contables y valores
 
 ### Infraestructura
