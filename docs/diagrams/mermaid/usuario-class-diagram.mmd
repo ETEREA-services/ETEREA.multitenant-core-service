@@ -1,78 +1,174 @@
 classDiagram
     direction LR
 
-    class UsuarioUnificado {
+    class UsuarioBrain {
         <<Domain Model>>
-        +usuarioId: Integer
+        +usuarioId: UUID
         +login: String
-        +password: String
+        +nombre: String
+        +email: String
+        +passwordHash: String
+        +activo: Boolean
+        +lastLoginAt: OffsetDateTime
+        +lastLoginIp: String
+        +failedLoginAttempts: Short
+        +lockedUntil: OffsetDateTime
+        +passwordChangedAt: OffsetDateTime
     }
 
-    class UsuarioUnificadoEntity {
+    class UsuarioBrainEntity {
         <<JPA Entity>>
-        +usuarioId: Integer
+        +usuarioId: UUID
         +login: String
-        +password: String
+        +nombre: String
+        +email: String
+        +passwordHash: String
+        +activo: Boolean
+        +lastLoginAt: OffsetDateTime
+        +lastLoginIp: String
+        +failedLoginAttempts: Short
+        +lockedUntil: OffsetDateTime
+        +passwordChangedAt: OffsetDateTime
     }
 
-    class UsuarioUnificadoMapper {
-        +toDomain(UsuarioUnificadoEntity): UsuarioUnificado
-        +toEntity(UsuarioUnificado): UsuarioUnificadoEntity
+    class UsuarioBrainMapper {
+        +toDomain(UsuarioBrainEntity): UsuarioBrain
+        +toEntity(UsuarioBrain): UsuarioBrainEntity
     }
 
-    class UsuarioUnificadoResponse {
+    class UsuarioBrainResponse {
         <<Response DTO>>
-        +usuarioId: Integer
+        +usuarioId: UUID
         +login: String
+        +nombre: String
+        +email: String
+        +activo: Boolean
+        +lastLoginAt: OffsetDateTime
+        +lastLoginIp: String
+        +failedLoginAttempts: Short
+        +lockedUntil: OffsetDateTime
+        +passwordChangedAt: OffsetDateTime
     }
 
-    class UsuarioUnificadoDtoMapper {
-        +toResponse(UsuarioUnificado): UsuarioUnificadoResponse
+    class UsuarioBrainDtoMapper {
+        +toResponse(UsuarioBrain): UsuarioBrainResponse
     }
 
-    class UsuarioNegocioUnificado {
+    class UsuarioEmpresaBrain {
         <<Domain Model>>
-        +usuarioNegocioId: Integer
-        +usuarioId: Long
-        +negocioId: Integer
-        +negocio: NegocioUnificado
-        +usuario: UsuarioUnificado
+        +usuarioEmpresaId: UUID
+        +usuarioId: UUID
+        +empresaId: UUID
+        +activo: Boolean
     }
 
-    class UsuarioNegocioUnificadoEntity {
+    class UsuarioEmpresaBrainEntity {
         <<JPA Entity>>
-        +usuarioNegocioId: Integer
-        +usuarioId: Long
-        +negocioId: Integer
+        +usuarioEmpresaId: UUID
+        +usuarioId: UUID
+        +empresaId: UUID
+        +activo: Boolean
     }
 
-    class UsuarioNegocioUnificadoMapper {
-        +toDomain(UsuarioNegocioUnificadoEntity): UsuarioNegocioUnificado
-        +toEntity(UsuarioNegocioUnificado): UsuarioNegocioUnificadoEntity
+    class UsuarioEmpresaBrainMapper {
+        +toDomain(UsuarioEmpresaBrainEntity): UsuarioEmpresaBrain
+        +toEntity(UsuarioEmpresaBrain): UsuarioEmpresaBrainEntity
     }
 
-    class UsuarioNegocioUnificadoResponse {
+    class UsuarioEmpresaBrainResponse {
         <<Response DTO>>
-        +usuarioNegocioId: Integer
-        +usuarioId: Long
+        +usuarioEmpresaId: UUID
+        +usuarioId: UUID
+        +empresaId: UUID
+        +activo: Boolean
+    }
+
+    class UsuarioEmpresaBrainDtoMapper {
+        +toResponse(UsuarioEmpresaBrain): UsuarioEmpresaBrainResponse
+    }
+
+    class UsuarioNegocioBrain {
+        <<Domain Model>>
+        +usuarioNegocioId: UUID
+        +usuarioId: UUID
         +negocioId: Integer
-        +negocio: NegocioUnificadoResponse
-        +usuario: UsuarioUnificadoResponse
+        +activo: Boolean
     }
 
-    class UsuarioNegocioUnificadoDtoMapper {
-        +toResponse(UsuarioNegocioUnificado): UsuarioNegocioUnificadoResponse
+    class UsuarioNegocioBrainEntity {
+        <<JPA Entity>>
+        +usuarioNegocioId: UUID
+        +usuarioId: UUID
+        +negocioId: Integer
+        +activo: Boolean
     }
 
-    UsuarioUnificadoMapper --> UsuarioUnificadoEntity
-    UsuarioUnificadoMapper --> UsuarioUnificado
-    UsuarioUnificadoDtoMapper --> UsuarioUnificado
-    UsuarioUnificadoDtoMapper --> UsuarioUnificadoResponse
+    class UsuarioNegocioBrainMapper {
+        +toDomain(UsuarioNegocioBrainEntity): UsuarioNegocioBrain
+        +toEntity(UsuarioNegocioBrain): UsuarioNegocioBrainEntity
+    }
 
-    UsuarioNegocioUnificadoMapper --> UsuarioNegocioUnificadoEntity
-    UsuarioNegocioUnificadoMapper --> UsuarioNegocioUnificado
-    UsuarioNegocioUnificadoDtoMapper --> UsuarioNegocioUnificado
-    UsuarioNegocioUnificadoDtoMapper --> UsuarioNegocioUnificadoResponse
+    class NegocioInfo {
+        <<Domain Model>>
+        +negocioId: Integer
+        +empresaId: UUID
+        +nombre: String
+        +tenantId: String
+    }
 
-    UsuarioNegocioUnificado --> UsuarioUnificado : tiene
-    UsuarioNegocioUnificadoResponse --> UsuarioUnificadoResponse : tiene
+    class UsuarioNegocioConNegocioBrain {
+        <<Domain Model>>
+        +usuarioNegocioId: UUID
+        +usuarioId: UUID
+        +negocioId: Integer
+        +activo: Boolean
+        +negocio: NegocioInfo
+    }
+
+    class UsuarioNegocioBrainResponse {
+        <<Response DTO>>
+        +usuarioNegocioId: UUID
+        +usuarioId: UUID
+        +negocioId: Integer
+        +activo: Boolean
+    }
+
+    class NegocioResponse {
+        <<Response DTO>>
+        +negocioId: Integer
+        +empresaId: UUID
+        +nombre: String
+        +tenantId: String
+    }
+
+    class UsuarioNegocioConNegocioResponse {
+        <<Response DTO>>
+        +usuarioNegocioId: UUID
+        +usuarioId: UUID
+        +negocioId: Integer
+        +activo: Boolean
+        +negocio: NegocioResponse
+    }
+
+    class UsuarioNegocioBrainDtoMapper {
+        +toResponse(UsuarioNegocioBrain): UsuarioNegocioBrainResponse
+        +toConNegocioResponse(UsuarioNegocioConNegocioBrain): UsuarioNegocioConNegocioResponse
+    }
+
+    UsuarioBrainMapper --> UsuarioBrainEntity
+    UsuarioBrainMapper --> UsuarioBrain
+    UsuarioBrainDtoMapper --> UsuarioBrain
+    UsuarioBrainDtoMapper --> UsuarioBrainResponse
+
+    UsuarioEmpresaBrainMapper --> UsuarioEmpresaBrainEntity
+    UsuarioEmpresaBrainMapper --> UsuarioEmpresaBrain
+    UsuarioEmpresaBrainDtoMapper --> UsuarioEmpresaBrain
+    UsuarioEmpresaBrainDtoMapper --> UsuarioEmpresaBrainResponse
+
+    UsuarioNegocioBrainMapper --> UsuarioNegocioBrainEntity
+    UsuarioNegocioBrainMapper --> UsuarioNegocioBrain
+    UsuarioNegocioConNegocioBrain --> NegocioInfo : tiene
+    UsuarioNegocioBrainDtoMapper --> UsuarioNegocioBrain
+    UsuarioNegocioBrainDtoMapper --> UsuarioNegocioBrainResponse
+    UsuarioNegocioBrainDtoMapper --> UsuarioNegocioConNegocioResponse
+    UsuarioNegocioConNegocioResponse --> NegocioResponse : tiene
