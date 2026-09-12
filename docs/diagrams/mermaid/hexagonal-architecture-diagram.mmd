@@ -74,25 +74,39 @@ graph TB
             PM_ENTITY[ProveedorMovimiento Entity<br/>hexagonal.proveedormovimiento.infrastructure.persistence.entity]
         end
 
-        subgraph "Gestión Unificada de Negocios"
-            NU_API[NegocioUnificado Controller<br/>unificado.hexagonal.negocioUnificado.infrastructure.web.controller]
-            NU_APP[NegocioUnificado Service<br/>unificado.hexagonal.negocioUnificado.application.service]
-            NU_DOMAIN[NegocioUnificado Model<br/>unificado.hexagonal.negocioUnificado.domain.model]
-            NU_PORTS[Ports In/Out<br/>unificado.hexagonal.negocioUnificado.domain.ports]
+        subgraph "Gestión Brain de Empresas"
+            BE_API[EmpresaBrain Controller<br/>brain.empresa.infrastructure.web.controller]
+            BE_APP[EmpresaBrain Service<br/>brain.empresa.application.service]
+            BE_DOMAIN[EmpresaBrain Model<br/>brain.empresa.domain.model]
+            BE_PORTS[Ports In/Out<br/>brain.empresa.domain.ports]
         end
 
-        subgraph "Gestión Unificada de Usuarios"
-            UU_API[UsuarioUnificado Controller<br/>unificado.hexagonal.usuarioUnificado.infrastructure.web.controller]
-            UU_APP[UsuarioUnificado Service<br/>unificado.hexagonal.usuarioUnificado.application.service]
-            UU_DOMAIN[UsuarioUnificado Model<br/>unificado.hexagonal.usuarioUnificado.domain.model]
-            UU_PORTS[Ports In/Out<br/>unificado.hexagonal.usuarioUnificado.domain.ports]
+        subgraph "Gestión Brain de Negocios"
+            BN_API[NegocioBrain Controller<br/>brain.negocio.infrastructure.web.controller]
+            BN_APP[NegocioBrain Service<br/>brain.negocio.application.service]
+            BN_DOMAIN[NegocioBrain Model<br/>brain.negocio.domain.model]
+            BN_PORTS[Ports In/Out<br/>brain.negocio.domain.ports]
         end
 
-        subgraph "Gestión Unificada de Usuarios y Negocios"
-            UUN_API[UsuarioNegocioUnificado Controller<br/>unificado.hexagonal.usuarioNegocioUnificado.infrastructure.web.controller]
-            UUN_APP[UsuarioNegocioUnificado Service<br/>unificado.hexagonal.usuarioNegocioUnificado.application.service]
-            UUN_DOMAIN[UsuarioNegocioUnificado Model<br/>unificado.hexagonal.usuarioNegocioUnificado.domain.model]
-            UUN_PORTS[Ports In/Out<br/>unificado.hexagonal.usuarioNegocioUnificado.domain.ports]
+        subgraph "Gestión Brain de Usuarios"
+            BU_API[UsuarioBrain Controller<br/>brain.usuarios.usuario.infrastructure.web.controller]
+            BU_APP[UsuarioBrain Service<br/>brain.usuarios.usuario.application.service]
+            BU_DOMAIN[UsuarioBrain Model<br/>brain.usuarios.usuario.domain.model]
+            BU_PORTS[Ports In/Out<br/>brain.usuarios.usuario.domain.ports]
+        end
+
+        subgraph "Vinculación Brain Usuario-Empresa"
+            BUE_API[UsuarioEmpresaBrain Controller<br/>brain.usuarios.usuario_empresa.infrastructure.web.controller]
+            BUE_APP[UsuarioEmpresaBrain Service<br/>brain.usuarios.usuario_empresa.application.service]
+            BUE_DOMAIN[UsuarioEmpresaBrain Model<br/>brain.usuarios.usuario_empresa.domain.model]
+            BUE_PORTS[Ports In/Out<br/>brain.usuarios.usuario_empresa.domain.ports]
+        end
+
+        subgraph "Vinculación Brain Usuario-Negocio"
+            BUN_API[UsuarioNegocioBrain Controller<br/>brain.usuarios.usuario_negocio.infrastructure.web.controller]
+            BUN_APP[UsuarioNegocioBrain Service<br/>brain.usuarios.usuario_negocio.application.service]
+            BUN_DOMAIN[UsuarioNegocioBrain Model<br/>brain.usuarios.usuario_negocio.domain.model]
+            BUN_PORTS[Ports In/Out<br/>brain.usuarios.usuario_negocio.domain.ports]
         end
 
         subgraph "Consulta de Datos de Facturación"
@@ -119,12 +133,16 @@ graph TB
             L_ENTITY[Legajo Entity<br/>hexagonal.legajo.infrastructure.persistence.entity]
             NEG_REPO[Negocio Repository Adapter<br/>hexagonal.negocio.infrastructure.persistence.adapter]
             NEG_ENTITY[Negocio Entity<br/>hexagonal.negocio.infrastructure.persistence.entity]
-            NU_REPO[NegocioUnificado Repository Adapter<br/>unificado.hexagonal.negocioUnificado.infrastructure.persistence.repository]
-            NU_ENTITY[NegocioUnificado Entity<br/>unificado.hexagonal.negocioUnificado.infrastructure.persistence.entity]
-            UU_REPO[UsuarioUnificado Repository Adapter<br/>unificado.hexagonal.usuarioUnificado.infrastructure.persistence.adapter]
-            UU_ENTITY[UsuarioUnificado Entity<br/>unificado.hexagonal.usuarioUnificado.infrastructure.persistence.entity]
-            UUN_REPO[UsuarioNegocioUnificado Repository Adapter<br/>unificado.hexagonal.usuarioNegocioUnificado.infrastructure.persistence.adapter]
-            UUN_ENTITY[UsuarioNegocioUnificado Entity<br/>unificado.hexagonal.usuarioNegocioUnificado.infrastructure.persistence.entity]
+            BE_REPO[EmpresaBrain Repository Adapter<br/>brain.empresa.infrastructure.persistence.adapter]
+            BE_ENTITY[EmpresaBrain Entity<br/>brain.empresa.infrastructure.persistence.entity]
+            BN_REPO[NegocioBrain Repository Adapter<br/>brain.negocio.infrastructure.persistence.adapter]
+            BN_ENTITY[NegocioBrain Entity<br/>brain.negocio.infrastructure.persistence.entity]
+            BU_REPO[UsuarioBrain Repository Adapter<br/>brain.usuarios.usuario.infrastructure.persistence.adapter]
+            BU_ENTITY[UsuarioBrain Entity<br/>brain.usuarios.usuario.infrastructure.persistence.entity]
+            BUE_REPO[UsuarioEmpresaBrain Repository Adapter<br/>brain.usuarios.usuario_empresa.infrastructure.persistence.adapter]
+            BUE_ENTITY[UsuarioEmpresaBrain Entity<br/>brain.usuarios.usuario_empresa.infrastructure.persistence.entity]
+            BUN_REPO[UsuarioNegocioBrain Repository Adapter<br/>brain.usuarios.usuario_negocio.infrastructure.persistence.adapter]
+            BUN_ENTITY[UsuarioNegocioBrain Entity<br/>brain.usuarios.usuario_negocio.infrastructure.persistence.entity]
         end
         
         subgraph "Multi-Tenancy Layer"
@@ -159,11 +177,12 @@ graph TB
         E_API --> E_APP
         L_API --> L_APP
         NEG_API --> NEG_APP
-        NU_API --> NU_APP
-        UU_API --> UU_APP
-        UUN_API --> UUN_APP
-        ID_API --> ID_APP
-        
+        BE_API --> BE_APP
+        BN_API --> BN_APP
+        BU_API --> BU_APP
+        BUE_API --> BUE_APP
+        BUN_API --> BUN_APP
+        ID_API --> ID_APP        
         %% Application to Domain
         ART_APP --> ART_DOMAIN
         ART_APP --> ART_PORTS
@@ -183,12 +202,16 @@ graph TB
         L_APP --> L_PORTS
         NEG_APP --> NEG_DOMAIN
         NEG_APP --> NEG_PORTS
-        NU_APP --> NU_DOMAIN
-        NU_APP --> NU_PORTS
-        UU_APP --> UU_DOMAIN
-        UU_APP --> UU_PORTS
-        UUN_APP --> UUN_DOMAIN
-        UUN_APP --> UUN_PORTS
+        BE_APP --> BE_DOMAIN
+        BE_APP --> BE_PORTS
+        BN_APP --> BN_DOMAIN
+        BN_APP --> BN_PORTS
+        BU_APP --> BU_DOMAIN
+        BU_APP --> BU_PORTS
+        BUE_APP --> BUE_DOMAIN
+        BUE_APP --> BUE_PORTS
+        BUN_APP --> BUN_DOMAIN
+        BUN_APP --> BUN_PORTS
         ID_APP --> ID_DOMAIN
         ID_APP --> ID_PORTS
         
@@ -217,15 +240,22 @@ graph TB
         NEG_PORTS --> NEG_REPO
         NEG_REPO --> NEG_ENTITY
         NEG_ENTITY --> DB
-        NU_PORTS --> NU_REPO
-        NU_REPO --> NU_ENTITY
-        NU_ENTITY --> TXDS
-        UU_PORTS --> UU_REPO
-        UU_REPO --> UU_ENTITY
-        UU_ENTITY --> TXDS
-        UUN_PORTS --> UUN_REPO
-        UUN_REPO --> UUN_ENTITY
-        UUN_ENTITY --> TXDS
+        BE_PORTS --> BE_REPO
+        BE_REPO --> BE_ENTITY
+        BE_ENTITY --> DB
+        BN_PORTS --> BN_REPO
+        BN_REPO --> BN_ENTITY
+        BN_ENTITY --> TXDS
+        BU_PORTS --> BU_REPO
+        BU_REPO --> BU_ENTITY
+        BU_ENTITY --> DB
+        BUE_PORTS --> BUE_REPO
+        BUE_REPO --> BUE_ENTITY
+        BUE_ENTITY --> DB
+        BUN_PORTS --> BUN_REPO
+        BUN_PORTS --> BN_REPO
+        BUN_REPO --> BUN_ENTITY
+        BUN_ENTITY --> DB
         TXDS --> DB
         ID_PORTS --> DB
         PM_ENTITY --> DB
@@ -245,9 +275,11 @@ graph TB
         style E_API fill:#e1f5fe
         style L_API fill:#e1f5fe
         style NEG_API fill:#e1f5fe
-        style NU_API fill:#e1f5fe
-        style UU_API fill:#e1f5fe
-        style UUN_API fill:#e1f5fe
+        style BE_API fill:#e1f5fe
+        style BN_API fill:#e1f5fe
+        style BU_API fill:#e1f5fe
+        style BUE_API fill:#e1f5fe
+        style BUN_API fill:#e1f5fe
         style TXI fill:#fff3e0
         style TXS fill:#fff3e0
         style TXDS fill:#fff3e0
@@ -264,9 +296,11 @@ graph TB
         style E_APP fill:#f3e5f5
         style L_APP fill:#f3e5f5
         style NEG_APP fill:#f3e5f5
-        style NU_APP fill:#f3e5f5
-        style UU_APP fill:#f3e5f5
-        style UUN_APP fill:#f3e5f5
+        style BE_APP fill:#f3e5f5
+        style BN_APP fill:#f3e5f5
+        style BU_APP fill:#f3e5f5
+        style BUE_APP fill:#f3e5f5
+        style BUN_APP fill:#f3e5f5
         style ID_APP fill:#f3e5f5
         style DB fill:#ffebee
     end
