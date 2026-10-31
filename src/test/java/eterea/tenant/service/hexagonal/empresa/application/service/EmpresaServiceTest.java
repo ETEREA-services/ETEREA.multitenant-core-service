@@ -1,8 +1,8 @@
 package eterea.tenant.service.hexagonal.empresa.application.service;
 
-import eterea.tenant.service.tenant.hexagonal.empresa.application.service.EmpresaService;
-import eterea.tenant.service.tenant.hexagonal.empresa.domain.model.Empresa;
-import eterea.tenant.service.tenant.hexagonal.empresa.domain.ports.in.GetLastEmpresaUseCase;
+import eterea.tenant.service.modules.platform.legacy.hexagonal.empresa.application.service.EmpresaService;
+import eterea.tenant.service.modules.platform.legacy.hexagonal.empresa.domain.model.Empresa;
+import eterea.tenant.service.modules.platform.legacy.hexagonal.empresa.domain.ports.in.GetLastEmpresaUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

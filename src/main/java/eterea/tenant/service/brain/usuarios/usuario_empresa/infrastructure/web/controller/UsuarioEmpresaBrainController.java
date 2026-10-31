@@ -1,6 +1,8 @@
 package eterea.tenant.service.brain.usuarios.usuario_empresa.infrastructure.web.controller;
 
+import eterea.tenant.service.brain.usuarios.usuario_empresa.application.exception.UsuarioEmpresaBrainConflictException;
 import eterea.tenant.service.brain.usuarios.usuario_empresa.application.exception.UsuarioEmpresaBrainException;
+import eterea.tenant.service.brain.usuarios.usuario_empresa.application.exception.UsuarioEmpresaBrainNotFoundException;
 import eterea.tenant.service.brain.usuarios.usuario_empresa.application.service.UsuarioEmpresaBrainService;
 import eterea.tenant.service.brain.usuarios.usuario_empresa.infrastructure.web.dto.UsuarioEmpresaBrainRequest;
 import eterea.tenant.service.brain.usuarios.usuario_empresa.infrastructure.web.dto.UsuarioEmpresaBrainResponse;
@@ -9,6 +11,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,15 +32,23 @@ public class UsuarioEmpresaBrainController {
     private final UsuarioEmpresaBrainDtoMapper usuarioEmpresaBrainDtoMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioEmpresaBrainResponse> create(
             @Valid @RequestBody UsuarioEmpresaBrainRequest request) {
-        var usuarioEmpresa = usuarioEmpresaBrainService.create(
-                usuarioEmpresaBrainDtoMapper.toDomain(request));
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(usuarioEmpresaBrainDtoMapper.toResponse(usuarioEmpresa));
+        try {
+            var usuarioEmpresa = usuarioEmpresaBrainService.create(
+                    usuarioEmpresaBrainDtoMapper.toDomain(request));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(usuarioEmpresaBrainDtoMapper.toResponse(usuarioEmpresa));
+        } catch (UsuarioEmpresaBrainNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
+        } catch (UsuarioEmpresaBrainConflictException exception) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, exception.getMessage(), exception);
+        }
     }
 
     @GetMapping("/usuario/{usuarioId}")
+    @PreAuthorize("hasAuthority('ADMIN') or #usuarioId.toString() == authentication.name")
     public ResponseEntity<List<UsuarioEmpresaBrainResponse>> findAllByUsuarioId(
             @PathVariable UUID usuarioId) {
         return ResponseEntity.ok(usuarioEmpresaBrainService.findAllByUsuarioId(usuarioId).stream()
@@ -46,6 +57,7 @@ public class UsuarioEmpresaBrainController {
     }
 
     @PutMapping("/{usuarioEmpresaId}/deactivate")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioEmpresaBrainResponse> deactivate(
             @PathVariable UUID usuarioEmpresaId) {
         try {
@@ -57,6 +69,7 @@ public class UsuarioEmpresaBrainController {
     }
 
     @PutMapping("/{usuarioEmpresaId}/activate")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioEmpresaBrainResponse> activate(
             @PathVariable UUID usuarioEmpresaId) {
         try {

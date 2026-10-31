@@ -7,6 +7,7 @@ import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.in.Acti
 import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.in.CreateUsuarioNegocioBrainUseCase;
 import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.in.DeactivateUsuarioNegocioBrainUseCase;
 import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.in.GetUsuarioNegocioBrainsByUsuarioIdAndEmpresaIdUseCase;
+import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.in.GetUsuarioNegocioBrainsByUsuarioIdUseCase;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class UsuarioNegocioBrainService {
     private final DeactivateUsuarioNegocioBrainUseCase deactivateUsuarioNegocioBrainUseCase;
     private final ActivateUsuarioNegocioBrainUseCase activateUsuarioNegocioBrainUseCase;
     private final GetUsuarioNegocioBrainsByUsuarioIdAndEmpresaIdUseCase getUsuarioNegocioBrainsByUsuarioIdAndEmpresaIdUseCase;
+    private final GetUsuarioNegocioBrainsByUsuarioIdUseCase getUsuarioNegocioBrainsByUsuarioIdUseCase;
 
     public UsuarioNegocioBrain create(UsuarioNegocioBrain usuarioNegocio) {
         return createUsuarioNegocioBrainUseCase.create(usuarioNegocio);
@@ -33,6 +35,10 @@ public class UsuarioNegocioBrainService {
     public UsuarioNegocioBrain activate(UUID usuarioNegocioId) {
         return activateUsuarioNegocioBrainUseCase.activate(usuarioNegocioId)
                 .orElseThrow(() -> new UsuarioNegocioBrainException(usuarioNegocioId));
+    }
+
+    public List<UsuarioNegocioConNegocioBrain> findAllByUsuarioId(UUID usuarioId) {
+        return getUsuarioNegocioBrainsByUsuarioIdUseCase.getByUsuarioId(usuarioId);
     }
 
     public List<UsuarioNegocioConNegocioBrain> findAllByUsuarioIdAndEmpresaId(UUID usuarioId, UUID empresaId) {

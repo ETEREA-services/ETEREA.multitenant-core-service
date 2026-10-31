@@ -16,7 +16,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class NegocioBrainRequest {
 
-    @NotNull
     private Integer negocioId;
 
     @NotNull

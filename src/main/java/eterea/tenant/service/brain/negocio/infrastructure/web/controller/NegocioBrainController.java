@@ -1,13 +1,17 @@
 package eterea.tenant.service.brain.negocio.infrastructure.web.controller;
 
+import eterea.tenant.service.brain.negocio.application.exception.NegocioBrainConflictException;
 import eterea.tenant.service.brain.negocio.application.exception.NegocioBrainException;
 import eterea.tenant.service.brain.negocio.application.service.NegocioBrainService;
 import eterea.tenant.service.brain.negocio.infrastructure.web.dto.NegocioBrainRequest;
 import eterea.tenant.service.brain.negocio.infrastructure.web.dto.NegocioBrainResponse;
+import eterea.tenant.service.brain.negocio.infrastructure.web.dto.NegocioBrainResumenResponse;
 import eterea.tenant.service.brain.negocio.infrastructure.web.mapper.NegocioBrainDtoMapper;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/api/brain/core/negocio")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('ADMIN')")
 public class NegocioBrainController {
 
     private final NegocioBrainService negocioBrainService;
@@ -31,6 +36,14 @@ public class NegocioBrainController {
     public ResponseEntity<List<NegocioBrainResponse>> findAll() {
         return ResponseEntity.ok(negocioBrainService.findAll().stream()
                 .map(negocioBrainDtoMapper::toResponse)
+                .toList());
+    }
+
+    @GetMapping("/empresa/{empresaId}")
+    public ResponseEntity<List<NegocioBrainResumenResponse>> findAllByEmpresaId(
+            @PathVariable UUID empresaId) {
+        return ResponseEntity.ok(negocioBrainService.findAllByEmpresaId(empresaId).stream()
+                .map(negocioBrainDtoMapper::toResumenResponse)
                 .toList());
     }
 
@@ -57,9 +70,15 @@ public class NegocioBrainController {
     @PostMapping
     public ResponseEntity<NegocioBrainResponse> create(
             @Valid @RequestBody NegocioBrainRequest request) {
-        var negocio = negocioBrainService.create(negocioBrainDtoMapper.toDomain(request));
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(negocioBrainDtoMapper.toResponse(negocio));
+        try {
+            var negocio = negocioBrainService.create(negocioBrainDtoMapper.toDomain(request));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(negocioBrainDtoMapper.toResponse(negocio));
+        } catch (NegocioBrainConflictException exception) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, exception.getMessage(), exception);
+        } catch (IllegalArgumentException exception) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage(), exception);
+        }
     }
 
     @PutMapping("/{negocioId}")

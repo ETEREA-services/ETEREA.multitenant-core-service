@@ -4,6 +4,7 @@ import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.model.Usuario
 import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.out.UsuarioNegocioBrainRepository;
 import eterea.tenant.service.brain.usuarios.usuario_negocio.infrastructure.persistence.mapper.UsuarioNegocioBrainMapper;
 import eterea.tenant.service.brain.usuarios.usuario_negocio.infrastructure.persistence.repository.JpaUsuarioNegocioBrainRepository;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,6 +21,15 @@ public class JpaUsuarioNegocioBrainRepositoryAdapter implements UsuarioNegocioBr
     @Override
     public List<UsuarioNegocioBrain> findByUsuarioId(UUID usuarioId) {
         return jpaUsuarioNegocioBrainRepository.findByUsuarioId(usuarioId).stream()
+                .map(usuarioNegocioBrainMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<UsuarioNegocioBrain> findByUsuarioIdAndNegocioIdIn(
+            UUID usuarioId, Collection<Integer> negocioIds) {
+        return jpaUsuarioNegocioBrainRepository
+                .findByUsuarioIdAndNegocioIdIn(usuarioId, negocioIds).stream()
                 .map(usuarioNegocioBrainMapper::toDomain)
                 .toList();
     }

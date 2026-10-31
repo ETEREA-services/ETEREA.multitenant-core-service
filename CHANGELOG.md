@@ -1,3 +1,47 @@
+## [4.0.0] - 2026-10-31
+
+### Breaking Changes
+- **refactor!(auth)**: La autenticación se centraliza en `/api/brain/auth` (`login`, `refresh`, `logout` y `me`) con JWT HS256 y refresh token opaco en cookie `HttpOnly`. Se eliminan el login legacy de tenant (`/api/v1/auth/**`) y el login anterior de Brain (`POST /api/brain/core/usuario/login`).
+- **refactor!(tenant-api)**: Todos los endpoints `/api/tenant/core/**` exigen JWT válido y asignaciones `usuario-empresa` y `usuario-negocio` activas para el `tenantId` del header `X-TENANT-ID`; los usuarios con `ADMIN` quedan exentos. Los clientes que llamaban a la API de tenant sin token dejan de funcionar.
+- **refactor!(config)**: `APP_JWT_SECRET` pasa a ser obligatorio (mínimo 32 caracteres) y `APP_JWT_ISSUER` debe coincidir con el gateway.
+- **refactor!(runtime)**: Se elimina Kotlin del proyecto: ya no se compila ni se ejecuta código Kotlin y todo el código quedó en Java 25.
+
+### Added
+- **feat(auth)**: Módulo `brain/auth` con login JWT HS256 (15 minutos por defecto), refresh token opaco de 32 bytes guardado como SHA-256 en `usuario_refresh_token`, cookie `HttpOnly`/`SameSite=Strict` y endpoints `/api/brain/auth/login|refresh|logout|me`.
+- **feat(auth-login)**: Lockout por intentos fallidos (`APP_SECURITY_MAX_FAILED_ATTEMPTS`, `APP_SECURITY_LOCK_DURATION`), actualización de `lastLoginAt`/`lastLoginIp`, hashing Argon2 y claims `administrador`, `authorities` y `pwd_change_required`.
+- **feat(auth-password-reset)**: Blanqueo con contraseña temporal de 10 caracteres (solo `ADMIN`) en `POST /api/brain/core/usuario/{usuarioId}/password-reset`; la temporal vence según `APP_SECURITY_TEMPORARY_PASSWORD_TTL` (24 h), revoca los refresh tokens y `PasswordChangeRequiredFilter` limita la sesión hasta el cambio.
+- **feat(auth-schema)**: `db/refresh-token-schema.sql` crea `usuario_refresh_token` de forma idempotente; se ejecuta al arrancar según `APP_DB_INIT_MODE` (default `always`).
+- **feat(reportes)**: Módulo transversal `modules.reporte` con `ReporteTabla` como única fuente del JSON de vista previa y del PDF OpenPDF (A4, cabecera repetida, `Página X de Y`, wrapping), `ReporteDtoMapper`, `ReportePdfService` y manejo de errores propio.
+- **feat(contable-cuenta)**: CRUD de cuentas contables con árbol jerárquico (`GET /api/tenant/core/cuenta/arbol`), detalle, alta, edición y baja.
+- **feat(contable-reporte)**: Reporte del plan de cuentas en `POST /api/tenant/core/reporte/plan-cuentas/datos` y `/pdf`.
+- **feat(contable-ejercicio)**: CRUD de ejercicios, sugerencia del siguiente ejercicio y bloqueo/desbloqueo en `/api/tenant/core/ejercicio`.
+- **feat(contable-inflacion)**: Coeficientes de inflación por año y mes con validación de dominio en `/api/tenant/core/coeficiente-inflacion`.
+- **feat(brain-usuario-negocio)**: Consulta de todos los negocios asignados a un usuario (`GET /api/brain/core/usuario-negocio/usuario/{usuarioId}`) y resumen de negocios por empresa (`GET /api/brain/core/negocio/empresa/{empresaId}`).
+- **feat(modulos)**: Fronteras de módulo con Spring Modulith y verificación en `ModularityTests`. Módulos: `platform`, `compras`, `contable`, `reporte`, `stock`, `ventas`, `reserva`, `tesoreria` y `personal`.
+- **feat(modulos-api)**: Contratos entre módulos: `platform.api.NegocioActual` y `contable.api.CuentaQuery` / `CuentaResumen`.
+- **feat(tenant-datasource)**: Ciclo de vida de pools por tenant con creación bajo demanda, evicción por inactividad, tope de pools vivos y métricas Micrometer (`eterea.tenant.datasource.*`).
+- **docs**: `AGENTS.md`, `docs/modules.md` y scripts de migración en `docs/sql` para `negocio.tenant_id` único, blanqueo de contraseña y unicidad de coeficientes de inflación.
+
+### Changed
+- **chore(deps)**: Spring Boot 4.1.1 → 4.1.2, Spring Cloud 2025.1.3 → 2025.1.4, MySQL Connector/J 26.7.0 → 26.10.0, SpringDoc OpenAPI 3.1.1 → 3.2.0, ModelMapper 3.2.6 → 3.2.8, Commons Lang3 3.20.0 → 3.21.0 y JaCoCo 0.8.13 → 0.8.16. Se agrega Spring Modulith 2.1.2 y `spring-boot-starter-oauth2-resource-server`.
+- **refactor(modules)**: Reubicación de `tenant.hexagonal.cuenta|legajo|cierrecaja|negocio|articulo|comprobante` a `modules.contable.cuenta`, `modules.personal.legajo`, `modules.tesoreria.cierrecaja`, `modules.platform.negocio`, `modules.stock.articulo` y `modules.ventas.comprobante`. Sin cambios en rutas HTTP ni contratos.
+- **refactor(stock-ventas)**: Se quitaron las asociaciones JPA `@OneToOne` a `CuentaEntity` en `ArticuloEntity` y `ComprobanteEntity`; las FK se conservan y la cuenta se resuelve con `CuentaQuery`.
+- **refactor(tenant-datasource)**: Los pools por tenant pasan de 30 conexiones fijas a un pool bajo demanda (8 máximo, 1 mínimo) con cierre a los 15 minutos de inactividad.
+- **refactor(persistence)**: Eliminadas todas las anotaciones `@Query`. Las consultas no derivadas se movieron a `*RepositoryCustomImpl` con `EntityManager` (Criteria API o SQL nativo), sin cambiar la semántica.
+
+### Fixed
+- **fix(brain-negocio)**: El alta de negocio ya no exige `negocioId`; el identificador se genera con la secuencia `AUTO_INCREMENT` de la tabla.
+- **fix(brain-negocio)**: La edición conserva `tenantId` y `databasePassword` cuando el request no los envía.
+- **fix(brain-negocio)**: El `tenantId` es obligatorio y único al crear (responde `409 Conflict` si ya existe).
+- **fix(brain-negocio)**: `databasePassword` deja de exponerse en las respuestas (`WRITE_ONLY`).
+
+### Removed
+- **refactor(runtime)**: Eliminación total del runtime alternativo de JVM. Todo el código quedó en Java 25 y se retiraron del `pom.xml` el plugin de compilación, las dependencias de stdlib/testing y el módulo de Jackson asociado.
+- **refactor(paquetes)**: El paquete `eterea.tenant.service.tenant` desapareció. Sus clases se distribuyeron entre `platform`, `compras`, `contable`, `reporte`, `stock`, `ventas`, `reserva`, `tesoreria` y `personal`.
+- **refactor(kernel)**: `Auditable` se movió al kernel (`tool`).
+- **refactor(fronteras)**: Se eliminaron las relaciones JPA que cruzaban módulos (`Voucher`, `ReservaArticulo`, `ArticuloMovimientoPrevio`, `ValorMovimiento`, `CuentaMovimiento`, `TransferenciaEntity`, `ProveedorMovimientoEntity`) y las dependencias compartidas se expusieron por paquetes `api`.
+- **chore(cleanup)**: Se eliminaron DTOs, excepciones y utilidades sin uso (`CodigoQR`, `OrderNoteException`, `OrderWeb`, `OffsetDateTimeDeserializer`).
+
 ## [3.1.0] - 2026-09-12
 
 ### Added
@@ -64,12 +108,12 @@
 ## [2.7.1] - 2026-07-09
 
 ### Refactored
-- **refactor(json-serialization)**: Implementación de interfaz `Jsonifyable` unificada para serialización JSON en modelos de dominio, entidades JPA, DTOs y modelos Kotlin:
+- **refactor(json-serialization)**: Implementación de interfaz `Jsonifyable` unificada para serialización JSON en modelos de dominio, entidades JPA, DTOs y modelos legacy:
   - Nuevos `Jsonifyable` interface y refactor de `Jsonifier` utilidad centralizada
   - Modelos de dominio Java: `Articulo`, `ArticuloMovimiento`, `Comprobante`, `Cuenta`, `InvoiceData`, `Transferencia` implementan `Jsonifyable`
   - Entidades JPA: `ArticuloEntity`, `ArticuloMovimientoEntity`, `ComprobanteEntity`, `CuentaEntity`, `TransferenciaEntity` implementan `Jsonifyable`
   - DTOs: `FacturacionDto`, `ClienteMovimientoResponse`, `InvoiceDataResponse`, `RegistroCaeResponse`, `ArticuloDto`, `ImpresionFiscalDto`, `ParametroDto`, `TransferenciaDto`, `TransferenciaWrapperDto` implementan `Jsonifyable`
-  - Modelos Kotlin: `OrderNote`, `ArticuloBarra`, `ClienteMovimientoPrevio`, `Reserva`, `ReservaArticulo`, `StockMovimiento`, `Valor`, `ValorMovimiento`, `Voucher`, `VoucherProducto` implementan `Jsonifyable`
+  - Modelos legacy: `OrderNote`, `ArticuloBarra`, `ClienteMovimientoPrevio`, `Reserva`, `ReservaArticulo`, `StockMovimiento`, `Valor`, `ValorMovimiento`, `Voucher`, `VoucherProducto` implementan `Jsonifyable`
   - Modelos Java adicionales: `ClienteMovimiento`, `CuentaMovimiento`, `RegistroCae`, `ReservaContext`, `Track`, `FacturaResponseDto`, `FacturaResponseDto.FacturaDto` implementan `Jsonifyable`
   - `ConsolidadoService.ComprobanteRango` record ahora implementa `Jsonifyable` y usa `@RequiredArgsConstructor`
   - Eliminación de métodos `jsonify()` duplicados en cada clase, delegando en `Jsonifier.builder(this).build()`
@@ -94,9 +138,9 @@
 - **fix(error-handling)**: `InvoiceDataController` ahora captura `InvoiceDataException` y retorna 404 con mensaje descriptivo en lugar de 500
 
 ### Removed
-- **chore(cleanup)**: Eliminación de 5 clases de excepción Kotlin/Java antiguas reemplazadas por versiones hexagonales Java:
-  - `tenant/exception/LegajoException.java`, `tenant/exception/NegocioException.java`, `tenant/exception/ProductoArticuloException.kt`
-  - `kotlin/exception/ArticuloMovimientoException.kt`, `kotlin/exception/TransferenciaException.kt`
+- **chore(cleanup)**: Eliminación de 5 clases de excepción legacy/Java antiguas reemplazadas por versiones hexagonales Java:
+  - `tenant/exception/LegajoException.java`, `tenant/exception/NegocioException.java`, `tenant/exception/ProductoArticuloException.java`
+  - `legacy/exception/ArticuloMovimientoException.java`, `legacy/exception/TransferenciaException.java`
 
 ### New
 - **feat(anticipohaberes)**: Nuevo caso de uso `SaveAllAnticipoHaberesUseCaseImpl` para el módulo de anticipo de haberes
@@ -149,7 +193,7 @@
 ## [2.4.4] - 2026-06-28
 
 ### Fixed
-- **fix(json-serialization)**: Corregido patrón `@JsonFormat` de `yyyy-MM-dd'T'HH:mm:ssZ` a `yyyy-MM-dd'T'HH:mm:ssXX` en todas las entidades y modelos con `OffsetDateTime` para serialización ISO 8601 correcta con colon en el offset horario (afecta ~40 clases Java y Kotlin en los módulos: `articulomovimiento`, `cierrecaja`, `legajo`, `proveedormovimiento`, `transferencia`, `clienteweb`, `voucher`, `reserva`, `stock`, `valor`, `asiento`, `cliente`, `cuenta`, `inventario`, `feriado`, `moneda`, `comprobante`, `habitacion`, `producto`, `usuario`)
+- **fix(json-serialization)**: Corregido patrón `@JsonFormat` de `yyyy-MM-dd'T'HH:mm:ssZ` a `yyyy-MM-dd'T'HH:mm:ssXX` en todas las entidades y modelos con `OffsetDateTime` para serialización ISO 8601 correcta con colon en el offset horario (afecta ~40 clases Java y legacy en los módulos: `articulomovimiento`, `cierrecaja`, `legajo`, `proveedormovimiento`, `transferencia`, `clienteweb`, `voucher`, `reserva`, `stock`, `valor`, `asiento`, `cliente`, `cuenta`, `inventario`, `feriado`, `moneda`, `comprobante`, `habitacion`, `producto`, `usuario`)
 
 ### Changed
 - **refactor(logging)**: Eliminación de Log4j2 — removido `spring-boot-starter-logging` exclusion y dependencia `spring-boot-starter-log4j2` de `spring-boot-starter`, revirtiendo al logging default de Spring Boot (Logback)
@@ -188,7 +232,7 @@
 - **refactor(logging)**: Mejora de mensajes de depuración con formato estructurado (`\n\n`) en `ArticuloMovimientoService`, `AutoCompleteTotalesByClienteMovimientoIdUseCaseImpl`, `GetInvoiceDataByClienteMovimientoIdImpl`, `InvoiceDataMapper`, `FacturacionService`, `MakeFacturaProgramaDiaService`, `VouchersService` y `ProductsService`
 
 ### Dependencies
-- **chore(deps)**: Actualización de Kotlin 2.3.21 → 2.4.0 en `pom.xml`
+- **chore(deps)**: Actualización de Java 25 en `pom.xml`
 
 ## [2.4.0] - 2026-06-05
 
@@ -220,11 +264,11 @@
 - **feat(clienteMovimiento)**: Nuevo endpoint `POST /byIds` para buscar movimientos de cliente por lista de IDs
 - **feat(cliente)**: Nuevo endpoint `POST /byIds` para buscar clientes por lista de IDs
 - **feat(hexagonal)**: Nuevos módulos hexagonales completos (puertos, casos de uso, JPA, controladores REST):
-  - **`articulo`**: Migración completa del modelo `Articulo` de Kotlin a Java con arquitectura hexagonal. Casos de uso: creación, búsqueda (por ID, autoNumerico, máscara balanza, texto, voucher), cálculo de totales y actualización. Nuevo controlador REST con endpoints CRUD y DTOs (`ArticuloRequest`, `ArticuloResponse`, `ArticuloResponseForInvoiceData`, `TotalArticuloResponse`)
-  - **`articulomovimiento`**: Migración completa del modelo `ArticuloMovimiento` de Kotlin a Java con arquitectura hexagonal. Casos de uso: creación, consulta por ID, por clienteMovimientoId, por stockMovimientoId, autocompletado de totales y guardado masivo
-  - **`comprobante`**: Migración completa del modelo `Comprobante` de Kotlin a Java con arquitectura hexagonal. Casos de uso: consulta por módulo, comprobantes asociables, comprobantes disponibles y búsqueda por ID
-  - **`cuenta`**: Migración completa del modelo `Cuenta` de Kotlin a Java con arquitectura hexagonal. Casos de uso: listado completo, listado con cuenta maestra, búsqueda por cuenta maestra y por número de cuenta
-  - **`transferencia`**: Migración completa del modelo `Transferencia` de Kotlin a Java con arquitectura hexagonal. Caso de uso: búsqueda por identificador único
+  - **`articulo`**: Migración completa del modelo `Articulo` de legacy a Java con arquitectura hexagonal. Casos de uso: creación, búsqueda (por ID, autoNumerico, máscara balanza, texto, voucher), cálculo de totales y actualización. Nuevo controlador REST con endpoints CRUD y DTOs (`ArticuloRequest`, `ArticuloResponse`, `ArticuloResponseForInvoiceData`, `TotalArticuloResponse`)
+  - **`articulomovimiento`**: Migración completa del modelo `ArticuloMovimiento` de legacy a Java con arquitectura hexagonal. Casos de uso: creación, consulta por ID, por clienteMovimientoId, por stockMovimientoId, autocompletado de totales y guardado masivo
+  - **`comprobante`**: Migración completa del modelo `Comprobante` de legacy a Java con arquitectura hexagonal. Casos de uso: consulta por módulo, comprobantes asociables, comprobantes disponibles y búsqueda por ID
+  - **`cuenta`**: Migración completa del modelo `Cuenta` de legacy a Java con arquitectura hexagonal. Casos de uso: listado completo, listado con cuenta maestra, búsqueda por cuenta maestra y por número de cuenta
+  - **`transferencia`**: Migración completa del modelo `Transferencia` de legacy a Java con arquitectura hexagonal. Caso de uso: búsqueda por identificador único
 - **feat(controllers)**: Nuevos controladores REST para los módulos hexagonales: `ArticuloController`, `ArticuloMovimientoController`, `ComprobanteController`, `CuentaController`, `TransferenciaController`
 - **feat(facade)**: Actualización de servicios facade (`PrecioController`, `StockController`, `TransferenciasController`, `VouchersController`) para usar los nuevos servicios hexagonales
 - **feat(clients)**: Actualización de `ArticuloClient`, `CuentaClient`, `ParametroClient` con nuevos builders compatibles con Spring Boot 4.0.6
@@ -232,22 +276,22 @@
 ### Changed
 - **refactor(dto)**: Ampliación de `ValorMovimientoDto` con los campos `movClieId`, `clienteId`, `nroPlanCta`, `created` y `updated`
 - **refactor(mapper)**: Actualización de `ValorMovimientoDtoMapper` para incluir los nuevos campos con null-guard en `valor.getConcepto()`
-- **refactor(clients)**: Mejora en `ArticuloBarraClientBuilder`, `ArticuloClientBuilder`, `CuentaClientBuilder`, `ParametroClientBuilder` añadiendo `JacksonDecoder` con `KotlinModule` para mejor compatibilidad con modelos Kotlin
+- **refactor(clients)**: Mejora en `ArticuloBarraClientBuilder`, `ArticuloClientBuilder`, `CuentaClientBuilder`, `ParametroClientBuilder` añadiendo `JacksonDecoder` con `legacyModule` para mejor compatibilidad con modelos legacy
 - **refactor(clients)**: Adición de `SpringMvcContract` y `JacksonEncoder` en `ArticuloClientBuilder` para soportar solicitudes y respuestas JSON
 - **refactor(controller)**: Mejora en `ArticuloController.add()` especificando `consumes` y `produces` como "application/json"
-- **refactor(model)**: Adición de `@JsonIgnoreProperties(ignoreUnknown = true)` en modelos Kotlin para ignorar propiedades desconocidas en JSON
-- **refactor(model)**: Nuevo campo `porcentajeDescuentoPersonal` en `ParametroDto.kt`
+- **refactor(model)**: Adición de `@JsonIgnoreProperties(ignoreUnknown = true)` en modelos legacy para ignorar propiedades desconocidas en JSON
+- **refactor(model)**: Nuevo campo `porcentajeDescuentoPersonal` en `ParametroDto.java`
 - **refactor(service)**: Mejora en logging de `ArticulosService` con mensajes más descriptivos
 - **refactor(service)**: Uso de `Jsonifier` en lugar de serialización manual en `ArticulosService`
 
 ### Removed
-- **chore(cleanup)**: Eliminación de modelos Kotlin obsoletos: `Articulo.kt`, `Comprobante.kt`, `Cuenta.kt`, `Transferencia.kt` y sus DTOs asociados
-- **chore(cleanup)**: Eliminación de repositorios Kotlin obsoletos: `ArticuloRepository.kt`, `ArticuloMovimientoRepository.kt`, `ComprobanteRepository.kt`, `CuentaRepository.kt`, `TransferenciaRepository.kt`
+- **chore(cleanup)**: Eliminación de modelos legacy obsoletos: `Articulo.java`, `Comprobante.java`, `Cuenta.java`, `Transferencia.java` y sus DTOs asociados
+- **chore(cleanup)**: Eliminación de repositorios legacy obsoletos: `ArticuloRepository.java`, `ArticuloMovimientoRepository.java`, `ComprobanteRepository.java`, `CuentaRepository.java`, `TransferenciaRepository.java`
 - **chore(cleanup)**: Eliminación de controladores y servicios Java antiguos reemplazados por módulos hexagonales
 
 ### Dependencies
 - **chore(deps)**: Actualización de Spring Boot 4.0.4→4.0.6 en `pom.xml`
-- **chore(deps)**: Actualización de Kotlin 2.3.20→2.3.21 en `pom.xml`
+- **chore(deps)**: Actualización de Java 25 en `pom.xml`
 - **chore(deps)**: Actualización de SpringDoc OpenAPI 3.0.2→3.0.3 en `pom.xml`
 - **chore(deps)**: Actualización de OpenPDF 3.0.0→3.0.3 en `pom.xml`
 - **chore(deps)**: Actualización de MySQL Connector 9.5.0→9.6.0 en `pom.xml`
@@ -257,12 +301,12 @@
 ## [2.2.0] - 2026-03-23
 
 ### Changed
-- **refactor(migracion)**: Migración completa del modelo `ArticuloMovimiento` de Kotlin a Java para mejor compatibilidad con Spring Boot 4 y consistencia con el resto de la codebase
+- **refactor(migracion)**: Migración completa del modelo `ArticuloMovimiento` de legacy a Java para mejor compatibilidad con Spring Boot 4 y consistencia con el resto de la codebase
 - **refactor(clients)**: Simplificación masiva de los builders de clientes Feign (`ArticuloBarraClientBuilder`, `ArticuloClientBuilder`, `CuentaClientBuilder`, `ParametroClientBuilder`) eliminando la configuración compleja de SpringEncoder/SpringDecoder que ya no es necesaria con Spring Cloud 2025
-- **refactor(excepciones)**: Migración de `StockMovimientoException` de Kotlin a Java, manteniendo ambas variantes para compatibilidad hacia atrás
+- **refactor(excepciones)**: Migración de `StockMovimientoException` de legacy a Java, manteniendo ambas variantes para compatibilidad hacia atrás
 - **refactor(servicios)**: Adición de `@RequiredArgsConstructor` y eliminación de constructores manuales en `ArticuloMovimientoService`, `StockMovimientoService`
 - **refactor(impresion-fiscal)**: Extensión del endpoint de impresión fiscal con nuevo parámetro `stockMovimientoId` para obtener datos de stock y artículos asociados
-- **chore(deps)**: Actualización de Kotlin de 2.3.0 a 2.3.20 en `pom.xml`
+- **chore(deps)**: Actualización de legacy de 2.3.0 a 2.3.20 en `pom.xml`
 
 ### Features
 - **feat(impresion-fiscal)**: Nuevo endpoint `/fiscal/{ipAddress}/{hWnd}/{clienteId}/{comprobanteId}/{comprobanteOrigenId}/stock/{stockMovimientoId}` que incluye datos de stock y artículos asociados
@@ -303,7 +347,7 @@
 #### Breaking Changes
 - **refactor!**: Migración completa del módulo Legajo a arquitectura hexagonal con reorganización de paquetes y estructura de código
 - **refactor!**: Actualización de dependencias principales: Spring Boot 3.5.8→4.0.1, Spring Cloud 2025.0.0→2025.1.0
-- **refactor!**: Eliminación de tipos nullable en repositorios Kotlin para mayor consistencia de tipos
+- **refactor!**: Eliminación de tipos nullable en repositorios legacy para mayor consistencia de tipos
 - **refactor!**: Cambio en modelo Reserva de `Date` a `LocalTime` para `horaVencimiento`
 - **refactor!**: Actualización de builders de clientes Feign para compatibilidad con Spring Boot 4
 
@@ -352,7 +396,7 @@
 
 #### Breaking Changes
 - **refactor!**: Migración completa a arquitectura hexagonal con reorganización de paquetes y estructura de código
-- **refactor!**: Actualización de dependencias principales: Java 24→25, Kotlin 2.2.21→2.3.0, Spring Boot 3.5.6→3.5.8
+- **refactor!**: Actualización de dependencias principales: Java 24→25, Java 25, Spring Boot 3.5.6→3.5.8
 - **refactor!**: Reorganización de módulos de facturación en estructura hexagonal nacional/exportación
 
 #### Features
@@ -375,7 +419,7 @@
 - **refactor**: Mejora en manejo de transacciones con `@Transactional` en servicios críticos
 
 #### Fixed
-- **fix**: Corrección de nombres de atributos en entidades Kotlin para mayor consistencia
+- **fix**: Corrección de nombres de atributos en entidades legacy para mayor consistencia
 - **fix**: Optimización de consultas en `ArticuloMovimientoTemporalRepository` con nombres de métodos corregidos
 - **fix**: Mejora en manejo de errores y logging en servicios de facturación
 
@@ -421,10 +465,10 @@
 - feat: Nuevos endpoints en LegajoController: `findByLegajoId` y `findAllBySearch`
 - feat: Nuevo servicio `LegajoSearchService` para búsqueda de legajos
 - feat: Nueva excepción `LegajoException` para manejo de errores de legajoEntity
-- feat: Actualización de dependencias: Kotlin 2.2.20→2.2.21
+- feat: Actualización de dependencias: Java 25
 
 ### Changed
-- refactor: Migración masiva de modelos de Kotlin a Java (ClienteMovimiento, CuentaMovimiento, RegistroCae)
+- refactor: Migración masiva de modelos de legacy a Java (ClienteMovimiento, CuentaMovimiento, RegistroCae)
 - refactor: Refactorización completa de controladores con `@RequiredArgsConstructor` y eliminación de constructores manuales
 - refactor: Mejora en manejo de excepciones con `ResponseStatusException` en controladores
 - refactor: Actualización de builders a métodos estáticos en modelos Java
@@ -449,7 +493,7 @@
 
 ### Features
 - feat: Nuevos tipos de tarjeta de crédito agregados: "Visa Prepaga" y "Mastercard Prepaga"
-- feat: Actualización de dependencias principales (Spring Boot 3.5.5→3.5.6, Kotlin 2.2.10→2.2.20, OpenPDF 2.4.0→3.0.0)
+- feat: Actualización de dependencias principales (Spring Boot 3.5.5→3.5.6, Java 25, OpenPDF 2.4.0→3.0.0)
 
 ### Breaking Changes
 - refactor!: Eliminación de configuración CORS centralizada (WebConfig.java)
@@ -490,7 +534,7 @@
 ### Changed
 - chore: Actualización de dependencias principales:
     - spring-boot-starter-parent 3.5.5
-    - kotlin 2.2.10
+    - Java 25
     - openpdf 2.4.0
     - springdoc-openapi-starter-webmvc-ui 2.8.10
 - refactor: Mejora de lógica y trazabilidad en `ClienteMovimientoService` y `ComprobanteService`.
@@ -553,7 +597,7 @@
 
 ## [0.6.1] - 2025-07-17
 ### Changed
-- refactor: Centralización de la serialización JSON en entidades de dominio (`jsonify()` en modelos Kotlin).
+- refactor: Centralización de la serialización JSON en entidades de dominio (`jsonify()` en modelos legacy).
 - refactor: Simplificación y mejora del logging en servicios de facturación y contabilidad.
 - chore: Eliminación de métodos privados de logging redundantes en servicios Java.
 - chore: Ajuste de niveles de log y trazabilidad en operaciones críticas.

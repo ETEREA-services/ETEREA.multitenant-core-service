@@ -3,6 +3,7 @@ package eterea.tenant.service.brain.negocio.infrastructure.web.mapper;
 import eterea.tenant.service.brain.negocio.domain.model.NegocioBrain;
 import eterea.tenant.service.brain.negocio.infrastructure.web.dto.NegocioBrainRequest;
 import eterea.tenant.service.brain.negocio.infrastructure.web.dto.NegocioBrainResponse;
+import eterea.tenant.service.brain.negocio.infrastructure.web.dto.NegocioBrainResumenResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,6 +25,18 @@ public class NegocioBrainDtoMapper {
                 .backendIp(request.getBackendIp())
                 .backendPort(request.getBackendPort())
                 .tenantId(request.getTenantId())
+                .build();
+    }
+
+    public NegocioBrainResumenResponse toResumenResponse(NegocioBrain domain) {
+        if (domain == null) {
+            return null;
+        }
+        return NegocioBrainResumenResponse.builder()
+                .negocioId(domain.getNegocioId())
+                .empresaId(domain.getEmpresaId())
+                .nombre(domain.getNombre())
+                .tenantId(domain.getTenantId())
                 .build();
     }
 

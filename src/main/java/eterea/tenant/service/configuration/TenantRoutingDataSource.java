@@ -30,13 +30,20 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
         }
         DataSource tenantDataSource = tenantDataSources.get(lookupKey);
         if (tenantDataSource == null) {
-            return defaultDataSource;
+            // Si hay un tenant en contexto, la conexión tiene que ser la del
+            // tenant. Caer a la base maestra en silencio mezclaría datos.
+            throw new IllegalStateException(
+                    "No hay datasource registrado para el tenant " + lookupKey);
         }
         return tenantDataSource;
     }
 
     public void addTenantDataSource(String tenantId, DataSource dataSource) {
         tenantDataSources.put(tenantId, dataSource);
+    }
+
+    public void removeTenantDataSource(String tenantId) {
+        tenantDataSources.remove(tenantId);
     }
 
     public boolean hasTenantDataSource(String tenantId) {

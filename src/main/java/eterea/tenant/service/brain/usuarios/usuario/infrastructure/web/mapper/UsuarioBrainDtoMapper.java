@@ -17,6 +17,7 @@ public class UsuarioBrainDtoMapper {
                 .nombre(request.getNombre())
                 .email(request.getEmail())
                 .activo(request.getActivo())
+                .administrador(request.getAdministrador())
                 .build();
     }
 
@@ -30,11 +31,14 @@ public class UsuarioBrainDtoMapper {
                 .nombre(domain.getNombre())
                 .email(domain.getEmail())
                 .activo(domain.getActivo())
+                .administrador(domain.getAdministrador())
                 .lastLoginAt(domain.getLastLoginAt())
                 .lastLoginIp(domain.getLastLoginIp())
                 .failedLoginAttempts(domain.getFailedLoginAttempts())
                 .lockedUntil(domain.getLockedUntil())
                 .passwordChangedAt(domain.getPasswordChangedAt())
+                .mustChangePassword(domain.getMustChangePassword())
+                .temporaryPasswordExpiresAt(domain.getTemporaryPasswordExpiresAt())
                 .build();
     }
 }

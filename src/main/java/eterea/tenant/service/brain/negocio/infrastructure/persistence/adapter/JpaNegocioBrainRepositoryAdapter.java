@@ -6,6 +6,7 @@ import eterea.tenant.service.brain.negocio.infrastructure.persistence.mapper.Neg
 import eterea.tenant.service.brain.negocio.infrastructure.persistence.repository.JpaNegocioBrainRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,13 @@ public class JpaNegocioBrainRepositoryAdapter implements NegocioBrainRepository 
     }
 
     @Override
+    public List<NegocioBrain> findAllByEmpresaId(UUID empresaId) {
+        return jpaNegocioBrainRepository.findAllByEmpresaId(empresaId).stream()
+                .map(negocioBrainMapper::toDomain)
+                .toList();
+    }
+
+    @Override
     public Optional<NegocioBrain> findById(Integer negocioId) {
         return jpaNegocioBrainRepository.findById(negocioId)
                 .map(negocioBrainMapper::toDomain);
@@ -33,6 +41,11 @@ public class JpaNegocioBrainRepositoryAdapter implements NegocioBrainRepository 
     public Optional<NegocioBrain> findByTenantId(String tenantId) {
         return jpaNegocioBrainRepository.findByTenantId(tenantId)
                 .map(negocioBrainMapper::toDomain);
+    }
+
+    @Override
+    public boolean existsByTenantId(String tenantId) {
+        return jpaNegocioBrainRepository.existsByTenantId(tenantId);
     }
 
     @Override

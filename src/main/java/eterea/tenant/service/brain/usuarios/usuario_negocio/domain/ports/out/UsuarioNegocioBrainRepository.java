@@ -1,6 +1,7 @@
 package eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.out;
 
 import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.model.UsuarioNegocioBrain;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -8,6 +9,9 @@ import java.util.UUID;
 public interface UsuarioNegocioBrainRepository {
 
     List<UsuarioNegocioBrain> findByUsuarioId(UUID usuarioId);
+
+    List<UsuarioNegocioBrain> findByUsuarioIdAndNegocioIdIn(
+            UUID usuarioId, Collection<Integer> negocioIds);
 
     Optional<UsuarioNegocioBrain> findById(UUID usuarioNegocioId);
 

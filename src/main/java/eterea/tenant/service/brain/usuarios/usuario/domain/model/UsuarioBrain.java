@@ -22,10 +22,15 @@ public class UsuarioBrain {
     private String passwordHash;
     @Builder.Default
     private Boolean activo = true;
+    @Builder.Default
+    private Boolean administrador = false;
     private OffsetDateTime lastLoginAt;
     private String lastLoginIp;
     @Builder.Default
     private Short failedLoginAttempts = 0;
     private OffsetDateTime lockedUntil;
     private OffsetDateTime passwordChangedAt;
+    @Builder.Default
+    private Boolean mustChangePassword = false;
+    private OffsetDateTime temporaryPasswordExpiresAt;
 }

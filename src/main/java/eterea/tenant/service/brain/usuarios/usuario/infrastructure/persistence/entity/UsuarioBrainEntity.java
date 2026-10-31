@@ -1,6 +1,6 @@
 package eterea.tenant.service.brain.usuarios.usuario.infrastructure.persistence.entity;
 
-import eterea.tenant.service.tenant.model.Auditable;
+import eterea.tenant.service.tool.Auditable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -34,10 +34,13 @@ public class UsuarioBrainEntity extends Auditable {
     private String email;
     private String passwordHash;
     private Boolean activo;
+    private Boolean administrador;
     private OffsetDateTime lastLoginAt;
     private String lastLoginIp;
     private Short failedLoginAttempts;
     private OffsetDateTime lockedUntil;
     private OffsetDateTime passwordChangedAt;
+    private Boolean mustChangePassword;
+    private OffsetDateTime temporaryPasswordExpiresAt;
 
 }

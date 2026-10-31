@@ -2,76 +2,76 @@ graph TB
     subgraph "Hexagonal Architecture - ETEREA Core Service"
         
         subgraph "Gestión Artículos"
-            ART_API[Articulo Controller<br/>hexagonal.articulo.infrastructure.web.controller]
-            ART_APP[Articulo Service<br/>hexagonal.articulo.application.service]
-            ART_DOMAIN[Articulo Model<br/>hexagonal.articulo.domain.model]
-            ART_PORTS[Ports In/Out<br/>hexagonal.articulo.domain.ports]
+            ART_API[Articulo Controller<br/>modules.stock.articulo.infrastructure.web.controller]
+            ART_APP[Articulo Service<br/>modules.stock.articulo.application.service]
+            ART_DOMAIN[Articulo Model<br/>modules.stock.articulo.domain.model]
+            ART_PORTS[Ports In/Out<br/>modules.stock.articulo.domain.ports]
         end
         
         subgraph "Gestión Movimientos Artículos"
-            AM_API[ArticuloMovimiento Controller<br/>hexagonal.articulomovimiento.infrastructure.web.controller]
-            AM_APP[ArticuloMovimiento Service<br/>hexagonal.articulomovimiento.application.service]
-            AM_DOMAIN[ArticuloMovimiento Model<br/>hexagonal.articulomovimiento.domain.model]
-            AM_PORTS[Ports In/Out<br/>hexagonal.articulomovimiento.domain.ports]
+            AM_API[ArticuloMovimiento Controller<br/>modules.stock.articulomovimiento.infrastructure.web.controller]
+            AM_APP[ArticuloMovimiento Service<br/>modules.stock.articulomovimiento.application.service]
+            AM_DOMAIN[ArticuloMovimiento Model<br/>modules.stock.articulomovimiento.domain.model]
+            AM_PORTS[Ports In/Out<br/>modules.stock.articulomovimiento.domain.ports]
         end
 
         subgraph "Gestión Comprobantes"
-            COMP_API[Comprobante Controller<br/>hexagonal.comprobante.infrastructure.web.controller]
-            COMP_APP[Comprobante Service<br/>hexagonal.comprobante.application.service]
-            COMP_DOMAIN[Comprobante Model<br/>hexagonal.comprobante.domain.model]
-            COMP_PORTS[Ports In/Out<br/>hexagonal.comprobante.domain.ports]
+            COMP_API[Comprobante Controller<br/>modules.ventas.comprobante.infrastructure.web.controller]
+            COMP_APP[Comprobante Service<br/>modules.ventas.comprobante.application.service]
+            COMP_DOMAIN[Comprobante Model<br/>modules.ventas.comprobante.domain.model]
+            COMP_PORTS[Ports In/Out<br/>modules.ventas.comprobante.domain.ports]
         end
 
         subgraph "Gestión Cuentas"
-            CTA_API[Cuenta Controller<br/>hexagonal.cuenta.infrastructure.web.controller]
-            CTA_APP[Cuenta Service<br/>hexagonal.cuenta.application.service]
-            CTA_DOMAIN[Cuenta Model<br/>hexagonal.cuenta.domain.model]
-            CTA_PORTS[Ports In/Out<br/>hexagonal.cuenta.domain.ports]
+            CTA_API[Cuenta Controller<br/>modules.contable.cuenta.infrastructure.web.controller]
+            CTA_APP[Cuenta Service<br/>modules.contable.cuenta.application.service]
+            CTA_DOMAIN[Cuenta Model<br/>modules.contable.cuenta.domain.model]
+            CTA_PORTS[Ports In/Out<br/>modules.contable.cuenta.domain.ports]
         end
 
         subgraph "Gestión Transferencias"
-            TRF_API[Transferencia Controller<br/>hexagonal.transferencia.infrastructure.web.controller]
-            TRF_APP[Transferencia Service<br/>hexagonal.transferencia.application.service]
-            TRF_DOMAIN[Transferencia Model<br/>hexagonal.transferencia.domain.model]
-            TRF_PORTS[Ports In/Out<br/>hexagonal.transferencia.domain.ports]
+            TRF_API[Transferencia Controller<br/>modules.tesoreria.legacy.hexagonal.transferencia.infrastructure.web.controller]
+            TRF_APP[Transferencia Service<br/>modules.tesoreria.legacy.hexagonal.transferencia.application.service]
+            TRF_DOMAIN[Transferencia Model<br/>modules.tesoreria.legacy.hexagonal.transferencia.domain.model]
+            TRF_PORTS[Ports In/Out<br/>modules.tesoreria.legacy.hexagonal.transferencia.domain.ports]
         end
 
         subgraph "Facturación Nacional"
-            FN_API[Facturación Controller<br/>hexagonal.facturacion.arca.nacional.infrastructure.web.controller]
-            FN_APP[Facturación Service<br/>hexagonal.facturacion.arca.nacional.application.service]
-            FN_DOMAIN[Facturación DTOs<br/>hexagonal.facturacion.arca.nacional.infrastructure.web.dto]
+            FN_API[Facturación Controller<br/>modules.ventas.legacy.hexagonal.facturacion.arca.nacional.infrastructure.web.controller]
+            FN_APP[Facturación Service<br/>modules.ventas.legacy.hexagonal.facturacion.arca.nacional.application.service]
+            FN_DOMAIN[Facturación DTOs<br/>modules.ventas.legacy.hexagonal.facturacion.arca.nacional.infrastructure.web.dto]
         end
         
         subgraph "Facturación Exportación"
-            FE_API[Exportación Controller<br/>hexagonal.facturacion.arca.exportacion.infrastructure.web.controller]
-            FE_APP[Exportación Service<br/>hexagonal.facturacion.arca.exportacion.application.service]
-            FE_DOMAIN[Exportación DTOs<br/>hexagonal.facturacion.arca.exportacion.infrastructure.web.dto]
+            FE_API[Exportación Controller<br/>modules.ventas.legacy.hexagonal.facturacion.arca.exportacion.infrastructure.web.controller]
+            FE_APP[Exportación Service<br/>modules.ventas.legacy.hexagonal.facturacion.arca.exportacion.application.service]
+            FE_DOMAIN[Exportación DTOs<br/>modules.ventas.legacy.hexagonal.facturacion.arca.exportacion.infrastructure.web.dto]
         end
         
         subgraph "Gestión Empresa"
-            E_API[Empresa Controller<br/>hexagonal.empresa.infrastructure.web.controller]
-            E_APP[Empresa Service<br/>hexagonal.empresa.application.service]
-            E_DOMAIN[Empresa Model<br/>hexagonal.empresa.domain.model]
-            E_PORTS[Ports In/Out<br/>hexagonal.empresa.domain.ports]
+            E_API[Empresa Controller<br/>modules.platform.legacy.hexagonal.empresa.infrastructure.web.controller]
+            E_APP[Empresa Service<br/>modules.platform.legacy.hexagonal.empresa.application.service]
+            E_DOMAIN[Empresa Model<br/>modules.platform.legacy.hexagonal.empresa.domain.model]
+            E_PORTS[Ports In/Out<br/>modules.platform.legacy.hexagonal.empresa.domain.ports]
         end
 
         subgraph "Gestión Legajo"
-            L_API[Legajo Controller<br/>hexagonal.legajo.infrastructure.web.controller]
-            L_APP[Legajo Service<br/>hexagonal.legajo.application.service]
-            L_DOMAIN[Legajo Model<br/>hexagonal.legajo.domain.model]
-            L_PORTS[Ports In/Out<br/>hexagonal.legajo.domain.ports]
+            L_API[Legajo Controller<br/>modules.personal.legajo.infrastructure.web.controller]
+            L_APP[Legajo Service<br/>modules.personal.legajo.application.service]
+            L_DOMAIN[Legajo Model<br/>modules.personal.legajo.domain.model]
+            L_PORTS[Ports In/Out<br/>modules.personal.legajo.domain.ports]
         end
 
         subgraph "Gestión Negocios"
-            NEG_API[Negocio Controller<br/>hexagonal.negocio.infrastructure.web.controller]
-            NEG_APP[Negocio Service<br/>hexagonal.negocio.application.service]
-            NEG_DOMAIN[Negocio Model<br/>hexagonal.negocio.domain.model]
-            NEG_PORTS[Ports In/Out<br/>hexagonal.negocio.domain.ports]
+            NEG_API[Negocio Controller<br/>modules.platform.negocio.infrastructure.web.controller]
+            NEG_APP[Negocio Service<br/>modules.platform.negocio.application.service]
+            NEG_DOMAIN[Negocio Model<br/>modules.platform.negocio.domain.model]
+            NEG_PORTS[Ports In/Out<br/>modules.platform.negocio.domain.ports]
         end
 
         subgraph "Gestión Proveedores"
-            PM_DOMAIN[ProveedorMovimiento Model<br/>hexagonal.proveedormovimiento.domain.model]
-            PM_ENTITY[ProveedorMovimiento Entity<br/>hexagonal.proveedormovimiento.infrastructure.persistence.entity]
+            PM_DOMAIN[ProveedorMovimiento Model<br/>modules.compras.legacy.hexagonal.proveedormovimiento.domain.model]
+            PM_ENTITY[ProveedorMovimiento Entity<br/>modules.compras.legacy.hexagonal.proveedormovimiento.infrastructure.persistence.entity]
         end
 
         subgraph "Gestión Brain de Empresas"
@@ -110,29 +110,41 @@ graph TB
         end
 
         subgraph "Consulta de Datos de Facturación"
-            ID_API[InvoiceData Controller<br/>hexagonal.invoicedata.infrastructure.web.controller]
-            ID_APP[InvoiceData Service<br/>hexagonal.invoicedata.application.service]
-            ID_DOMAIN[InvoiceData Model<br/>hexagonal.invoicedata.domain.model]
-            ID_PORTS[Ports In<br/>hexagonal.invoicedata.domain.ports.in]
+            ID_API[InvoiceData Controller<br/>modules.ventas.legacy.hexagonal.invoicedata.infrastructure.web.controller]
+            ID_APP[InvoiceData Service<br/>modules.ventas.legacy.hexagonal.invoicedata.application.service]
+            ID_DOMAIN[InvoiceData Model<br/>modules.ventas.legacy.hexagonal.invoicedata.domain.model]
+            ID_PORTS[Ports In<br/>modules.ventas.legacy.hexagonal.invoicedata.domain.ports.in]
+        end
+
+        subgraph "Autenticación Brain"
+            BAUTH_API[BrainAuth Controller<br/>brain.auth.infrastructure.web.controller]
+            BAUTH_APP[BrainAuth Service<br/>brain.auth.application.service]
+            BAUTH_REPO[RefreshToken Repository<br/>brain.auth.infrastructure.persistence.repository]
+        end
+
+        subgraph "Reportes"
+            REP_API[Reporte Controller<br/>modules.contable.cuenta.reporte.infrastructure.web.controller]
+            REP_APP[Reporte Service<br/>modules.reporte.application.service]
+            REP_PDF[OpenPDF Adapter<br/>modules.reporte.infrastructure.pdf]
         end
         
         subgraph "Persistence Layer"
-            ART_REPO[Articulo Repository Adapter<br/>hexagonal.articulo.infrastructure.persistence.repository]
-            ART_ENTITY[Articulo Entity<br/>hexagonal.articulo.infrastructure.persistence.entity]
-            AM_REPO[ArticuloMovimiento Repository Adapter<br/>hexagonal.articulomovimiento.infrastructure.persistence.repository]
-            AM_ENTITY[ArticuloMovimiento Entity<br/>hexagonal.articulomovimiento.infrastructure.persistence.entity]
-            COMP_REPO[Comprobante Repository Adapter<br/>hexagonal.comprobante.infrastructure.persistence.repository]
-            COMP_ENTITY[Comprobante Entity<br/>hexagonal.comprobante.infrastructure.persistence.entity]
-            CTA_REPO[Cuenta Repository Adapter<br/>hexagonal.cuenta.infrastructure.persistence.adapter]
-            CTA_ENTITY[Cuenta Entity<br/>hexagonal.cuenta.infrastructure.persistence.entity]
-            TRF_REPO[Transferencia Repository Adapter<br/>hexagonal.transferencia.infrastructure.persistence.adapter]
-            TRF_ENTITY[Transferencia Entity<br/>hexagonal.transferencia.infrastructure.persistence.entity]
-            E_REPO[Empresa Repository Adapter<br/>hexagonal.empresa.infrastructure.persistence.adapter]
-            E_ENTITY[Empresa Entity<br/>hexagonal.empresa.infrastructure.persistence.entity]
-            L_REPO[Legajo Repository Adapter<br/>hexagonal.legajo.infrastructure.persistence.adapter]
-            L_ENTITY[Legajo Entity<br/>hexagonal.legajo.infrastructure.persistence.entity]
-            NEG_REPO[Negocio Repository Adapter<br/>hexagonal.negocio.infrastructure.persistence.adapter]
-            NEG_ENTITY[Negocio Entity<br/>hexagonal.negocio.infrastructure.persistence.entity]
+            ART_REPO[Articulo Repository Adapter<br/>modules.stock.articulo.infrastructure.persistence.repository]
+            ART_ENTITY[Articulo Entity<br/>modules.stock.articulo.infrastructure.persistence.entity]
+            AM_REPO[ArticuloMovimiento Repository Adapter<br/>modules.stock.articulomovimiento.infrastructure.persistence.repository]
+            AM_ENTITY[ArticuloMovimiento Entity<br/>modules.stock.articulomovimiento.infrastructure.persistence.entity]
+            COMP_REPO[Comprobante Repository Adapter<br/>modules.ventas.comprobante.infrastructure.persistence.repository]
+            COMP_ENTITY[Comprobante Entity<br/>modules.ventas.comprobante.infrastructure.persistence.entity]
+            CTA_REPO[Cuenta Repository Adapter<br/>modules.contable.cuenta.infrastructure.persistence.adapter]
+            CTA_ENTITY[Cuenta Entity<br/>modules.contable.cuenta.infrastructure.persistence.entity]
+            TRF_REPO[Transferencia Repository Adapter<br/>modules.tesoreria.legacy.hexagonal.transferencia.infrastructure.persistence.adapter]
+            TRF_ENTITY[Transferencia Entity<br/>modules.tesoreria.legacy.hexagonal.transferencia.infrastructure.persistence.entity]
+            E_REPO[Empresa Repository Adapter<br/>modules.platform.legacy.hexagonal.empresa.infrastructure.persistence.adapter]
+            E_ENTITY[Empresa Entity<br/>modules.platform.legacy.hexagonal.empresa.infrastructure.persistence.entity]
+            L_REPO[Legajo Repository Adapter<br/>modules.personal.legajo.infrastructure.persistence.adapter]
+            L_ENTITY[Legajo Entity<br/>modules.personal.legajo.infrastructure.persistence.entity]
+            NEG_REPO[Negocio Repository Adapter<br/>modules.platform.negocio.infrastructure.persistence.adapter]
+            NEG_ENTITY[Negocio Entity<br/>modules.platform.negocio.infrastructure.persistence.entity]
             BE_REPO[EmpresaBrain Repository Adapter<br/>brain.empresa.infrastructure.persistence.adapter]
             BE_ENTITY[EmpresaBrain Entity<br/>brain.empresa.infrastructure.persistence.entity]
             BN_REPO[NegocioBrain Repository Adapter<br/>brain.negocio.infrastructure.persistence.adapter]
@@ -154,7 +166,7 @@ graph TB
         end
 
         subgraph "External Clients"
-            AFIP[AFIP Client<br/>client.arca.FacturacionAfipClient]
+            AFIP[AFIP Client<br/>modules.ventas.legacy.client.arca.FacturacionAfipClient]
             CONSUL[Consul Discovery]
             DB[(MySQL Database)]
         end
@@ -182,7 +194,9 @@ graph TB
         BU_API --> BU_APP
         BUE_API --> BUE_APP
         BUN_API --> BUN_APP
-        ID_API --> ID_APP        
+        ID_API --> ID_APP
+        BAUTH_API --> BAUTH_APP
+        REP_API --> REP_APP
         %% Application to Domain
         ART_APP --> ART_DOMAIN
         ART_APP --> ART_PORTS
@@ -260,6 +274,12 @@ graph TB
         ID_PORTS --> DB
         PM_ENTITY --> DB
         
+        %% Authentication and Reports
+        BAUTH_APP --> BAUTH_REPO
+        BAUTH_APP --> BU_REPO
+        BAUTH_REPO --> DB
+        REP_APP --> REP_PDF
+
         %% External Dependencies
         FN_APP --> AFIP
         FE_APP --> AFIP
@@ -286,6 +306,8 @@ graph TB
         style TX fill:#fff3e0
         style TXCFG fill:#fff3e0
         style ID_API fill:#e1f5fe
+        style BAUTH_API fill:#e1f5fe
+        style REP_API fill:#e1f5fe
         style ART_APP fill:#f3e5f5
         style AM_APP fill:#f3e5f5
         style COMP_APP fill:#f3e5f5
@@ -302,5 +324,7 @@ graph TB
         style BUE_APP fill:#f3e5f5
         style BUN_APP fill:#f3e5f5
         style ID_APP fill:#f3e5f5
+        style BAUTH_APP fill:#f3e5f5
+        style REP_APP fill:#f3e5f5
         style DB fill:#ffebee
     end

@@ -18,11 +18,14 @@ public class UsuarioBrainMapper {
                 .email(entity.getEmail())
                 .passwordHash(entity.getPasswordHash())
                 .activo(entity.getActivo())
+                .administrador(entity.getAdministrador())
                 .lastLoginAt(entity.getLastLoginAt())
                 .lastLoginIp(entity.getLastLoginIp())
                 .failedLoginAttempts(entity.getFailedLoginAttempts())
                 .lockedUntil(entity.getLockedUntil())
                 .passwordChangedAt(entity.getPasswordChangedAt())
+                .mustChangePassword(entity.getMustChangePassword())
+                .temporaryPasswordExpiresAt(entity.getTemporaryPasswordExpiresAt())
                 .build();
     }
 
@@ -37,11 +40,14 @@ public class UsuarioBrainMapper {
                 .email(domain.getEmail())
                 .passwordHash(domain.getPasswordHash())
                 .activo(domain.getActivo())
+                .administrador(domain.getAdministrador())
                 .lastLoginAt(domain.getLastLoginAt())
                 .lastLoginIp(domain.getLastLoginIp())
                 .failedLoginAttempts(domain.getFailedLoginAttempts())
                 .lockedUntil(domain.getLockedUntil())
                 .passwordChangedAt(domain.getPasswordChangedAt())
+                .mustChangePassword(domain.getMustChangePassword())
+                .temporaryPasswordExpiresAt(domain.getTemporaryPasswordExpiresAt())
                 .build();
     }
 }

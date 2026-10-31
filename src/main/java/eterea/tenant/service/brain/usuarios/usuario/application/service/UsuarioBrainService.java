@@ -7,6 +7,7 @@ import eterea.tenant.service.brain.usuarios.usuario.domain.ports.in.CreateUsuari
 import eterea.tenant.service.brain.usuarios.usuario.domain.ports.in.GetAllUsuarioBrainsUseCase;
 import eterea.tenant.service.brain.usuarios.usuario.domain.ports.in.GetUsuarioBrainByIdUseCase;
 import eterea.tenant.service.brain.usuarios.usuario.domain.ports.in.LoginUsuarioBrainUseCase;
+import eterea.tenant.service.brain.usuarios.usuario.domain.ports.in.ResetUsuarioBrainPasswordUseCase;
 import eterea.tenant.service.brain.usuarios.usuario.domain.ports.in.UpdateUsuarioBrainUseCase;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class UsuarioBrainService {
     private final UpdateUsuarioBrainUseCase updateUsuarioBrainUseCase;
     private final LoginUsuarioBrainUseCase loginUsuarioBrainUseCase;
     private final ChangeUsuarioBrainPasswordUseCase changeUsuarioBrainPasswordUseCase;
+    private final ResetUsuarioBrainPasswordUseCase resetUsuarioBrainPasswordUseCase;
 
     public List<UsuarioBrain> findAll() {
         return getAllUsuarioBrainsUseCase.getAll();
@@ -51,5 +53,9 @@ public class UsuarioBrainService {
         if (!changeUsuarioBrainPasswordUseCase.change(usuarioId, currentPassword, newPassword)) {
             throw new UsuarioBrainException("La password actual es inválida o el usuario no existe");
         }
+    }
+
+    public ResetUsuarioBrainPasswordUseCase.TemporaryPassword resetPassword(UUID usuarioId) {
+        return resetUsuarioBrainPasswordUseCase.reset(usuarioId);
     }
 }

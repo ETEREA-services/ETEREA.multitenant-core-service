@@ -20,9 +20,12 @@ public class UsuarioBrainResponse {
     private String nombre;
     private String email;
     private Boolean activo;
+    private Boolean administrador;
     private OffsetDateTime lastLoginAt;
     private String lastLoginIp;
     private Short failedLoginAttempts;
     private OffsetDateTime lockedUntil;
     private OffsetDateTime passwordChangedAt;
+    private Boolean mustChangePassword;
+    private OffsetDateTime temporaryPasswordExpiresAt;
 }

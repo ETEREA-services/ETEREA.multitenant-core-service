@@ -2,3 +2,8 @@ spring:
   cloud:
     consul:
       enabled: false
+
+app:
+  security:
+    jwt-secret: test-only-secret-0123456789-abcdef
+    issuer: eterea.multitenant

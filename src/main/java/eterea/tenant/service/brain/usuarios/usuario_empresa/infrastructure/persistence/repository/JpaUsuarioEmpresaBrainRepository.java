@@ -2,6 +2,7 @@ package eterea.tenant.service.brain.usuarios.usuario_empresa.infrastructure.pers
 
 import eterea.tenant.service.brain.usuarios.usuario_empresa.infrastructure.persistence.entity.UsuarioEmpresaBrainEntity;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface JpaUsuarioEmpresaBrainRepository extends JpaRepository<UsuarioEmpresaBrainEntity, UUID> {
 
     List<UsuarioEmpresaBrainEntity> findByUsuarioId(UUID usuarioId);
+
+    Optional<UsuarioEmpresaBrainEntity> findByUsuarioIdAndEmpresaId(UUID usuarioId, UUID empresaId);
 }

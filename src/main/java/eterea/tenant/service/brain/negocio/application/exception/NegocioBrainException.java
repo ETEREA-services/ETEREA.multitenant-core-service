@@ -1,5 +1,7 @@
 package eterea.tenant.service.brain.negocio.application.exception;
 
+
+import eterea.tenant.service.modules.platform.negocio.domain.model.Negocio;
 public class NegocioBrainException extends RuntimeException {
 
     public NegocioBrainException() {

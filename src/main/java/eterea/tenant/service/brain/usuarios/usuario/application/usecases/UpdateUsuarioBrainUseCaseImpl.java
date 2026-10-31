@@ -26,6 +26,9 @@ public class UpdateUsuarioBrainUseCaseImpl implements UpdateUsuarioBrainUseCase 
             if (changes.getActivo() != null) {
                 current.setActivo(changes.getActivo());
             }
+            if (changes.getAdministrador() != null) {
+                current.setAdministrador(changes.getAdministrador());
+            }
             if (password != null && !password.isBlank()) {
                 current.setPasswordHash(passwordHashPort.hash(password));
                 current.setPasswordChangedAt(OffsetDateTime.now());
