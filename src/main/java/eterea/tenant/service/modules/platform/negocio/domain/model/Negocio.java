@@ -1,0 +1,34 @@
+package eterea.tenant.service.modules.platform.negocio.domain.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Negocio {
+
+    private Integer negocioId;
+    private String nombre;
+    private Integer negocioIdReal;
+    private String databaseIpVpn;
+    private String databaseIpLan;
+    private String databasePort;
+    private String database;
+    private String user;
+    private Byte transferenciaStock;
+    private Byte transferenciaValor;
+    private String backendIpVpn;
+    private String backendIpLan;
+    private String backendPort;
+    private Byte hasGateway;
+    private Byte copyArticulo;
+    private String ipAddress;
+    private String backendServer;
+
+}

@@ -11,6 +11,26 @@ app:
   mail:
     username: uid
     password: pwd
+  security:
+    jwt-secret: ${APP_JWT_SECRET:}
+    issuer: ${APP_JWT_ISSUER:eterea.multitenant}
+    access-token-ttl: ${APP_ACCESS_TOKEN_TTL:15m}
+    refresh-token-ttl: ${APP_REFRESH_TOKEN_TTL:7d}
+    cookie-secure: ${APP_SECURITY_COOKIE_SECURE:false}
+    max-failed-attempts: ${APP_SECURITY_MAX_FAILED_ATTEMPTS:5}
+    lock-duration: ${APP_SECURITY_LOCK_DURATION:15m}
+    temporary-password-ttl: ${APP_SECURITY_TEMPORARY_PASSWORD_TTL:24h}
+  tenant:
+    datasource:
+      maximum-pool-size: ${APP_TENANT_DB_POOL_MAX:8}
+      minimum-idle: ${APP_TENANT_DB_POOL_MIN:1}
+      idle-timeout: ${APP_TENANT_DB_IDLE_TIMEOUT:60s}
+      max-lifetime: ${APP_TENANT_DB_MAX_LIFETIME:20m}
+      connection-timeout: ${APP_TENANT_DB_CONNECTION_TIMEOUT:5s}
+      validation-timeout: ${APP_TENANT_DB_VALIDATION_TIMEOUT:3s}
+      eviction-after: ${APP_TENANT_DB_EVICTION_AFTER:15m}
+      max-live-pools: ${APP_TENANT_DB_MAX_LIVE_POOLS:30}
+      eviction-interval: ${APP_TENANT_DB_EVICTION_INTERVAL:1m}
 
 server:
   address: 0.0.0.0
@@ -41,6 +61,11 @@ spring:
     hibernate:
       ddl-auto: none
     open-in-view: false
+  sql:
+    init:
+      mode: ${APP_DB_INIT_MODE:always}
+      schema-locations: classpath:db/refresh-token-schema.sql
+      continue-on-error: false
   mail:
     host: smtp.gmail.com
     port: 587

@@ -18,7 +18,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 @EnableJpaAuditing
 @EnableScheduling
-@EnableFeignClients(basePackages = "eterea.tenant.service.tenant.client")
+@EnableFeignClients(basePackages = "eterea.tenant.service.modules")
 @PropertySource("classpath:config/eterea.properties")
 public class EtereaMultitenantConfiguration {
 

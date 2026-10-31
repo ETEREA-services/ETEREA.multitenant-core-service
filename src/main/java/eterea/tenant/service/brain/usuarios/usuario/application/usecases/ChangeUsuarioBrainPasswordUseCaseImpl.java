@@ -22,6 +22,8 @@ public class ChangeUsuarioBrainPasswordUseCaseImpl implements ChangeUsuarioBrain
                 .map(usuario -> {
                     usuario.setPasswordHash(passwordHashPort.hash(newPassword));
                     usuario.setPasswordChangedAt(OffsetDateTime.now());
+                    usuario.setMustChangePassword(false);
+                    usuario.setTemporaryPasswordExpiresAt(null);
                     usuarioBrainRepository.save(usuario);
                     return true;
                 })

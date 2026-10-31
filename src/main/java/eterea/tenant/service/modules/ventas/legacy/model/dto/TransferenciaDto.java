@@ -1,0 +1,40 @@
+package eterea.tenant.service.modules.ventas.legacy.model.dto;
+
+import eterea.tenant.service.modules.ventas.legacy.ComprobanteDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import eterea.tenant.service.tool.Jsonifier;
+import eterea.tenant.service.tool.Jsonifyable;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class TransferenciaDto implements Jsonifyable {
+
+    private Long transferenciaId;
+    private Integer negocioIdDesde;
+    private Integer negocioIdHasta;
+    private Long numeroTransferencia;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXX", timezone = "UTC")
+    private OffsetDateTime fecha;
+
+    @Builder.Default
+    private BigDecimal total = BigDecimal.ZERO;
+    private Integer ordenContable;
+
+    @Builder.Default
+    private Byte transferido = 0;
+    private Integer comprobanteId;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXX", timezone = "UTC")
+    private OffsetDateTime fechaOtro;
+
+    private ComprobanteDto comprobante;
+
+}

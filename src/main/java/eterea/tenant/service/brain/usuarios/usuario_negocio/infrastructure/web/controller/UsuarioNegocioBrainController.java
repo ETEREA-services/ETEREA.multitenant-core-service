@@ -1,6 +1,8 @@
 package eterea.tenant.service.brain.usuarios.usuario_negocio.infrastructure.web.controller;
 
+import eterea.tenant.service.brain.usuarios.usuario_negocio.application.exception.UsuarioNegocioBrainConflictException;
 import eterea.tenant.service.brain.usuarios.usuario_negocio.application.exception.UsuarioNegocioBrainException;
+import eterea.tenant.service.brain.usuarios.usuario_negocio.application.exception.UsuarioNegocioBrainNotFoundException;
 import eterea.tenant.service.brain.usuarios.usuario_negocio.application.service.UsuarioNegocioBrainService;
 import eterea.tenant.service.brain.usuarios.usuario_negocio.infrastructure.web.dto.UsuarioNegocioBrainRequest;
 import eterea.tenant.service.brain.usuarios.usuario_negocio.infrastructure.web.dto.UsuarioNegocioBrainResponse;
@@ -10,6 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +33,7 @@ public class UsuarioNegocioBrainController {
     private final UsuarioNegocioBrainDtoMapper usuarioNegocioBrainDtoMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioNegocioBrainResponse> create(
             @Valid @RequestBody UsuarioNegocioBrainRequest request) {
         try {
@@ -37,12 +41,24 @@ public class UsuarioNegocioBrainController {
                     usuarioNegocioBrainDtoMapper.toDomain(request));
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(usuarioNegocioBrainDtoMapper.toResponse(usuarioNegocio));
-        } catch (UsuarioNegocioBrainException exception) {
+        } catch (UsuarioNegocioBrainNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
+        } catch (UsuarioNegocioBrainConflictException | UsuarioNegocioBrainException exception) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, exception.getMessage(), exception);
         }
     }
 
+    @GetMapping("/usuario/{usuarioId}")
+    @PreAuthorize("hasAuthority('ADMIN') or #usuarioId.toString() == authentication.name")
+    public ResponseEntity<List<UsuarioNegocioConNegocioResponse>> findAllByUsuarioId(
+            @PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(usuarioNegocioBrainService.findAllByUsuarioId(usuarioId).stream()
+                .map(usuarioNegocioBrainDtoMapper::toConNegocioResponse)
+                .toList());
+    }
+
     @GetMapping("/usuario/{usuarioId}/empresa/{empresaId}")
+    @PreAuthorize("hasAuthority('ADMIN') or #usuarioId.toString() == authentication.name")
     public ResponseEntity<List<UsuarioNegocioConNegocioResponse>> findAllByUsuarioIdAndEmpresaId(
             @PathVariable UUID usuarioId,
             @PathVariable UUID empresaId) {
@@ -53,6 +69,7 @@ public class UsuarioNegocioBrainController {
     }
 
     @PutMapping("/{usuarioNegocioId}/deactivate")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioNegocioBrainResponse> deactivate(
             @PathVariable UUID usuarioNegocioId) {
         try {
@@ -64,6 +81,7 @@ public class UsuarioNegocioBrainController {
     }
 
     @PutMapping("/{usuarioNegocioId}/activate")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UsuarioNegocioBrainResponse> activate(
             @PathVariable UUID usuarioNegocioId) {
         try {

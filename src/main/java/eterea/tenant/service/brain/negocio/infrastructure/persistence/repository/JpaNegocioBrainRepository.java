@@ -1,7 +1,9 @@
 package eterea.tenant.service.brain.negocio.infrastructure.persistence.repository;
 
 import eterea.tenant.service.brain.negocio.infrastructure.persistence.entity.NegocioBrainEntity;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface JpaNegocioBrainRepository extends JpaRepository<NegocioBrainEntity, Integer> {
 
     Optional<NegocioBrainEntity> findByTenantId(String tenantId);
+
+    boolean existsByTenantId(String tenantId);
+
+    List<NegocioBrainEntity> findAllByEmpresaId(UUID empresaId);
 }

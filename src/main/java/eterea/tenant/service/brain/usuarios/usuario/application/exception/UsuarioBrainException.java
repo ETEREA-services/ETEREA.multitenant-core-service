@@ -1,5 +1,6 @@
 package eterea.tenant.service.brain.usuarios.usuario.application.exception;
 
+import eterea.tenant.service.modules.platform.legacy.Usuario;
 import java.util.UUID;
 
 public class UsuarioBrainException extends RuntimeException {

@@ -1,5 +1,6 @@
 package eterea.tenant.service.brain.negocio.infrastructure.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class NegocioBrainResponse {
     private String databaseIp;
     private String databasePort;
     private String databaseUsername;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String databasePassword;
     private String backendIp;
     private String backendPort;

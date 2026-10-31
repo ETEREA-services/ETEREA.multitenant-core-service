@@ -23,7 +23,7 @@ classDiagram
     }
 
     class Reserva {
-        <<Kotlin Data Class>>
+        << legacy Data Class >>
         +reservaId: Long
         +clienteId: Long
         +fechaInServicio: OffsetDateTime
@@ -34,14 +34,14 @@ classDiagram
     }
 
     class Habitacion {
-        <<Kotlin Data Class>>
+        << legacy Data Class >>
         +numero: Int
         +habitacionTipoId: Int
         +clienteId: Long
     }
 
     class Hotel {
-        <<Kotlin Data Class>>
+        << legacy Data Class >>
         +hotelId: Int
         +nombre: String
     }

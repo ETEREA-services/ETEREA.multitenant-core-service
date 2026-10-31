@@ -24,6 +24,12 @@ public class CreateUsuarioBrainUseCaseImpl implements CreateUsuarioBrainUseCase 
         if (usuario.getActivo() == null) {
             usuario.setActivo(true);
         }
+        if (usuario.getAdministrador() == null) {
+            usuario.setAdministrador(false);
+        }
+        if (usuario.getMustChangePassword() == null) {
+            usuario.setMustChangePassword(false);
+        }
         if (usuario.getFailedLoginAttempts() == null) {
             usuario.setFailedLoginAttempts((short) 0);
         }

@@ -25,6 +25,12 @@ public class JpaUsuarioEmpresaBrainRepositoryAdapter implements UsuarioEmpresaBr
     }
 
     @Override
+    public Optional<UsuarioEmpresaBrain> findByUsuarioIdAndEmpresaId(UUID usuarioId, UUID empresaId) {
+        return jpaUsuarioEmpresaBrainRepository.findByUsuarioIdAndEmpresaId(usuarioId, empresaId)
+                .map(usuarioEmpresaBrainMapper::toDomain);
+    }
+
+    @Override
     public Optional<UsuarioEmpresaBrain> findById(UUID usuarioEmpresaId) {
         return jpaUsuarioEmpresaBrainRepository.findById(usuarioEmpresaId)
                 .map(usuarioEmpresaBrainMapper::toDomain);

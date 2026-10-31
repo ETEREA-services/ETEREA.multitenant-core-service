@@ -9,6 +9,8 @@ public interface UsuarioEmpresaBrainRepository {
 
     List<UsuarioEmpresaBrain> findByUsuarioId(UUID usuarioId);
 
+    Optional<UsuarioEmpresaBrain> findByUsuarioIdAndEmpresaId(UUID usuarioId, UUID empresaId);
+
     Optional<UsuarioEmpresaBrain> findById(UUID usuarioEmpresaId);
 
     UsuarioEmpresaBrain save(UsuarioEmpresaBrain usuarioEmpresa);

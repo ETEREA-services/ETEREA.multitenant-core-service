@@ -23,10 +23,15 @@ public class UpdateNegocioBrainUseCaseImpl implements UpdateNegocioBrainUseCase 
                     existing.setDatabaseIp(negocio.getDatabaseIp());
                     existing.setDatabasePort(negocio.getDatabasePort());
                     existing.setDatabaseUsername(negocio.getDatabaseUsername());
-                    existing.setDatabasePassword(negocio.getDatabasePassword());
+                    if (negocio.getDatabasePassword() != null
+                            && !negocio.getDatabasePassword().isBlank()) {
+                        existing.setDatabasePassword(negocio.getDatabasePassword());
+                    }
                     existing.setBackendIp(negocio.getBackendIp());
                     existing.setBackendPort(negocio.getBackendPort());
-                    existing.setTenantId(negocio.getTenantId());
+                    if (negocio.getTenantId() != null && !negocio.getTenantId().isBlank()) {
+                        existing.setTenantId(negocio.getTenantId());
+                    }
                     return negocioBrainRepository.save(existing);
                 });
     }

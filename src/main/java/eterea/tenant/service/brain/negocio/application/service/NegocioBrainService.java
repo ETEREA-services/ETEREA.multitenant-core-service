@@ -6,8 +6,10 @@ import eterea.tenant.service.brain.negocio.domain.ports.in.CreateNegocioBrainUse
 import eterea.tenant.service.brain.negocio.domain.ports.in.GetAllNegocioBrainsUseCase;
 import eterea.tenant.service.brain.negocio.domain.ports.in.GetNegocioBrainByIdUseCase;
 import eterea.tenant.service.brain.negocio.domain.ports.in.GetNegocioBrainByTenantIdUseCase;
+import eterea.tenant.service.brain.negocio.domain.ports.in.GetNegocioBrainsByEmpresaIdUseCase;
 import eterea.tenant.service.brain.negocio.domain.ports.in.UpdateNegocioBrainUseCase;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class NegocioBrainService {
 
     private final GetAllNegocioBrainsUseCase getAllNegocioBrainsUseCase;
+    private final GetNegocioBrainsByEmpresaIdUseCase getNegocioBrainsByEmpresaIdUseCase;
     private final GetNegocioBrainByIdUseCase getNegocioBrainByIdUseCase;
     private final GetNegocioBrainByTenantIdUseCase getNegocioBrainByTenantIdUseCase;
     private final CreateNegocioBrainUseCase createNegocioBrainUseCase;
@@ -23,6 +26,10 @@ public class NegocioBrainService {
 
     public List<NegocioBrain> findAll() {
         return getAllNegocioBrainsUseCase.getAll();
+    }
+
+    public List<NegocioBrain> findAllByEmpresaId(UUID empresaId) {
+        return getNegocioBrainsByEmpresaIdUseCase.getByEmpresaId(empresaId);
     }
 
     public NegocioBrain findById(Integer negocioId) {

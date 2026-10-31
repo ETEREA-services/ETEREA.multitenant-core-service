@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class EmpresaBrainController {
     private final EmpresaBrainDtoMapper empresaBrainDtoMapper;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<EmpresaBrainResponse>> findAll() {
         return ResponseEntity.ok(empresaBrainService.findAll().stream()
                 .map(empresaBrainDtoMapper::toResponse)
@@ -46,6 +48,7 @@ public class EmpresaBrainController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<EmpresaBrainResponse> create(@Valid @RequestBody EmpresaBrainRequest request) {
         var empresa = empresaBrainService.create(empresaBrainDtoMapper.toDomain(request));
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -53,6 +56,7 @@ public class EmpresaBrainController {
     }
 
     @PutMapping("/{empresaId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<EmpresaBrainResponse> update(
             @PathVariable UUID empresaId,
             @Valid @RequestBody EmpresaBrainRequest request) {

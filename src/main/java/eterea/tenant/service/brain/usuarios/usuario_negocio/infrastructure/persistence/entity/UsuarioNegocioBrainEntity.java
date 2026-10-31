@@ -1,6 +1,6 @@
 package eterea.tenant.service.brain.usuarios.usuario_negocio.infrastructure.persistence.entity;
 
-import eterea.tenant.service.tenant.model.Auditable;
+import eterea.tenant.service.tool.Auditable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

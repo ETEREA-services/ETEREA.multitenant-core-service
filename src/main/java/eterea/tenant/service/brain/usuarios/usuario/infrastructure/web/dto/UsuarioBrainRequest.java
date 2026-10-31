@@ -30,4 +30,6 @@ public class UsuarioBrainRequest {
     private String password;
 
     private Boolean activo;
+
+    private Boolean administrador;
 }
