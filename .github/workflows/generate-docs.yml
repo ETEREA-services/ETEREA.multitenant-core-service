@@ -139,6 +139,11 @@ jobs:
               </div>
 
               <div class="section">
+                  <h2>Dominio: Contabilidad y Reportes</h2>
+                  <div id="balance-reporte-sequence-diagram"></div>
+              </div>
+
+              <div class="section">
                   <h2>Multi-tenancy</h2>
                   <div id="tenant-resolution-sequence-diagram"></div>
               </div>
@@ -226,6 +231,8 @@ jobs:
                         { id: 'negociounificado-class-diagram', path: 'diagrams/mermaid/negociounificado-class-diagram.mmd', title: 'UML Diagrama de Clases del Modelo Negocio Unificado' },
                         // UsuarioUnificado & UsuarioNegocioUnificado Domains
                         { id: 'usuario-class-diagram', path: 'diagrams/mermaid/usuario-class-diagram.mmd', title: 'UML Diagrama de Clases de Gestión Unificada de Usuarios' },
+                       // Accounting and Reports Domain
+                       { id: 'balance-reporte-sequence-diagram', path: 'diagrams/mermaid/balance-reporte-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Reporte de Balance' },
                         // Multi-Tenancy Domain
                        { id: 'tenant-resolution-sequence-diagram', path: 'diagrams/mermaid/tenant-resolution-sequence-diagram.mmd', title: 'Diagrama de Secuencia: Resolución de Tenant Multi-tenancy' }
                    ];

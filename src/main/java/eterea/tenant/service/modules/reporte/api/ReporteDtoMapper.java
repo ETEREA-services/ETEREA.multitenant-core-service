@@ -17,7 +17,8 @@ public class ReporteDtoMapper {
                         columna.titulo(),
                         columna.alineacion(),
                         columna.anchoRelativo(),
-                        columna.admiteSangria()))
+                        columna.admiteSangria(),
+                        columna.tipo()))
                 .toList();
 
         List<ReporteFilaResponse> filas = tabla.filas().stream()
@@ -32,9 +33,11 @@ public class ReporteDtoMapper {
                 tabla.cabecera().titulo(),
                 tabla.cabecera().negocio(),
                 ReporteFecha.formatear(tabla.cabecera().fecha()),
+                tabla.cabecera().subtitulo(),
                 columnas,
                 filas,
-                tabla.totalFilas());
+                tabla.totalFilas(),
+                tabla.advertencias());
     }
 
 }

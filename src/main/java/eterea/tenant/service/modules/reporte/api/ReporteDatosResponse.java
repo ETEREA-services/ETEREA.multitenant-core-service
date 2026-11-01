@@ -13,8 +13,10 @@ public record ReporteDatosResponse(
         String titulo,
         String negocio,
         String generadoEn,
+        String subtitulo,
         List<ReporteColumnaResponse> columnas,
         List<ReporteFilaResponse> filas,
-        int totalFilas) {
+        int totalFilas,
+        List<String> advertencias) {
 
 }

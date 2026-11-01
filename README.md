@@ -10,7 +10,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-26.10.0-orange.svg)](https://www.mysql.com/)
 [![H2](https://img.shields.io/badge/H2-tests-blue.svg)](https://www.h2database.com/)
 ![License](https://img.shields.io/badge/License-Proprietary-red.svg)
-[![Version](https://img.shields.io/badge/Version-4.0.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
+[![Version](https://img.shields.io/badge/Version-4.1.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
 
 ## Descripción
 
@@ -21,8 +21,8 @@ Servicio Core multi-tenant para la gestión financiera y contable, implementado 
 - **Autenticación JWT**: Login común, refresh tokens en cookie `HttpOnly`, lockout y blanqueo con contraseña temporal
 - **Facturación Nacional y de Exportación**: Soporte completo para facturación electrónica argentina
 - **Gestión de Artículos, Comprobantes, Cuentas, Transferencias**: Módulos hexagonales migrados a Java
-- **Contabilidad**: Plan de cuentas jerárquico, ejercicios y coeficientes de inflación
-- **Reportes**: Vista previa JSON y PDF generados desde un modelo único (`ReporteTabla`)
+- **Contabilidad**: Plan de cuentas jerárquico, ejercicios, coeficientes de inflación y balance con cotizaciones del BCRA
+- **Reportes**: Vista previa JSON, PDF y XLSX generados desde un modelo único (`ReporteTabla`)
 - **InvoiceData**: Consulta de datos completos de facturación
 - **Gestión de Legajos y Proveedores**: Con arquitectura hexagonal
 - **Ajuste automático** de netos e ivas en comprobantes
@@ -43,6 +43,7 @@ Servicio Core multi-tenant para la gestión financiera y contable, implementado 
 
 ### Utilidades
 - OpenPDF 3.0.5 (Generación de PDFs)
+- Apache POI 5.5.1 (Exportación XLSX de reportes)
 - ZXing 3.5.4 (Códigos de Barras y QR)
 - Lombok
 - ModelMapper 3.2.8
@@ -68,8 +69,8 @@ El proyecto utiliza una **arquitectura hexagonal dentro de módulos cerrados** (
 ### Módulos de Negocio
 - **`modules/platform/`**: Negocio actual, clientes, usuarios, parámetros y contratos compartidos
 - **`modules/compras/`**: Proveedores y movimientos de compras
-- **`modules/contable/`**: Cuenta, asientos, ejercicios y coeficientes de inflación
-- **`modules/reporte/`**: Modelo transversal de reportes y render PDF
+- **`modules/contable/`**: Cuenta, asientos, ejercicios, coeficientes de inflación y balance
+- **`modules/reporte/`**: Modelo transversal de reportes con render PDF y XLSX
 - **`modules/stock/`**: Artículos, movimientos, inventario y saldos
 - **`modules/ventas/`**: Comprobantes, vouchers y facturación
 - **`modules/reserva/`**: Reservas, hotelería y habitaciones
@@ -113,11 +114,15 @@ El proyecto utiliza una **arquitectura hexagonal dentro de módulos cerrados** (
 - **Plan de cuentas**: Árbol jerárquico, alta, edición, baja y detalle por número de cuenta
 - **Ejercicios**: CRUD, sugerencia del siguiente ejercicio y bloqueo/desbloqueo
 - **Coeficientes de inflación**: Consulta y actualización por año y mes con validación de dominio
+- **Balance General y Saldos Contables**: `ESTRUCTURA` jerárquica o `POR_CUENTA` plana, con apertura, inflación y conversión de moneda
+- **Cotizaciones bajo demanda**: completa desde el BCRA solo las fechas sin cobertura del par consultado y hace upsert idempotente en `moneda_cotizacion`
+- **Reporte del balance**: vista previa JSON, PDF y XLSX en `/api/tenant/core/reporte/balance`
 - **Reporte del plan de cuentas**: Vista previa JSON y PDF
 
 ### Reportes
-- **Modelo único**: `ReporteTabla` alimenta la vista previa y el PDF
+- **Modelo único**: `ReporteTabla` alimenta la vista previa, el PDF y el XLSX
 - **PDF OpenPDF**: A4, cabecera repetida, numeración `Página X de Y` y wrapping de celdas
+- **XLSX Apache POI**: números nativos con formato `#,##0.00`, sangría por nivel y panel congelado
 - **Extensible**: Cada módulo de negocio expone su reporte bajo `/api/tenant/core/reporte/**`
 
 ### Consulta de Datos de Facturación
@@ -235,7 +240,8 @@ Este proyecto es privado y de uso exclusivo de Termalia S.A.
 - ✅ **Gestión de Cuentas Contables** con árbol jerárquico y reporte del plan de cuentas
 - ✅ **Gestión de Ejercicios** con bloqueo/desbloqueo y sugerencia del siguiente
 - ✅ **Coeficientes de Inflación** por año y mes con validación de dominio
-- ✅ **Reportes** con vista previa JSON y PDF OpenPDF desde un modelo único
+- ✅ **Balance General y Saldos Contables** con conversión de moneda y cotizaciones del BCRA bajo demanda
+- ✅ **Reportes** con vista previa JSON, PDF OpenPDF y XLSX Apache POI desde un modelo único
 - ✅ **Gestión de Transferencias** con arquitectura hexagonal (Java)
 - ✅ **Gestión de Empresas** con arquitectura hexagonal
 - ✅ **Gestión de Negocios (sucursales)** con arquitectura hexagonal
@@ -262,6 +268,7 @@ Este proyecto es privado y de uso exclusivo de Termalia S.A.
 
 ### Utilidades
 - ✅ **Generación de PDFs** con OpenPDF
+- ✅ **Exportación XLSX** de reportes con Apache POI
 - ✅ **Códigos de barras y QR** con ZXing
 - ✅ **Mapeo de objetos** con ModelMapper
 - ✅ **Serialización JSON** centralizada

@@ -124,8 +124,10 @@ graph TB
 
         subgraph "Reportes"
             REP_API[Reporte Controller<br/>modules.contable.cuenta.reporte.infrastructure.web.controller]
+            BALANCE_API[Balance Reporte Controller<br/>modules.contable.balance.reporte.infrastructure.web.controller]
             REP_APP[Reporte Service<br/>modules.reporte.application.service]
             REP_PDF[OpenPDF Adapter<br/>modules.reporte.infrastructure.pdf]
+            REP_XLSX[Apache POI Adapter<br/>modules.reporte.infrastructure.xlsx]
         end
         
         subgraph "Persistence Layer"
@@ -197,6 +199,7 @@ graph TB
         ID_API --> ID_APP
         BAUTH_API --> BAUTH_APP
         REP_API --> REP_APP
+        BALANCE_API --> REP_APP
         %% Application to Domain
         ART_APP --> ART_DOMAIN
         ART_APP --> ART_PORTS
@@ -279,6 +282,7 @@ graph TB
         BAUTH_APP --> BU_REPO
         BAUTH_REPO --> DB
         REP_APP --> REP_PDF
+        REP_APP --> REP_XLSX
 
         %% External Dependencies
         FN_APP --> AFIP
@@ -308,6 +312,7 @@ graph TB
         style ID_API fill:#e1f5fe
         style BAUTH_API fill:#e1f5fe
         style REP_API fill:#e1f5fe
+        style BALANCE_API fill:#e1f5fe
         style ART_APP fill:#f3e5f5
         style AM_APP fill:#f3e5f5
         style COMP_APP fill:#f3e5f5

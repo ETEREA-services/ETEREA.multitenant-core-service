@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.termascacheuta</groupId>
     <artifactId>eterea.multitenant.core.service</artifactId>
-    <version>4.0.0</version>
+    <version>4.1.0</version>
     <name>ETEREA.multitenant-core-service</name>
     <description>API - Eterea - Core</description>
     <properties>
@@ -143,6 +143,11 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.5.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.modulith</groupId>

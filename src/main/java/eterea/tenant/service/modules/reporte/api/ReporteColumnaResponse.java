@@ -8,6 +8,7 @@ public record ReporteColumnaResponse(
         String titulo,
         ReporteAlineacion alineacion,
         float anchoRelativo,
-        boolean admiteSangria) {
+        boolean admiteSangria,
+        ReporteTipoColumna tipo) {
 
 }

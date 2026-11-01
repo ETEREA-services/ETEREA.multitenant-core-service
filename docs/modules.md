@@ -15,7 +15,8 @@ eterea.tenant.service
 └── modules              módulos de negocio (Spring Modulith)
     ├── platform         negocio actual, clientes, usuarios y contratos
     ├── compras          proveedores
-    ├── contable         cuenta, asientos, ejercicios y coeficientes de inflación
+    ├── contable         cuenta, asientos, ejercicios, coeficientes de inflación y balance
+    ├── reporte          modelo transversal de reportes y render PDF/XLSX
     ├── stock            artículos, productos, inventario y saldos
     ├── ventas           comprobantes, vouchers y facturación
     ├── reserva          reservas y hotelería
@@ -29,7 +30,8 @@ eterea.tenant.service
 |---|---|---|---|
 | `platform` | `modules.platform` | negocio, clientes, usuarios, parámetros y contratos | Migrado |
 | `compras` | `modules.compras` | proveedores | Migrado |
-| `contable` | `modules.contable` | cuenta, asientos, ejercicios y coeficientes de inflación | Migrado |
+| `contable` | `modules.contable` | cuenta, asientos, ejercicios, coeficientes de inflación y balance | Migrado |
+| `reporte` | `modules.reporte` | modelo de reportes, PDF OpenPDF y XLSX Apache POI | Migrado |
 | `stock` | `modules.stock` | artículos, productos, inventario y saldos | Migrado |
 | `ventas` | `modules.ventas` | comprobantes, vouchers y facturación | Migrado |
 | `reserva` | `modules.reserva` | reservas y hotelería | Migrado |
