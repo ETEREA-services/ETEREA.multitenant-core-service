@@ -1,3 +1,20 @@
+## [4.1.0] - 2026-11-01
+
+### Added
+- **feat(contable-balance)**: Nuevo slice hexagonal `modules.contable.balance` que genera el balance a partir del plan de cuentas y de los agregados de `movcon` y `movconapertura`. `BalanceCalculator` acumula los saldos propios, sube los totales al padre en orden descendente de código, deriva jerarquía y nivel con `CodigoCuenta`, redondea a 2 decimales y agrega advertencias cuando el libro no cuadra.
+- **feat(contable-balance)**: Dos modos de presentación en `BalanceModo`: `ESTRUCTURA` (Balance General jerárquico) y `POR_CUENTA` (Saldos Contables planos), con `incluyeApertura` e `incluyeInflacion` como filtros del cálculo.
+- **feat(reporte-balance)**: `BalanceReporteController` expone `POST /api/tenant/core/reporte/balance/datos`, `/pdf`, `/xlsx` y `GET /api/tenant/core/reporte/balance/monedas`. La vista previa, el PDF y el XLSX se arman desde el mismo `ReporteTabla`, con subtítulo de período y monedas, y nombre de archivo derivado del negocio y del rango.
+- **feat(balance-cotizaciones)**: Conversión de moneda por par `monedaRegistroId`/`monedaExpresionId` con cotizaciones del BCRA bajo demanda. `BalanceMovimientoPort.findFechasSinCotizacion` detecta los días sin cobertura, `CotizacionOnDemandService` pide solo esa ventana, aplica la última tasa disponible y hace upsert idempotente en `moneda_cotizacion`. Si el BCRA no devuelve tasas responde `BALANCE_COTIZACION_FALTANTE` y no inventa una cotización 1,0.
+- **feat(balance-cache)**: Caché Caffeine del balance (500 entradas, 60 s) con clave compuesta por tenant, filtros y watermark de movimientos, apertura y cotizaciones.
+- **feat(reporte-xlsx)**: Exportación XLSX transversal del módulo `reporte` con Apache POI: caso de uso `GenerarReporteXlsxUseCase`, puerto `ReporteXlsxPort` y adaptador `OpenPoiXlsxAdapter` con título, metadatos, subtítulo, cabecera congelada, números nativos con formato `#,##0.00`, sangría por nivel y nombre de hoja saneado.
+- **feat(balance-errores)**: `BalanceExceptionHandler` traduce los códigos `BALANCE_*` a `ProblemDetail`: `400` para rango o moneda inválidos, `404` sin negocio activo y `422` cuando faltan cotizaciones.
+- **test(balance-xlsx)**: Tests unitarios de `BalanceCalculator`, `GenerarBalanceUseCaseImpl`, `GenerarBalanceReporteUseCaseImpl`, `BalanceReporteController` y `OpenPoiXlsxAdapter`.
+
+### Changed
+- **feat(reporte-contrato)**: `ReporteTabla` incorpora `advertencias`, `ReporteCabecera` incorpora `subtitulo` y `ReporteColumna` incorpora `tipo` (`ReporteTipoColumna.TEXTO|NUMERO`). Los constructores anteriores se conservan, por lo que los reportes existentes no requieren cambios. La vista previa JSON agrega `subtitulo`, `tipo` y `advertencias`, y el PDF imprime el subtítulo cuando está presente.
+- **chore(deps)**: Se agrega `org.apache.poi:poi-ooxml` 5.5.1.
+- **docs**: README, CHANGELOG, `docs/modules.md` y diagramas Mermaid actualizados con el balance, la exportación XLSX y el nuevo contrato de reportes.
+
 ## [4.0.0] - 2026-10-31
 
 ### Breaking Changes

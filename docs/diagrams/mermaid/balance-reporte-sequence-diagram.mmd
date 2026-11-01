@@ -1,0 +1,56 @@
+sequenceDiagram
+    autonumber
+    participant Cliente as Cliente HTTP
+    participant Tenant as TenantInterceptor
+    participant Controller as BalanceReporteController
+    participant ReporteUC as GenerarBalanceReporteUseCaseImpl
+    participant BalanceUC as GenerarBalanceUseCaseImpl
+    participant MovPort as BalanceMovimientoPort
+    participant CotPort as CotizacionOnDemandPort
+    participant BCRA as BcraCotizacionClient
+    participant Cache as BalanceCache
+    participant Calc as BalanceCalculator
+    participant Pdf as GenerarReportePdfUseCase
+    participant Xlsx as GenerarReporteXlsxUseCase
+
+    Cliente->>Tenant: POST /api/tenant/core/reporte/balance
+    Tenant->>Tenant: Resolver X-TENANT-ID y asignaciones activas
+    Tenant->>Controller: Request con el datasource del tenant
+    Controller->>ReporteUC: generar(BalanceFiltro)
+    ReporteUC->>BalanceUC: generar(filtro)
+    BalanceUC->>MovPort: findFechasSinCotizacion(negocioId, filtro)
+    MovPort-->>BalanceUC: Fechas sin cobertura de cotización
+
+    alt Hay fechas sin cotización
+        BalanceUC->>CotPort: asegurar(par de monedas, rango, fechas)
+        CotPort->>BCRA: cotizaciones(símbolo, desde, hasta)
+        BCRA-->>CotPort: Tasas por fecha
+        CotPort->>CotPort: Upsert idempotente en moneda_cotizacion
+        BalanceUC->>MovPort: findFechasSinCotizacion para revalidar
+        MovPort-->>BalanceUC: Sin fechas pendientes
+    end
+
+    BalanceUC->>Cache: get(clave con watermark)
+    alt Caché sin la clave
+        BalanceUC->>MovPort: findSaldos y findSaldosApertura
+        MovPort-->>BalanceUC: Saldos por cuenta
+        BalanceUC->>Calc: calcular(plan, saldos, apertura, filtro)
+        Calc-->>BalanceUC: Balance con totales y advertencias
+        BalanceUC->>Cache: put(clave, balance)
+    end
+    BalanceUC-->>ReporteUC: Balance
+
+    ReporteUC->>ReporteUC: Armar ReporteTabla con subtítulo y advertencias
+    ReporteUC-->>Controller: ReporteTabla
+
+    alt datos
+        Controller-->>Cliente: 200 ReporteDatosResponse
+    else pdf
+        Controller->>Pdf: generar(tabla)
+        Pdf-->>Controller: bytes PDF
+        Controller-->>Cliente: 200 application/pdf
+    else xlsx
+        Controller->>Xlsx: generar(tabla)
+        Xlsx-->>Controller: bytes XLSX
+        Controller-->>Cliente: 200 spreadsheetml
+    end

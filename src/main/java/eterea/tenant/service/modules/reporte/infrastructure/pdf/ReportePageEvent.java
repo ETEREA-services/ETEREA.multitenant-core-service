@@ -60,7 +60,16 @@ class ReportePageEvent extends PdfPageEventHelper {
                 new Phrase(cabecera.titulo(), PdfLayout.FUENTE_TITULO),
                 pagina.getWidth() / 2, yTitulo, 0);
 
-        float yLinea = pagina.getHeight() - Utilities.millimetersToPoints(24);
+        float milimetrosLinea = 24;
+        if (!cabecera.subtitulo().isBlank()) {
+            float ySubtitulo = pagina.getHeight() - Utilities.millimetersToPoints(22);
+            ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER,
+                    new Phrase(cabecera.subtitulo(), PdfLayout.FUENTE_FECHA),
+                    pagina.getWidth() / 2, ySubtitulo, 0);
+            milimetrosLinea = 27;
+        }
+
+        float yLinea = pagina.getHeight() - Utilities.millimetersToPoints(milimetrosLinea);
         canvas.setColorStroke(PdfLayout.COLOR_LINEA);
         canvas.setLineWidth(0.6f);
         canvas.moveTo(izquierda, yLinea);
