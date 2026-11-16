@@ -1,3 +1,17 @@
+## [5.0.0] - 2026-11-16
+
+### Breaking Changes
+- **refactor!(brain-negocio)**: Se eliminan `backendIp` y `backendPort` del modelo de dominio, entidad JPA, mappers y DTOs de `brain.negocio`. Las respuestas de `/api/brain/core/negocio` dejan de exponer ambos campos y las peticiones que todavía los envíen ya no los persisten. Los clientes que lean esos valores deben obtenerlos desde la tabla `negocio` de la base del tenant (`backend_server`, `backend_ip_lan`, `backend_port`), que no cambia.
+
+### Added
+- ci(actions): nuevo workflow `Deploy develop` (`.github/workflows/deploy-develop.yml`) que, en PR y push a `develop`, verifica el proyecto con `mvn -B verify` sobre JDK 25 (Temurin).
+- ci(docker): en push a `develop`, el workflow construye y publica la imagen Docker etiquetada con `github.sha` (`DOCKER_IMAGE_NAME` del entorno `develop`) reutilizando la caché de GitHub Actions.
+- ci(deploy): el workflow despliega en el runner self-hosted `develop` mediante `/home/daniel/docker/multitenant/deploy-multitenant-core-develop.sh` con el SHA del commit.
+
+### Changed
+- **chore(db)**: Script `docs/sql/2026-11-04-negocio-drop-backend-columns.sql` que dropea las columnas `backend_ip`/`backend_port` de `eterea-brain.negocio` con `ALGORITHM=INSTANT`; ya aplicado el 2026-11-04 sobre la instancia de desarrollo y sin re-ejecución prevista. Los valores de Brain eran una copia redundante de los datos de conexión del backend del tenant.
+- **docs(agents)**: `AGENTS.md` documenta el workflow `deploy-develop.yml` (verificación, publicación de imagen por SHA y despliegue en el runner self-hosted `develop`).
+
 ## [4.1.0] - 2026-11-01
 
 ### Added

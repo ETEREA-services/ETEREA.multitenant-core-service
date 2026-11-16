@@ -22,7 +22,5 @@ public class NegocioBrain {
     private String databasePort;
     private String databaseUsername;
     private String databasePassword;
-    private String backendIp;
-    private String backendPort;
     private String tenantId;
 }

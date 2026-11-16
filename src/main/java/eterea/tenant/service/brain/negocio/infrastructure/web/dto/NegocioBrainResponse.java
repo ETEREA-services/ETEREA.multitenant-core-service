@@ -24,7 +24,5 @@ public class NegocioBrainResponse {
     private String databaseUsername;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String databasePassword;
-    private String backendIp;
-    private String backendPort;
     private String tenantId;
 }
