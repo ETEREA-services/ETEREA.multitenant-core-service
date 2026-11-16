@@ -9,8 +9,11 @@
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.2.0-blue.svg)](https://springdoc.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-26.10.0-orange.svg)](https://www.mysql.com/)
 [![H2](https://img.shields.io/badge/H2-tests-blue.svg)](https://www.h2database.com/)
+[![JUnit 5](https://img.shields.io/badge/JUnit%205-25A162.svg?logo=junit5&logoColor=white)](https://junit.org/junit5/)
+[![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36.svg?logo=apachemaven&logoColor=white)](https://maven.apache.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
 ![License](https://img.shields.io/badge/License-Proprietary-red.svg)
-[![Version](https://img.shields.io/badge/Version-4.1.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
+[![Version](https://img.shields.io/badge/Version-5.0.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
 
 ## Descripción
 

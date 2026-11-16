@@ -22,8 +22,6 @@ public class NegocioBrainDtoMapper {
                 .databasePort(request.getDatabasePort())
                 .databaseUsername(request.getDatabaseUsername())
                 .databasePassword(request.getDatabasePassword())
-                .backendIp(request.getBackendIp())
-                .backendPort(request.getBackendPort())
                 .tenantId(request.getTenantId())
                 .build();
     }
@@ -53,8 +51,6 @@ public class NegocioBrainDtoMapper {
                 .databasePort(domain.getDatabasePort())
                 .databaseUsername(domain.getDatabaseUsername())
                 .databasePassword(domain.getDatabasePassword())
-                .backendIp(domain.getBackendIp())
-                .backendPort(domain.getBackendPort())
                 .tenantId(domain.getTenantId())
                 .build();
     }

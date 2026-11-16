@@ -27,8 +27,6 @@ public class UpdateNegocioBrainUseCaseImpl implements UpdateNegocioBrainUseCase 
                             && !negocio.getDatabasePassword().isBlank()) {
                         existing.setDatabasePassword(negocio.getDatabasePassword());
                     }
-                    existing.setBackendIp(negocio.getBackendIp());
-                    existing.setBackendPort(negocio.getBackendPort());
                     if (negocio.getTenantId() != null && !negocio.getTenantId().isBlank()) {
                         existing.setTenantId(negocio.getTenantId());
                     }
