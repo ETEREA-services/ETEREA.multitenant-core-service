@@ -2,6 +2,7 @@ package eterea.tenant.service.modules.contable.cuenta.application.service;
 
 import eterea.tenant.service.modules.contable.cuenta.domain.model.Cuenta;
 import eterea.tenant.service.modules.contable.cuenta.domain.model.CuentaNodo;
+import eterea.tenant.service.modules.contable.cuenta.domain.ports.in.BuscarCuentasUseCase;
 import eterea.tenant.service.modules.contable.cuenta.domain.ports.in.CreateCuentaUseCase;
 import eterea.tenant.service.modules.contable.cuenta.domain.ports.in.DeleteCuentaUseCase;
 import eterea.tenant.service.modules.contable.cuenta.domain.ports.in.FindAllCuentasUseCase;
@@ -27,6 +28,7 @@ public class CuentaService {
     private final FindCuentaByNumeroCuentaUseCase findCuentaByNumeroCuentaUseCase;
     private final FindCuentaByCuentaMaestroUseCase findCuentaByCuentaMaestroUseCase;
     private final FindCuentaArbolUseCase findCuentaArbolUseCase;
+    private final BuscarCuentasUseCase buscarCuentasUseCase;
     private final CreateCuentaUseCase createCuentaUseCase;
     private final UpdateCuentaUseCase updateCuentaUseCase;
     private final DeleteCuentaUseCase deleteCuentaUseCase;
@@ -53,6 +55,10 @@ public class CuentaService {
 
     public List<CuentaNodo> findArbol() {
         return findCuentaArbolUseCase.findArbol();
+    }
+
+    public List<Cuenta> buscarImputables(String texto) {
+        return buscarCuentasUseCase.buscar(texto);
     }
 
     public Cuenta create(Cuenta cuenta) {

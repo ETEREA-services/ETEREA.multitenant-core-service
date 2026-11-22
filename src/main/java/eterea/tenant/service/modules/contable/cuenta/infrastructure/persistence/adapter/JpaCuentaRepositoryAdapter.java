@@ -41,6 +41,17 @@ public class JpaCuentaRepositoryAdapter implements CuentaRepository {
     }
 
     @Override
+    public List<Cuenta> buscarImputables(Integer negocioId, String texto) {
+        String filtro = texto == null ? "" : texto.trim();
+        return jpaRepository
+                .findTop20ByNegocioIdAndIntegraAndNombreContainingIgnoreCaseOrderByNombreAsc(
+                        negocioId, (byte) 0, filtro)
+                .stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Cuenta> findAllByCuentaMaestroGreaterThan(BigDecimal zero) {
         return jpaRepository.findAllByCuentaMaestroGreaterThan(zero).stream()
                 .map(mapper::toDomain)

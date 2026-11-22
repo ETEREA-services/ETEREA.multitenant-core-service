@@ -14,6 +14,12 @@ public interface CuentaRepository {
 
     List<Cuenta> findAllByNegocioIdOrdered(Integer negocioId);
 
+    /**
+     * Búsqueda legacy del plan: cuentas imputables por nombre, ordenadas por
+     * nombre, máximo 20. No busca por código y excluye las integradoras.
+     */
+    List<Cuenta> buscarImputables(Integer negocioId, String texto);
+
     List<Cuenta> findAllByCuentaMaestroGreaterThan(BigDecimal zero);
 
     Optional<Cuenta> findByNumeroCuenta(Long numeroCuenta);

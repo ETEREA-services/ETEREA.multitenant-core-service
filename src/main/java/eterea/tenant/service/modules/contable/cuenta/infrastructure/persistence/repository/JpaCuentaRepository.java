@@ -13,6 +13,13 @@ public interface JpaCuentaRepository extends JpaRepository<CuentaEntity, Long> {
 
     List<CuentaEntity> findAllByNegocioIdOrderByNumeroCuentaAsc(Integer negocioId);
 
+    /**
+     * Búsqueda legacy: nombre, sólo imputables, orden por nombre, máximo 20.
+     * Es un método derivado, sin la anotación de consulta.
+     */
+    List<CuentaEntity> findTop20ByNegocioIdAndIntegraAndNombreContainingIgnoreCaseOrderByNombreAsc(
+            Integer negocioId, Byte integra, String nombre);
+
     List<CuentaEntity> findAllByCuentaMaestroGreaterThan(BigDecimal zero);
 
     Optional<CuentaEntity> findByNumeroCuenta(Long numeroCuenta);

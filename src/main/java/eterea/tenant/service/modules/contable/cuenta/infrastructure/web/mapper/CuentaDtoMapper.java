@@ -3,6 +3,7 @@ package eterea.tenant.service.modules.contable.cuenta.infrastructure.web.mapper;
 import eterea.tenant.service.modules.contable.cuenta.domain.model.CodigoCuenta;
 import eterea.tenant.service.modules.contable.cuenta.domain.model.Cuenta;
 import eterea.tenant.service.modules.contable.cuenta.domain.model.CuentaNodo;
+import eterea.tenant.service.modules.contable.cuenta.infrastructure.web.dto.CuentaBusquedaResponse;
 import eterea.tenant.service.modules.contable.cuenta.infrastructure.web.dto.CuentaDetalleResponse;
 import eterea.tenant.service.modules.contable.cuenta.infrastructure.web.dto.CuentaNodoResponse;
 import eterea.tenant.service.modules.contable.cuenta.infrastructure.web.dto.CuentaRequest;
@@ -84,6 +85,13 @@ public class CuentaDtoMapper {
                 .compras(cuenta.getCompras() != null && cuenta.getCompras() == 1)
                 .gastos(cuenta.getGastos() != null && cuenta.getGastos() == 1)
                 .build();
+    }
+
+    public CuentaBusquedaResponse toBusquedaResponse(Cuenta cuenta) {
+        return new CuentaBusquedaResponse(
+                cuenta.getNumeroCuenta(),
+                cuenta.getNombre(),
+                cuenta.getNombre() + " (" + cuenta.getNumeroCuenta() + ")");
     }
 
     public CuentaNodoResponse toNodoResponse(CuentaNodo nodo) {
