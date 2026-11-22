@@ -1,7 +1,7 @@
-package eterea.tenant.service.modules.contable.balance.infrastructure.persistence.adapter;
+package eterea.tenant.service.modules.contable.moneda.infrastructure.persistence.adapter;
 
-import eterea.tenant.service.modules.contable.balance.domain.model.MonedaInfo;
-import eterea.tenant.service.modules.contable.balance.domain.ports.out.MonedaQueryPort;
+import eterea.tenant.service.modules.contable.moneda.domain.model.MonedaInfo;
+import eterea.tenant.service.modules.contable.moneda.domain.ports.out.MonedaQueryPort;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

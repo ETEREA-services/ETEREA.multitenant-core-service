@@ -1,4 +1,4 @@
-package eterea.tenant.service.modules.contable.balance.domain.model;
+package eterea.tenant.service.modules.contable.moneda.domain.model;
 
 /**
  * Moneda del catálogo del tenant.

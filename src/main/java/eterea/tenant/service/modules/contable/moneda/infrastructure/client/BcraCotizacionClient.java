@@ -1,6 +1,6 @@
-package eterea.tenant.service.modules.contable.balance.infrastructure.client;
+package eterea.tenant.service.modules.contable.moneda.infrastructure.client;
 
-import eterea.tenant.service.modules.contable.balance.domain.exception.BalanceException;
+import eterea.tenant.service.modules.contable.moneda.domain.exception.MonedaException;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -19,7 +19,7 @@ import java.util.Map;
  *
  * <p>Usa el {@link RestClient} por defecto (TLS validado, sin
  * {@code InsecureTrustManagerFactory}). Si la respuesta no trae tasas, falla
- * con {@code BALANCE_COTIZACION_FALTANTE}; nunca asume 1,0.</p>
+ * con {@code MONEDA_COTIZACION_FALTANTE}; nunca asume 1,0.</p>
  */
 @Component
 public class BcraCotizacionClient {
@@ -74,18 +74,18 @@ public class BcraCotizacionClient {
             }
             return cotizaciones;
         } catch (RestClientException exception) {
-            throw new BalanceException(
-                    "BALANCE_COTIZACION_FALTANTE",
+            throw new MonedaException(
+                    "MONEDA_COTIZACION_FALTANTE",
                     "No se pudo obtener la cotización de " + simbolo
                             + " entre " + desde + " y " + hasta + ".",
                     exception);
         }
     }
 
-    private static BalanceException faltante(
+    private static MonedaException faltante(
             String simbolo, LocalDate desde, LocalDate hasta) {
-        return new BalanceException(
-                "BALANCE_COTIZACION_FALTANTE",
+        return new MonedaException(
+                "MONEDA_COTIZACION_FALTANTE",
                 "BCRA no devolvió cotizaciones de " + simbolo
                         + " entre " + desde + " y " + hasta + ".");
     }

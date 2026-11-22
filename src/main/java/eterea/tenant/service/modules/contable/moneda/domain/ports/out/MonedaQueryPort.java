@@ -1,6 +1,6 @@
-package eterea.tenant.service.modules.contable.balance.domain.ports.out;
+package eterea.tenant.service.modules.contable.moneda.domain.ports.out;
 
-import eterea.tenant.service.modules.contable.balance.domain.model.MonedaInfo;
+import eterea.tenant.service.modules.contable.moneda.domain.model.MonedaInfo;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,10 +1,10 @@
 package eterea.tenant.service.modules.contable.balance.reporte.infrastructure.web.controller;
 
 import eterea.tenant.service.modules.contable.balance.domain.model.BalanceFiltro;
-import eterea.tenant.service.modules.contable.balance.domain.ports.out.MonedaQueryPort;
+import eterea.tenant.service.modules.contable.moneda.domain.ports.out.MonedaQueryPort;
 import eterea.tenant.service.modules.contable.balance.reporte.domain.ports.in.GenerarBalanceReporteUseCase;
 import eterea.tenant.service.modules.contable.balance.reporte.infrastructure.web.dto.BalanceFiltroRequest;
-import eterea.tenant.service.modules.contable.balance.reporte.infrastructure.web.dto.MonedasResponse;
+import eterea.tenant.service.modules.contable.moneda.infrastructure.web.dto.MonedasResponse;
 import eterea.tenant.service.modules.reporte.api.GenerarReportePdfUseCase;
 import eterea.tenant.service.modules.reporte.api.GenerarReporteXlsxUseCase;
 import eterea.tenant.service.modules.reporte.api.ReporteDatosResponse;

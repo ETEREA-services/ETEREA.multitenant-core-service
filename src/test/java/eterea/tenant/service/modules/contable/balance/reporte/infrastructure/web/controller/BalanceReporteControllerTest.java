@@ -1,8 +1,8 @@
 package eterea.tenant.service.modules.contable.balance.reporte.infrastructure.web.controller;
 
 import eterea.tenant.service.modules.contable.balance.domain.exception.BalanceException;
-import eterea.tenant.service.modules.contable.balance.domain.model.MonedaInfo;
-import eterea.tenant.service.modules.contable.balance.domain.ports.out.MonedaQueryPort;
+import eterea.tenant.service.modules.contable.moneda.domain.model.MonedaInfo;
+import eterea.tenant.service.modules.contable.moneda.domain.ports.out.MonedaQueryPort;
 import eterea.tenant.service.modules.contable.balance.reporte.domain.ports.in.GenerarBalanceReporteUseCase;
 import eterea.tenant.service.modules.contable.balance.reporte.infrastructure.web.BalanceExceptionHandler;
 import eterea.tenant.service.modules.reporte.api.GenerarReportePdfUseCase;

@@ -1,4 +1,4 @@
-package eterea.tenant.service.modules.contable.balance.domain.ports.out;
+package eterea.tenant.service.modules.contable.moneda.domain.ports.out;
 
 import java.time.LocalDate;
 import java.util.List;

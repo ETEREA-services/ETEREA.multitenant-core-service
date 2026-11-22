@@ -8,7 +8,8 @@ import eterea.tenant.service.modules.contable.balance.domain.model.BalanceFiltro
 import eterea.tenant.service.modules.contable.balance.domain.model.SaldoCuenta;
 import eterea.tenant.service.modules.contable.balance.domain.ports.in.GenerarBalanceUseCase;
 import eterea.tenant.service.modules.contable.balance.domain.ports.out.BalanceMovimientoPort;
-import eterea.tenant.service.modules.contable.balance.domain.ports.out.CotizacionOnDemandPort;
+import eterea.tenant.service.modules.contable.moneda.domain.exception.MonedaException;
+import eterea.tenant.service.modules.contable.moneda.domain.ports.out.CotizacionOnDemandPort;
 import eterea.tenant.service.modules.contable.cuenta.domain.model.Cuenta;
 import eterea.tenant.service.modules.contable.cuenta.domain.ports.out.CuentaRepository;
 import eterea.tenant.service.modules.platform.api.NegocioActual;
@@ -43,13 +44,22 @@ public class GenerarBalanceUseCaseImpl implements GenerarBalanceUseCase {
         List<LocalDate> fechasSinCotizacion =
                 balanceMovimientoPort.findFechasSinCotizacion(negocioId, filtro);
         if (!fechasSinCotizacion.isEmpty()) {
-            cotizacionOnDemand.asegurar(
-                    negocioId,
-                    filtro.monedaRegistroId(),
-                    filtro.monedaExpresionId(),
-                    filtro.desde(),
-                    filtro.hasta(),
-                    fechasSinCotizacion);
+            try {
+                cotizacionOnDemand.asegurar(
+                        negocioId,
+                        filtro.monedaRegistroId(),
+                        filtro.monedaExpresionId(),
+                        filtro.desde(),
+                        filtro.hasta(),
+                        fechasSinCotizacion);
+            } catch (MonedaException exception) {
+                throw new BalanceException(
+                        "MONEDA_INVALIDA".equals(exception.getCodigo())
+                                ? "BALANCE_MONEDA_INVALIDA"
+                                : "BALANCE_COTIZACION_FALTANTE",
+                        exception.getMessage(),
+                        exception);
+            }
             fechasSinCotizacion =
                     balanceMovimientoPort.findFechasSinCotizacion(negocioId, filtro);
         }

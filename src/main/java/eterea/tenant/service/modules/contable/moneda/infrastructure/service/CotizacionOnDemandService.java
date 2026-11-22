@@ -1,10 +1,10 @@
-package eterea.tenant.service.modules.contable.balance.infrastructure.service;
+package eterea.tenant.service.modules.contable.moneda.infrastructure.service;
 
-import eterea.tenant.service.modules.contable.balance.domain.exception.BalanceException;
-import eterea.tenant.service.modules.contable.balance.domain.model.MonedaInfo;
-import eterea.tenant.service.modules.contable.balance.domain.ports.out.CotizacionOnDemandPort;
-import eterea.tenant.service.modules.contable.balance.domain.ports.out.MonedaQueryPort;
-import eterea.tenant.service.modules.contable.balance.infrastructure.client.BcraCotizacionClient;
+import eterea.tenant.service.modules.contable.moneda.domain.exception.MonedaException;
+import eterea.tenant.service.modules.contable.moneda.domain.model.MonedaInfo;
+import eterea.tenant.service.modules.contable.moneda.domain.ports.out.CotizacionOnDemandPort;
+import eterea.tenant.service.modules.contable.moneda.domain.ports.out.MonedaQueryPort;
+import eterea.tenant.service.modules.contable.moneda.infrastructure.client.BcraCotizacionClient;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -119,8 +119,8 @@ public class CotizacionOnDemandService implements CotizacionOnDemandPort {
             }
 
             if (insertadas == 0) {
-                throw new BalanceException(
-                        "BALANCE_COTIZACION_FALTANTE",
+                throw new MonedaException(
+                        "MONEDA_COTIZACION_FALTANTE",
                         "BCRA no devolvió tasas para " + origen.simbolo()
                                 + "→" + destino.simbolo() + " entre " + min + " y " + max + ".");
             }
@@ -157,8 +157,8 @@ public class CotizacionOnDemandService implements CotizacionOnDemandPort {
 
     private MonedaInfo moneda(Integer monedaId) {
         return monedaQuery.findById(monedaId)
-                .orElseThrow(() -> new BalanceException(
-                        "BALANCE_MONEDA_INVALIDA",
+                .orElseThrow(() -> new MonedaException(
+                        "MONEDA_INVALIDA",
                         "La moneda " + monedaId + " no existe en el catálogo del negocio."));
     }
 

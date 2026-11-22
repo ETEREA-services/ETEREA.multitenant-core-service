@@ -1,6 +1,6 @@
-package eterea.tenant.service.modules.contable.balance.reporte.infrastructure.web.dto;
+package eterea.tenant.service.modules.contable.moneda.infrastructure.web.dto;
 
-import eterea.tenant.service.modules.contable.balance.domain.model.MonedaInfo;
+import eterea.tenant.service.modules.contable.moneda.domain.model.MonedaInfo;
 
 import java.util.List;
 
