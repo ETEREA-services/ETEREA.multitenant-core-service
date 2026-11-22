@@ -11,6 +11,8 @@ public interface NegocioBrainRepository {
 
     List<NegocioBrain> findAllByEmpresaId(UUID empresaId);
 
+    List<NegocioBrain> findAllById(Iterable<Integer> negocioIds);
+
     Optional<NegocioBrain> findById(Integer negocioId);
 
     Optional<NegocioBrain> findByTenantId(String tenantId);
