@@ -6,9 +6,9 @@ import eterea.tenant.service.modules.contable.balance.domain.model.BalanceCuenta
 import eterea.tenant.service.modules.contable.balance.domain.model.BalanceFiltro;
 import eterea.tenant.service.modules.contable.balance.domain.model.BalanceModo;
 import eterea.tenant.service.modules.contable.balance.domain.model.BalanceTotales;
-import eterea.tenant.service.modules.contable.balance.domain.model.MonedaInfo;
+import eterea.tenant.service.modules.contable.moneda.domain.model.MonedaInfo;
 import eterea.tenant.service.modules.contable.balance.domain.ports.in.GenerarBalanceUseCase;
-import eterea.tenant.service.modules.contable.balance.domain.ports.out.MonedaQueryPort;
+import eterea.tenant.service.modules.contable.moneda.domain.ports.out.MonedaQueryPort;
 import eterea.tenant.service.modules.platform.api.NegocioActual;
 import eterea.tenant.service.modules.platform.api.NegocioActualInfo;
 import eterea.tenant.service.modules.reporte.api.ReporteTabla;

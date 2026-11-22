@@ -3,6 +3,8 @@ package eterea.tenant.service.modules.contable.cuenta.infrastructure.web.control
 import eterea.tenant.service.modules.contable.legacy.CuentaDto;
 import eterea.tenant.service.modules.contable.cuenta.application.service.CuentaService;
 import eterea.tenant.service.modules.contable.cuenta.domain.model.Cuenta;
+import eterea.tenant.service.modules.contable.cuenta.infrastructure.web.dto.CuentaBusquedaRequest;
+import eterea.tenant.service.modules.contable.cuenta.infrastructure.web.dto.CuentaBusquedaResponse;
 import eterea.tenant.service.modules.contable.cuenta.infrastructure.web.dto.CuentaDetalleResponse;
 import eterea.tenant.service.modules.contable.cuenta.infrastructure.web.dto.CuentaNodoResponse;
 import eterea.tenant.service.modules.contable.cuenta.infrastructure.web.dto.CuentaRequest;
@@ -44,6 +46,18 @@ public class CuentaController {
     public ResponseEntity<List<CuentaNodoResponse>> findArbol() {
         return ResponseEntity.ok(service.findArbol().stream()
                 .map(mapper::toNodoResponse)
+                .toList());
+    }
+
+    /**
+     * Búsqueda legacy de cuentas: nombre, imputables, orden por nombre,
+     * máximo 20. La usa el selector del Mayor (D7).
+     */
+    @PostMapping("/buscar")
+    public ResponseEntity<List<CuentaBusquedaResponse>> buscar(
+            @Valid @RequestBody CuentaBusquedaRequest request) {
+        return ResponseEntity.ok(service.buscarImputables(request.texto()).stream()
+                .map(mapper::toBusquedaResponse)
                 .toList());
     }
 

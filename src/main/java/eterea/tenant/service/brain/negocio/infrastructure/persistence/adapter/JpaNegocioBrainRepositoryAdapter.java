@@ -32,6 +32,13 @@ public class JpaNegocioBrainRepositoryAdapter implements NegocioBrainRepository 
     }
 
     @Override
+    public List<NegocioBrain> findAllById(Iterable<Integer> negocioIds) {
+        return jpaNegocioBrainRepository.findAllById(negocioIds).stream()
+                .map(negocioBrainMapper::toDomain)
+                .toList();
+    }
+
+    @Override
     public Optional<NegocioBrain> findById(Integer negocioId) {
         return jpaNegocioBrainRepository.findById(negocioId)
                 .map(negocioBrainMapper::toDomain);

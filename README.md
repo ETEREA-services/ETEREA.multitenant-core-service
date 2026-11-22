@@ -4,6 +4,7 @@
 [![Java](https://img.shields.io/badge/Java-25-blue.svg)](https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.2-green.svg)](https://spring.io/projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2025.1.4-green.svg)](https://spring.io/projects/spring-cloud)
+[![Consul](https://img.shields.io/badge/Consul-Discovery-F24C53.svg?logo=consul&logoColor=white)](https://developer.hashicorp.com/consul)
 [![Spring Modulith](https://img.shields.io/badge/Spring%20Modulith-2.1.2-green.svg)](https://spring.io/projects/spring-modulith)
 [![Spring Security](https://img.shields.io/badge/Spring%20Security-JWT-6DB33F.svg)](https://spring.io/projects/spring-security)
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.2.0-blue.svg)](https://springdoc.org/)
@@ -13,7 +14,7 @@
 [![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36.svg?logo=apachemaven&logoColor=white)](https://maven.apache.org/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
 ![License](https://img.shields.io/badge/License-Proprietary-red.svg)
-[![Version](https://img.shields.io/badge/Version-5.0.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
+[![Version](https://img.shields.io/badge/Version-5.1.0-blue.svg)](https://github.com/ETEREA-services/ETEREA.multitenant-core-service/releases)
 
 ## Descripción
 
@@ -72,7 +73,7 @@ El proyecto utiliza una **arquitectura hexagonal dentro de módulos cerrados** (
 ### Módulos de Negocio
 - **`modules/platform/`**: Negocio actual, clientes, usuarios, parámetros y contratos compartidos
 - **`modules/compras/`**: Proveedores y movimientos de compras
-- **`modules/contable/`**: Cuenta, asientos, ejercicios, coeficientes de inflación y balance
+- **`modules/contable/`**: Cuenta, asientos, ejercicios, coeficientes de inflación, balance, mayor y moneda
 - **`modules/reporte/`**: Modelo transversal de reportes con render PDF y XLSX
 - **`modules/stock/`**: Artículos, movimientos, inventario y saldos
 - **`modules/ventas/`**: Comprobantes, vouchers y facturación
@@ -115,11 +116,15 @@ El proyecto utiliza una **arquitectura hexagonal dentro de módulos cerrados** (
 
 ### Contabilidad
 - **Plan de cuentas**: Árbol jerárquico, alta, edición, baja y detalle por número de cuenta
+- **Búsqueda de cuentas**: `POST /api/tenant/core/cuenta/buscar` devuelve hasta 20 cuentas imputables por nombre para los selectores
+- **Mayor General y Mayor Discriminado**: saldo anterior, saldo corrido, totales y controles sobre `movcon`, con conversión de moneda y exportación
 - **Ejercicios**: CRUD, sugerencia del siguiente ejercicio y bloqueo/desbloqueo
 - **Coeficientes de inflación**: Consulta y actualización por año y mes con validación de dominio
 - **Balance General y Saldos Contables**: `ESTRUCTURA` jerárquica o `POR_CUENTA` plana, con apertura, inflación y conversión de moneda
 - **Cotizaciones bajo demanda**: completa desde el BCRA solo las fechas sin cobertura del par consultado y hace upsert idempotente en `moneda_cotizacion`
+- **Catálogo de monedas**: `GET /api/tenant/core/moneda` para los selectores de reportes
 - **Reporte del balance**: vista previa JSON, PDF y XLSX en `/api/tenant/core/reporte/balance`
+- **Reporte del Mayor**: vista previa JSON, PDF y XLSX en `/api/tenant/core/reporte/mayor` y `/api/tenant/core/reporte/mayor-discriminado`
 - **Reporte del plan de cuentas**: Vista previa JSON y PDF
 
 ### Reportes
@@ -244,6 +249,8 @@ Este proyecto es privado y de uso exclusivo de Termalia S.A.
 - ✅ **Gestión de Ejercicios** con bloqueo/desbloqueo y sugerencia del siguiente
 - ✅ **Coeficientes de Inflación** por año y mes con validación de dominio
 - ✅ **Balance General y Saldos Contables** con conversión de moneda y cotizaciones del BCRA bajo demanda
+- ✅ **Mayor General y Mayor Discriminado** con saldo anterior, saldo corrido, controles y exportación PDF/XLSX
+- ✅ **Catálogo de Monedas y Búsqueda de Cuentas Imputables** por nombre para los selectores de reportes
 - ✅ **Reportes** con vista previa JSON, PDF OpenPDF y XLSX Apache POI desde un modelo único
 - ✅ **Gestión de Transferencias** con arquitectura hexagonal (Java)
 - ✅ **Gestión de Empresas** con arquitectura hexagonal

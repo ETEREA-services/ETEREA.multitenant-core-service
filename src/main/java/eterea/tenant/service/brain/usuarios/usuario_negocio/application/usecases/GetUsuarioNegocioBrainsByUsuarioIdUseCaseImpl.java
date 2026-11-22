@@ -7,8 +7,10 @@ import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.in.GetU
 import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.out.NegocioInfoRepository;
 import eterea.tenant.service.brain.usuarios.usuario_negocio.domain.ports.out.UsuarioNegocioBrainRepository;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,10 +24,23 @@ public class GetUsuarioNegocioBrainsByUsuarioIdUseCaseImpl
 
     @Override
     public List<UsuarioNegocioConNegocioBrain> getByUsuarioId(UUID usuarioId) {
-        return usuarioNegocioBrainRepository.findByUsuarioId(usuarioId).stream()
-                .map(asociacion -> negocioInfoRepository.findById(asociacion.getNegocioId())
-                        .map(negocio -> toReadModel(asociacion, negocio)))
-                .flatMap(Optional::stream)
+        List<UsuarioNegocioBrain> asociaciones = usuarioNegocioBrainRepository.findByUsuarioId(usuarioId);
+        if (asociaciones.isEmpty()) {
+            return List.of();
+        }
+
+        /*
+         * Una sola consulta de negocios por todos los ids asignados: antes se
+         * hacía un findById por asociación.
+         */
+        Map<Integer, NegocioInfo> negocios = negocioInfoRepository.findAllByIds(
+                asociaciones.stream().map(UsuarioNegocioBrain::getNegocioId).toList())
+                .stream()
+                .collect(Collectors.toMap(NegocioInfo::getNegocioId, Function.identity()));
+
+        return asociaciones.stream()
+                .filter(asociacion -> negocios.containsKey(asociacion.getNegocioId()))
+                .map(asociacion -> toReadModel(asociacion, negocios.get(asociacion.getNegocioId())))
                 .toList();
     }
 

@@ -8,7 +8,8 @@ import eterea.tenant.service.modules.contable.balance.domain.model.BalanceFiltro
 import eterea.tenant.service.modules.contable.balance.domain.model.BalanceModo;
 import eterea.tenant.service.modules.contable.balance.domain.model.BalanceTotales;
 import eterea.tenant.service.modules.contable.balance.domain.ports.out.BalanceMovimientoPort;
-import eterea.tenant.service.modules.contable.balance.domain.ports.out.CotizacionOnDemandPort;
+import eterea.tenant.service.modules.contable.moneda.domain.exception.MonedaException;
+import eterea.tenant.service.modules.contable.moneda.domain.ports.out.CotizacionOnDemandPort;
 import eterea.tenant.service.modules.contable.cuenta.domain.ports.out.CuentaRepository;
 import eterea.tenant.service.modules.platform.api.NegocioActual;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,6 +76,21 @@ class GenerarBalanceUseCaseImplTest {
                 .isEqualTo("BALANCE_COTIZACION_FALTANTE");
         verify(cotizacionOnDemand).asegurar(anyInt(), any(), any(), any(), any(), any());
         verify(balanceMovimientoPort, never()).findSaldos(anyInt(), any());
+    }
+
+    @Test
+    void traduceMonedaInvalidaDelServicioDeCotizaciones() {
+        when(negocioActual.findNegocioId()).thenReturn(Optional.of(54));
+        when(balanceMovimientoPort.findFechasSinCotizacion(anyInt(), any()))
+                .thenReturn(List.of(DIA));
+        doThrow(new MonedaException("MONEDA_INVALIDA", "Moneda inexistente"))
+                .when(cotizacionOnDemand)
+                .asegurar(anyInt(), any(), any(), any(), any(), any());
+
+        assertThatThrownBy(() -> useCase.generar(filtro(false)))
+                .isInstanceOf(BalanceException.class)
+                .extracting("codigo")
+                .isEqualTo("BALANCE_MONEDA_INVALIDA");
     }
 
     @Test
