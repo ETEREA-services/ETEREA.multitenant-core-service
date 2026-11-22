@@ -135,8 +135,9 @@ src/main/java/eterea/tenant/service/
   `ReporteTabla`, un controller expone `POST /api/tenant/core/reporte/<slug>/datos`
   y `/pdf`, y reutiliza `ReporteDtoMapper`/`ReportePdfService`.
 - Fechas visibles en reportes y PDF: `dd-MM-yyyy`.
-- Referencia implementada: `contable/cuenta/reporte` (listado del plan de
-  cuentas).
+- Referencias implementadas: `contable/cuenta/reporte` (plan de cuentas, JSON y
+  PDF), `contable/balance/reporte` (JSON, PDF y XLSX) y `contable/mayor/reporte`
+  (Mayor General y Mayor Discriminado, JSON, PDF y XLSX).
 
 Cada slice hexagonal sigue:
 

@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.termascacheuta</groupId>
     <artifactId>eterea.multitenant.core.service</artifactId>
-    <version>5.0.0</version>
+    <version>5.1.0</version>
     <name>ETEREA.multitenant-core-service</name>
     <description>API - Eterea - Core</description>
     <properties>

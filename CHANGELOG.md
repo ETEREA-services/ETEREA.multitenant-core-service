@@ -1,3 +1,23 @@
+## [5.1.0] - 2026-11-22
+
+### Added
+- **feat(contable-mayor)**: Nuevo slice hexagonal `modules.contable.mayor` con Mayor General por cuenta y Mayor Discriminado por varias cuentas, leídos de `movcon` con `tiposcomprob`, `proveedores`, `plancta` y el join opcional con `moneda_cotizacion`. `MayorCalculator` calcula saldo corrido (2 decimales, `HALF_UP`), totales de Debe/Haber y saldo final; `MayorFiltro` y `MayorDiscriminadoFiltro` validan cuenta, rango y monedas, con ARS (`monedaId = 1`) por defecto.
+- **feat(reporte-mayor)**: `POST /api/tenant/core/reporte/mayor/datos|pdf|xlsx` y `POST /api/tenant/core/reporte/mayor-discriminado/datos|pdf|xlsx`, armados desde `ReporteTabla` con subtítulo de cuenta, período y monedas, fila de saldo anterior (omitible con `sinSaldoAnterior`), fila de totales y nombre de archivo derivado del negocio y del rango.
+- **feat(mayor-control)**: `MayorControlPort` cuenta el total de movimientos, los excluidos por comprobante sin tipo, la agrupación por módulo y los códigos sin tipo; el reporte del Mayor los expone en la vista previa y agrega advertencias cuando se excluyen movimientos.
+- **feat(mayor-cotizaciones)**: El Mayor completa las fechas sin cotización con `CotizacionOnDemandPort`, incluida la fecha de apertura (`desde - 1`) cuando calcula saldo anterior, y responde `MAYOR_COTIZACION_FALTANTE` si el BCRA no devuelve tasas para el par.
+- **feat(contable-cuenta-busqueda)**: `POST /api/tenant/core/cuenta/buscar` con `CuentaBusquedaRequest`/`CuentaBusquedaResponse`; resuelve el negocio activo y devuelve hasta 20 cuentas imputables (`Integra = 0`) por nombre, ordenadas por nombre, con el método derivado `findTop20ByNegocioIdAndIntegraAndNombreContainingIgnoreCaseOrderByNombreAsc`. No busca por código.
+- **feat(contable-moneda)**: Nuevo slice `modules.contable.moneda` con `MonedaQueryPort`, `CotizacionOnDemandPort`, `BcraCotizacionClient`, `CotizacionOnDemandService` y `MonedaException`, más `GET /api/tenant/core/moneda` para el catálogo de monedas del tenant. El endpoint `GET /api/tenant/core/reporte/balance/monedas` se conserva.
+- **feat(mayor-persistencia)**: `JpaMayorMovimientoAdapter` lee `movcon` con SQL nativo vía `EntityManager` (join opcional a `moneda_cotizacion`, redondeo a 5 decimales y orden por fecha, comprobante e id) y `JpaMayorControlAdapter` agrupa totales, excluidos, módulos y comprobantes sin tipo.
+- **feat(mayor-errores)**: `MayorExceptionHandler` traduce los códigos `MAYOR_*` a `ProblemDetail`: `400` para cuenta, rango o moneda inválidos, `404` sin negocio activo o cuenta inexistente, `403` sin permiso y `422` cuando falta una cotización.
+- **test(mayor)**: Tests unitarios de `MayorCalculator`, `MayorFiltro`, `GenerarMayorUseCaseImpl`, `GenerarMayorDiscriminadoUseCaseImpl`, ambos casos de uso de reporte, los dos controllers y los adaptadores `JpaMayorControlAdapter`/`JpaMayorMovimientoAdapter`.
+- **test(contable)**: Tests unitarios de `BuscarCuentasUseCaseImpl`, `CuentaController` (búsqueda) y `MonedaController`.
+
+### Changed
+- **refactor(moneda)**: `MonedaInfo`, `MonedaQueryPort`, `CotizacionOnDemandPort`, `BcraCotizacionClient`, `JpaMonedaQueryAdapter`, `CotizacionOnDemandService` y `MonedasResponse` pasan de `modules.contable.balance` a `modules.contable.moneda`. Balance y Mayor consumen el slice de moneda; los códigos públicos `BALANCE_MONEDA_INVALIDA` y `BALANCE_COTIZACION_FALTANTE` se conservan al traducir `MonedaException`, por lo que el contrato del balance no cambia.
+- **perf(brain-usuario-negocio)**: La consulta de negocios por usuario y por empresa resuelve todas las asignaciones con una sola lectura (`findAllByIds` y `findAllByEmpresaId`) en lugar de un `findById` por asignación, eliminando el N+1 al reconstruir el contexto del usuario. Se agrega `NegocioBrainRepository.findAllById`.
+- **chore(release)**: Versión del proyecto `5.0.0` → `5.1.0` en `pom.xml` y en el badge de versión del README.
+- **docs**: README, `AGENTS.md`, `docs/modules.md` y el diagrama hexagonal se actualizan con el Mayor y el catálogo de monedas.
+
 ## [5.0.0] - 2026-11-16
 
 ### Breaking Changes
